@@ -3,137 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Interactivo de la Feria - Ayuntamiento de Algeciras</title>
+    <title>Mapa de la Feria - Ayuntamiento de Algeciras</title>
+    <!-- Google Fonts: Inter (Medium 500) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Enlace de accesibilidad para saltar directamente al contenido principal -->
-    <a href="#main" class="skipLink">Saltar al contenido principal</a>
 
-    <!-- Cabecera principal con identificación institucional -->
-    <header role="banner">
+    <!-- 1. Cabecera Institucional -->
+    <header class="mainHeader" role="banner">
         <div class="logoContainer">
-            <!-- Marcador de posición para el escudo oficial -->
-            <div class="logoPlaceholder" aria-hidden="true">ESCUDO<br>ALGECIRAS</div>
-            <div>
-                <h1>Ayuntamiento de Algeciras</h1>
-                <p>Delegación de Feria y Fiestas</p>
-            </div>
+            <!-- Logo del Ayuntamiento -->
+            <img src="logo.png" alt="Ayuntamiento de Algeciras" onerror="this.src='https://via.placeholder.com/200x50?text=LOGO+AYUNTAMIENTO'">
+        </div>
+        
+        <!-- 3. Buscador Integrado -->
+        <div class="searchContainer">
+            <input type="text" id="manualSearch" class="searchInput" placeholder="Buscar caseta por nombre..." aria-label="Buscar caseta">
+            <button id="searchTrigger" class="searchBtn" aria-label="Botón de buscar">
+                <i>🔍</i> Buscar
+            </button>
         </div>
     </header>
 
-    <!-- Área de búsqueda para localización manual de casetas -->
-    <div class="searchArea">
-        <div class="searchBox">
-            <input type="text" id="boothSearch" class="searchInput" placeholder="Buscar por nombre de caseta o calle..." aria-label="Buscar caseta">
-        </div>
-    </div>
+    <!-- 2. Identidad del Evento -->
+    <section class="eventTitleSection">
+        <h1 class="eventTitle">Feria Real de Algeciras 2026</h1>
+    </section>
 
-    <!-- Contenido principal: Mapa interactivo y Panel de información -->
-    <main id="main" class="mainContent">
-        <!-- Contenedor del mapa SVG interactivo -->
-        <div class="mapContainer" role="region" aria-label="Mapa interactivo de la feria">
-            <svg viewBox="0 0 800 600" id="fairMap">
-                <!-- Representación de casetas individuales mediante elementos rect -->
-                <rect x="50" y="50" width="80" height="120" class="booth" data-id="1" data-name="La Güena" data-street="Calle Algeciras" tabindex="0" aria-label="Caseta La Güena en Calle Algeciras"></rect>
-                <rect x="140" y="50" width="80" height="120" class="booth" data-id="2" data-name="El Requiebro" data-street="Calle Algeciras" tabindex="0" aria-label="Caseta El Requiebro en Calle Algeciras"></rect>
-                <rect x="230" y="50" width="80" height="120" class="booth" data-id="3" data-name="Las Chicuelinas" data-street="Calle Algeciras" tabindex="0" aria-label="Caseta Las Chicuelinas en Calle Algeciras"></rect>
-                
-                <rect x="50" y="220" width="80" height="120" class="booth" data-id="4" data-name="El Callejón" data-street="Calle Abanicos" tabindex="0" aria-label="Caseta El Callejón en Calle Abanicos"></rect>
-                <rect x="140" y="220" width="80" height="120" class="booth" data-id="5" data-name="Todos los Jueves" data-street="Calle Abanicos" tabindex="0" aria-label="Caseta Todos los Jueves en Calle Abanicos"></rect>
-                
-                <!-- Nombres de las calles en el plano -->
-                <text x="50" y="40" font-size="14" font-weight="700">Calle Algeciras</text>
-                <text x="50" y="210" font-size="14" font-weight="700">Calle Abanicos</text>
-            </svg>
-        </div>
-
-        <!-- Panel lateral/inferior para mostrar detalles de la caseta seleccionada -->
-        <aside id="infoPanel" class="infoPanel" aria-labelledby="boothTitle">
-            <button class="closeBtn" id="closePanel" aria-label="Cerrar panel">&times;</button>
-            <h2 id="boothTitle">Seleccione una caseta</h2>
-            <p id="boothLocation"></p>
-            <div id="firebaseDetails">
-                <!-- Los detalles adicionales se cargarán aquí dinámicamente -->
-            </div>
-        </aside>
+    <!-- 4. Mapa Interactivo -->
+    <main id="mapArea" class="mapWrapper">
+        <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
+            <!-- El contenido del mapa se puede cargar dinámicamente o incluir estáticamente -->
+            <!-- Ejemplo de elementos de caseta representados como polígonos/rectángulos -->
+            <rect id="booth_1" x="100" y="100" width="60" height="80" class="mapItem" data-name="La Güena" data-owner-id="admin_01" tabindex="0"></rect>
+            <rect id="booth_2" x="180" y="100" width="60" height="80" class="mapItem" data-name="El Requiebro" data-owner-id="admin_02" tabindex="0"></rect>
+            <rect id="booth_3" x="260" y="100" width="60" height="80" class="mapItem" data-name="Los Especiales" data-owner-id="admin_03" tabindex="0"></rect>
+            
+            <text x="100" y="90" font-size="12" fill="#666">Calle Algeciras</text>
+        </svg>
     </main>
 
-    <!-- Pie de página con enlaces legales y técnicos mandatorios -->
-    <footer role="contentinfo">
-        <ul class="footerLinks">
-            <li><a href="#">Aviso Legal</a></li>
-            <li><a href="#">Política de Privacidad</a></li>
-            <li><a href="#">Política de Cookies</a></li>
-            <li><a href="#">Contacto</a></li>
-            <li><a href="#">Mapa Web</a></li>
-        </ul>
-        <div class="copyright">
-            <span>© Ayuntamiento de Algeciras</span>
-            <span>Delegación de Informática</span>
+    <!-- 5. Panel de Información (Desplegable) -->
+    <aside id="infoOverlay" class="detailsOverlay" aria-hidden="true">
+        <button id="closePanelBtn" class="closeOverlayBtn" aria-label="Cerrar detalles">&times;</button>
+        <div class="detailsContent">
+            <h2 id="displayName">Nombre de la Caseta</h2>
+            <p id="displayLocation">Ubicación: Calle Principal</p>
+            <div id="firebaseData">
+                <!-- Los datos de Firebase se inyectarán aquí -->
+            </div>
         </div>
+    </aside>
+
+    <!-- 6. Pie de Página -->
+    <footer class="mainFooter">
+        <p>&copy; 2026 Ayuntamiento de Algeciras - Delegación de Feria y Fiestas</p>
+        <p>Normativa Web Municipal - Accesibilidad WCAG 2.1</p>
     </footer>
 
-    <!-- Lógica de la aplicación: Interacción y conexión con Firebase -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
-
-        // Configuración de Firebase (debe ser completada con credenciales reales)
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-            projectId: "YOUR_PROJECT"
-        };
-
-        // Inicialización de la App y la Base de Datos
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        // Referencias a elementos del DOM
-        const booths = document.querySelectorAll('.booth');
-        const infoPanel = document.getElementById('infoPanel');
-        const boothTitle = document.getElementById('boothTitle');
-        const boothLocation = document.getElementById('boothLocation');
-
-        // Función para abrir y resaltar una caseta específica
-        const openBooth = (element) => {
-            // Eliminar estado activo de todas las casetas
-            booths.forEach(b => b.classList.remove('active'));
-            // Resaltar la seleccionada
-            element.classList.add('active');
-            
-            // Actualizar contenido del panel de información
-            boothTitle.textContent = element.dataset.name;
-            boothLocation.textContent = "📍 " + element.dataset.street;
-            // Mostrar el panel
-            infoPanel.classList.add('open');
-        };
-
-        // Asignación de eventos de click y teclado a las casetas del mapa
-        booths.forEach(booth => {
-            booth.addEventListener('click', () => openBooth(booth));
-            booth.addEventListener('keypress', (e) => { if(e.key === 'Enter') openBooth(booth); });
-        });
-
-        // Evento para cerrar el panel de información
-        document.getElementById('closePanel').addEventListener('click', () => {
-            infoPanel.classList.remove('open');
-            booths.forEach(b => b.classList.remove('active'));
-        });
-
-        // Lógica de búsqueda: filtra casetas por nombre o calle en tiempo real
-        document.getElementById('boothSearch').addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
-            if(!val) return;
-            booths.forEach(booth => {
-                const name = booth.dataset.name.toLowerCase();
-                const street = booth.dataset.street.toLowerCase();
-                if(name.includes(val) || street.includes(val)) {
-                    openBooth(booth);
-                }
-            });
-        });
-    </script>
+    <!-- Configuración de la conexión con Firebase -->
+    <script type="module" src="firebase-config.js"></script>
+    <!-- Lógica de la aplicación -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
