@@ -12,19 +12,33 @@
 </head>
 <body>
 
-    <!-- 1. Cabecera Institucional -->
+    <!-- 1. Cabecera Institucional (Diseño según imagen oficial) -->
     <header class="mainHeader" role="banner">
         <div class="logoContainer">
-            <!-- Logo del Ayuntamiento -->
-            <img src="logo.png" alt="Ayuntamiento de Algeciras" onerror="this.src='https://via.placeholder.com/200x50?text=LOGO+AYUNTAMIENTO'">
+            <!-- Escudo oficial -->
+            <img src="logo.png" alt="Escudo de Algeciras" class="headerLogo" onerror="this.src='https://via.placeholder.com/60x70?text=ESCUDO'">
+            <div class="headerText">
+                <span class="textLine">Ayuntamiento</span>
+                <span class="textLine">de Algeciras</span>
+            </div>
         </div>
         
-        <!-- 3. Buscador Integrado -->
-        <div class="searchContainer">
-            <input type="text" id="manualSearch" class="searchInput" placeholder="Buscar caseta por nombre..." aria-label="Buscar caseta">
-            <button id="searchTrigger" class="searchBtn" aria-label="Botón de buscar">
-                <i>🔍</i> Buscar
-            </button>
+        <div class="headerRight">
+            <!-- 3. Buscador Integrado -->
+            <div class="searchContainer">
+                <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar" aria-label="Buscar caseta">
+                <button id="searchTrigger" class="searchBtn" aria-label="Botón de buscar">
+                    <span class="searchIcon">🔍</span> Buscar
+                </button>
+            </div>
+            <!-- Navegación de la Cabecera -->
+            <nav class="headerNav">
+                <a href="#">TEMAS</a>
+                <span class="navDivider">|</span>
+                <a href="#">AYUNTAMIENTO</a>
+                <span class="navDivider">|</span>
+                <a href="#">LA CIUDAD</a>
+            </nav>
         </div>
     </header>
 

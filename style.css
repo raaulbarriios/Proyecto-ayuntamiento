@@ -29,49 +29,99 @@ body {
     line-height: 1.6;
 }
 
-/* Cabecera - Diseño Algeciras */
+/* Cabecera - Diseño Algeciras según imagen oficial */
 .mainHeader {
-    background: linear-gradient(to right, var(--primaryColor), var(--secondaryColor));
-    padding: 15px 20px;
+    background: linear-gradient(180deg, #00599f 0%, #00457c 100%);
+    padding: 10px 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
     box-shadow: var(--shadow);
     color: var(--white);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.logoContainer img {
-    height: 50px;
+.logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.headerLogo {
+    height: 70px;
     width: auto;
 }
 
-/* Barra de Búsqueda (Móvil Primero) */
+.headerText {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.headerRight {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Barra de Búsqueda */
 .searchContainer {
     width: 100%;
     display: flex;
     background: var(--white);
     border-radius: 4px;
     overflow: hidden;
-    max-width: 500px;
+    max-width: 320px;
+    height: 36px;
+    border: 1px solid #ccc;
 }
 
 .searchInput {
     flex: 1;
     border: none;
-    padding: 10px 15px;
+    padding: 5px 10px;
     font-family: inherit;
     font-size: 0.9rem;
     outline: none;
 }
 
 .searchBtn {
-    background: var(--white);
-    color: var(--primaryColor);
+    background: #003a6a; /* Azul oscuro como la imagen */
+    color: var(--white);
     border: none;
     padding: 0 15px;
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+}
+
+/* Navegación Cabecera */
+.headerNav {
+    display: flex;
+    gap: 10px;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.headerNav a {
+    color: var(--white);
+    text-decoration: none;
+}
+
+.headerNav a:hover {
+    text-decoration: underline;
+}
+
+.navDivider {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* Identidad del Evento */
@@ -168,6 +218,16 @@ body {
         flex-direction: row;
         justify-content: space-between;
         padding: 10px 40px;
+        height: 100px;
+    }
+
+    .headerRight {
+        align-items: flex-end;
+        width: auto;
+    }
+
+    .headerNav {
+        font-size: 0.85rem;
     }
     
     .eventTitleSection {
