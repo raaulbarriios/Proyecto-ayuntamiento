@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo de la Feria - Ayuntamiento de Algeciras</title>
+</head>
+<body>
+    <!-- Enlace de accesibilidad para saltar directamente al contenido principal -->
+    <a href="#main" class="skipLink">Saltar al contenido principal</a>
+
+    <!-- Cabecera principal con identificación institucional -->
+    <header role="banner">
+        <div class="logoContainer">
+            <!-- Marcador de posición para el escudo oficial -->
+            <div class="logoPlaceholder" aria-hidden="true">ESCUDO<br>ALGECIRAS</div>
+            <div>
+                <h1>Ayuntamiento de Algeciras</h1>
+                <p>Delegación de Feria y Fiestas</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Área de búsqueda para localización manual de casetas -->
+    <div class="searchArea">
+        <div class="searchBox">
+            <input type="text" id="boothSearch" class="searchInput" placeholder="Buscar por nombre de caseta o calle..." aria-label="Buscar caseta">
+        </div>
+    </div>
+
+    <!-- Contenido principal: Mapa interactivo y Panel de información -->
+    <main id="main" class="mainContent">
+        <!-- Contenedor del mapa SVG interactivo -->
+        <div class="mapContainer" role="region" aria-label="Mapa interactivo de la feria">
+            <svg viewBox="0 0 800 600" id="fairMap">
+                <!-- Representación de casetas individuales mediante elementos rect -->
+                <rect x="50" y="50" width="80" height="120" class="booth" data-id="1" data-name="La Güena" data-street="Calle Algeciras" tabindex="0" aria-label="Caseta La Güena en Calle Algeciras"></rect>
+                <rect x="140" y="50" width="80" height="120" class="booth" data-id="2" data-name="El Requiebro" data-street="Calle Algeciras" tabindex="0" aria-label="Caseta El Requiebro en Calle Algeciras"></rect>
+                <rect x="230" y="50" width="80" height="120" class="booth" data-id="3" data-name="Las Chicuelinas" data-street="Calle Algeciras" tabindex="0" aria-label="Caseta Las Chicuelinas en Calle Algeciras"></rect>
+                
+                <rect x="50" y="220" width="80" height="120" class="booth" data-id="4" data-name="El Callejón" data-street="Calle Abanicos" tabindex="0" aria-label="Caseta El Callejón en Calle Abanicos"></rect>
+                <rect x="140" y="220" width="80" height="120" class="booth" data-id="5" data-name="Todos los Jueves" data-street="Calle Abanicos" tabindex="0" aria-label="Caseta Todos los Jueves en Calle Abanicos"></rect>
+                
+                <!-- Nombres de las calles en el plano -->
+                <text x="50" y="40" font-size="14" font-weight="700">Calle Algeciras</text>
+                <text x="50" y="210" font-size="14" font-weight="700">Calle Abanicos</text>
+            </svg>
+        </div>
+
+        <!-- Panel lateral/inferior para mostrar detalles de la caseta seleccionada -->
+        <aside id="infoPanel" class="infoPanel" aria-labelledby="boothTitle">
+            <button class="closeBtn" id="closePanel" aria-label="Cerrar panel">&times;</button>
+            <h2 id="boothTitle">Seleccione una caseta</h2>
+            <p id="boothLocation"></p>
+            <div id="firebaseDetails">
+                <!-- Los detalles adicionales se cargarán aquí dinámicamente -->
+            </div>
+        </aside>
+    </main>
+
+    <!-- Pie de página con enlaces legales y técnicos mandatorios -->
+    <footer role="contentinfo">
+        <ul class="footerLinks">
+            <li><a href="#">Aviso Legal</a></li>
+            <li><a href="#">Política de Privacidad</a></li>
+            <li><a href="#">Política de Cookies</a></li>
+            <li><a href="#">Contacto</a></li>
+            <li><a href="#">Mapa Web</a></li>
+        </ul>
+        <div class="copyright">
+            <span>© Ayuntamiento de Algeciras</span>
+            <span>Delegación de Informática</span>
+        </div>
+    </footer>
+
+    <!-- Lógica de la aplicación: Interacción y conexión con Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        // Configuración de Firebase (debe ser completada con credenciales reales)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT"
+        };
+
+        // Inicialización de la App y la Base de Datos
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Referencias a elementos del DOM
+        const booths = document.querySelectorAll('.booth');
+        const infoPanel = document.getElementById('infoPanel');
+        const boothTitle = document.getElementById('boothTitle');
+        const boothLocation = document.getElementById('boothLocation');
+
+        // Función para abrir y resaltar una caseta específica
+        const openBooth = (element) => {
+            // Eliminar estado activo de todas las casetas
+            booths.forEach(b => b.classList.remove('active'));
+            // Resaltar la seleccionada
+            element.classList.add('active');
+            
+            // Actualizar contenido del panel de información
+            boothTitle.textContent = element.dataset.name;
+            boothLocation.textContent = "📍 " + element.dataset.street;
+            // Mostrar el panel
+            infoPanel.classList.add('open');
+        };
+
+        // Asignación de eventos de click y teclado a las casetas del mapa
+        booths.forEach(booth => {
+            booth.addEventListener('click', () => openBooth(booth));
+            booth.addEventListener('keypress', (e) => { if(e.key === 'Enter') openBooth(booth); });
+        });
+
+        // Evento para cerrar el panel de información
+        document.getElementById('closePanel').addEventListener('click', () => {
+            infoPanel.classList.remove('open');
+            booths.forEach(b => b.classList.remove('active'));
+        });
+
+        // Lógica de búsqueda: filtra casetas por nombre o calle en tiempo real
+        document.getElementById('boothSearch').addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            if(!val) return;
+            booths.forEach(booth => {
+                const name = booth.dataset.name.toLowerCase();
+                const street = booth.dataset.street.toLowerCase();
+                if(name.includes(val) || street.includes(val)) {
+                    openBooth(booth);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
