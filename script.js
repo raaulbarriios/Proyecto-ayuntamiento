@@ -30,13 +30,13 @@ const displayLocation = document.getElementById('displayLocation');
 const updateDetailsPanel = (element) => {
     const itemName = element.dataset.name || "Sin nombre";
     const ownerId = element.dataset.ownerId || "No disponible"; // Ejemplo de camelCase solicitado
-    
+
     displayName.textContent = itemName;
     displayLocation.textContent = `Identificador: ${ownerId}`;
-    
+
     infoOverlay.classList.add('visible');
     infoOverlay.setAttribute('aria-hidden', 'false');
-    
+
     // Limpiar estados activos previos
     mapItems.forEach(item => item.classList.remove('active'));
     element.classList.add('active');
@@ -85,7 +85,7 @@ manualSearchInput.addEventListener('keypress', (event) => {
 
 mapItems.forEach(item => {
     item.addEventListener('click', () => updateDetailsPanel(item));
-    
+
     // Soporte para accesibilidad
     item.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {

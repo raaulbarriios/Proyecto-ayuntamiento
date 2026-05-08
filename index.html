@@ -14,31 +14,39 @@
 
     <!-- 1. Cabecera Institucional (Diseño según imagen oficial) -->
     <header class="mainHeader" role="banner">
-        <div class="logoContainer">
-            <!-- Escudo oficial -->
-            <img src="logo.png" alt="Escudo de Algeciras" class="headerLogo" onerror="this.src='https://via.placeholder.com/60x70?text=ESCUDO'">
-            <div class="headerText">
-                <span class="textLine">Ayuntamiento</span>
-                <span class="textLine">de Algeciras</span>
+        <div class="headerContent">
+            <div class="headerLeft">
+                <div class="shieldWrapper">
+                    <img src="fotos/Logo Algeciras color sin letras interiores.png" alt="Escudo de Algeciras" class="headerShield">
+                </div>
+                <div class="headerText">
+                    <span class="textLine">Ayuntamiento</span>
+                    <span class="textLine">de Algeciras</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="headerRight">
-            <!-- 3. Buscador Integrado -->
-            <div class="searchContainer">
-                <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar" aria-label="Buscar caseta">
-                <button id="searchTrigger" class="searchBtn" aria-label="Botón de buscar">
-                    <span class="searchIcon">🔍</span> Buscar
-                </button>
+            
+            <div class="headerRight">
+                <!-- Iconos de accesibilidad/menú para móvil -->
+                <div class="mobileIcons">
+                    <div class="iconSquare"><span>♿</span></div>
+                    <div class="iconSquare"><span>☰</span></div>
+                </div>
+                <!-- Buscador (Oculto en móvil según imagen) -->
+                <div class="searchContainer">
+                    <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar" aria-label="Buscar caseta">
+                    <button id="searchTrigger" class="searchBtn" aria-label="Botón de buscar">
+                        <span class="searchIcon">🔍</span> Buscar
+                    </button>
+                </div>
+                <!-- Navegación de la Cabecera -->
+                <nav class="headerNav">
+                    <a href="#">TEMAS</a>
+                    <span class="navDivider">|</span>
+                    <a href="#">AYUNTAMIENTO</a>
+                    <span class="navDivider">|</span>
+                    <a href="#">LA CIUDAD</a>
+                </nav>
             </div>
-            <!-- Navegación de la Cabecera -->
-            <nav class="headerNav">
-                <a href="#">TEMAS</a>
-                <span class="navDivider">|</span>
-                <a href="#">AYUNTAMIENTO</a>
-                <span class="navDivider">|</span>
-                <a href="#">LA CIUDAD</a>
-            </nav>
         </div>
     </header>
 
@@ -48,16 +56,16 @@
     </section>
 
     <!-- 4. Mapa Interactivo -->
-    <main id="mapArea" class="mapWrapper">
-        <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
-            <!-- El contenido del mapa se puede cargar dinámicamente o incluir estáticamente -->
-            <!-- Ejemplo de elementos de caseta representados como polígonos/rectángulos -->
-            <rect id="booth_1" x="100" y="100" width="60" height="80" class="mapItem" data-name="La Güena" data-owner-id="admin_01" tabindex="0"></rect>
-            <rect id="booth_2" x="180" y="100" width="60" height="80" class="mapItem" data-name="El Requiebro" data-owner-id="admin_02" tabindex="0"></rect>
-            <rect id="booth_3" x="260" y="100" width="60" height="80" class="mapItem" data-name="Los Especiales" data-owner-id="admin_03" tabindex="0"></rect>
-            
-            <text x="100" y="90" font-size="12" fill="#666">Calle Algeciras</text>
-        </svg>
+    <main class="mapWrapper">
+        <div class="mapImageContainer">
+            <img src="fotos/mapa_evento.jpg" alt="Mapa de la Feria Real de Algeciras 2026" id="eventMapImg" class="mapImage">
+            <!-- SVG overlay para interactividad (casetas clicables) -->
+            <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" class="mapSvgOverlay">
+                <rect x="50" y="50" width="100" height="80" class="mapItem" data-id="c1" data-name="Caseta Los Amigos" data-street="Calle Real, 1" data-owner="Asociación Recreativa"/>
+                <rect x="160" y="50" width="100" height="80" class="mapItem" data-id="c2" data-name="Peña El Estribo" data-street="Calle Real, 2" data-owner="Peña Flamenca"/>
+                <rect x="270" y="50" width="100" height="80" class="mapItem" data-id="c3" data-name="Caseta Municipal" data-street="Plaza Mayor" data-owner="Ayuntamiento"/>
+            </svg>
+        </div>
     </main>
 
     <!-- 5. Panel de Información (Desplegable) -->
@@ -66,16 +74,22 @@
         <div class="detailsContent">
             <h2 id="displayName">Nombre de la Caseta</h2>
             <p id="displayLocation">Ubicación: Calle Principal</p>
-            <div id="firebaseData">
-                <!-- Los datos de Firebase se inyectarán aquí -->
-            </div>
+            <div id="firebaseData"></div>
         </div>
     </aside>
 
-    <!-- 6. Pie de Página -->
+    <!-- 6. Pie de Página (Diseño institucional según imagen) -->
     <footer class="mainFooter">
-        <p>&copy; 2026 Ayuntamiento de Algeciras - Delegación de Feria y Fiestas</p>
-        <p>Normativa Web Municipal - Accesibilidad WCAG 2.1</p>
+        <!-- Barra azul inferior -->
+        <div class="footerContent">
+            <div class="footerLeft">
+                <img src="fotos/Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png" alt="Escudo" class="footerIcon">
+                <span class="footerHandle">ayuntamientoalgeciras</span>
+            </div>
+            <div class="footerRight">
+                <span class="copyrightText">&copy; Ayuntamiento de Algeciras</span>
+            </div>
+        </div>
     </footer>
 
     <!-- Configuración de la conexión con Firebase -->
