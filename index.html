@@ -1,100 +1,74 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de la Feria - Ayuntamiento de Algeciras</title>
-    <!-- Google Fonts: Inter (Medium 500) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<!DOCTYPE html> <!-- Declara que este documento sigue el estándar HTML5 -->
+<html lang="es"> <!-- Raíz del documento; lang="es" indica que el idioma es español -->
+<head> <!-- Sección de metadatos: no se muestra en pantalla pero configura la página -->
 
-    <!-- 1. Cabecera Institucional (Diseño según imagen oficial) -->
-    <header class="mainHeader" role="banner">
-        <div class="headerContent">
-            <div class="headerLeft">
-                <div class="shieldWrapper">
-                    <img src="fotos/Logo Algeciras color sin letras interiores.png" alt="Escudo de Algeciras" class="headerShield">
-                </div>
-                <div class="headerText">
-                    <span class="textLine">Ayuntamiento</span>
-                    <span class="textLine">de Algeciras</span>
-                </div>
+    <meta charset="UTF-8"> <!-- Establece la codificación de caracteres (permite tildes y ñ) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Adapta el zoom al ancho del dispositivo (imprescindible para móvil) -->
+    <title>Mapa Interactivo de Eventos</title> <!-- Texto que aparece en la pestaña del navegador -->
+    <link rel="stylesheet" href="style.css"> <!-- Carga el archivo de estilos CSS del proyecto -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet"> <!-- Carga la tipografía "Inter" desde Google Fonts (pesos: 300, 400, 600, 700, 800) -->
+
+</head>
+<body class="public-body"> <!-- Inicio del contenido visible; la clase aplica estilos generales de la vista pública -->
+
+    <!-- Cabecera: banda superior con logotipo y nombre del evento -->
+    <header class="evento-header"> <!-- Elemento semántico de cabecera; aplica estilos de la clase evento-header -->
+
+        <div class="header-top"> <!-- Fila superior del header: contiene logotipo, título de organización y espaciador -->
+            <div class="logo"> <!-- Contenedor del logotipo -->
+                <span class="logo-icon">📍</span> Logo <!-- Icono de pin y texto del logo -->
             </div>
-            
-            <div class="headerRight">
-                <!-- Iconos de accesibilidad/menú para móvil -->
-                <div class="mobileIcons">
-                    <div class="iconSquare"><span>♿</span></div>
-                    <div class="iconSquare"><span>☰</span></div>
-                </div>
-                <!-- Buscador (Oculto en móvil según imagen) -->
-                <div class="searchContainer">
-                    <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar" aria-label="Buscar caseta">
-                    <button id="searchTrigger" class="searchBtn" aria-label="Botón de buscar">
-                        <span class="searchIcon">🔍</span> Buscar
-                    </button>
-                </div>
-                <!-- Navegación de la Cabecera -->
-                <nav class="headerNav">
-                    <a href="#">TEMAS</a>
-                    <span class="navDivider">|</span>
-                    <a href="#">AYUNTAMIENTO</a>
-                    <span class="navDivider">|</span>
-                    <a href="#">LA CIUDAD</a>
-                </nav>
-            </div>
+            <h2 class="cabecera-title">Organización</h2> <!-- Nombre de la organización promotora del evento -->
+            <div class="spacer"></div> <!-- Elemento vacío que empuja el contenido para alinear con flexbox -->
         </div>
+
+        <div class="header-bottom"> <!-- Fila inferior del header: contiene el título principal del evento -->
+            <h1 class="evento-title">Nombre evento</h1> <!-- Título principal (h1) visible en la cabecera -->
+        </div>
+
     </header>
 
-    <!-- 2. Identidad del Evento -->
-    <section class="eventTitleSection">
-        <h1 class="eventTitle">Feria Real de Algeciras 2026</h1>
-    </section>
+    <!-- Mapa: sección principal que muestra el plano interactivo del recinto -->
+    <main class="map-section"> <!-- Elemento semántico de contenido principal; aplica estilos de la clase map-section -->
 
-    <!-- 4. Mapa Interactivo -->
-    <main class="mapWrapper">
-        <div class="mapImageContainer">
-            <img src="fotos/mapa_evento.jpg" alt="Mapa de la Feria Real de Algeciras 2026" id="eventMapImg" class="mapImage">
-            <!-- SVG overlay para interactividad (casetas clicables) -->
-            <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" class="mapSvgOverlay">
-                <rect x="50" y="50" width="100" height="80" class="mapItem" data-id="c1" data-name="Caseta Los Amigos" data-street="Calle Real, 1" data-owner="Asociación Recreativa"/>
-                <rect x="160" y="50" width="100" height="80" class="mapItem" data-id="c2" data-name="Peña El Estribo" data-street="Calle Real, 2" data-owner="Peña Flamenca"/>
-                <rect x="270" y="50" width="100" height="80" class="mapItem" data-id="c3" data-name="Caseta Municipal" data-street="Plaza Mayor" data-owner="Ayuntamiento"/>
-            </svg>
+        <div id="static-map-wrapper"> <!-- Contenedor relativo que envuelve imagen, marcadores y modal para posicionarlos juntos -->
+
+            <!-- Buscador Flotante: campo de texto superpuesto sobre el mapa -->
+            <div class="search-container"> <!-- Contenedor del buscador; posicionado sobre el mapa mediante CSS -->
+                <input type="text" id="search-input" placeholder="🔍 Buscar por nombre..."> <!-- Campo de búsqueda; app.js lo escucha para filtrar marcadores -->
+            </div>
+
+            <img src="mapa_evento.jpg" alt="Mapa del Recinto" id="map-image"> <!-- Imagen estática del plano del recinto; alt describe la imagen para accesibilidad -->
+            <div id="markers-container"></div> <!-- Contenedor vacío donde app.js inyecta dinámicamente los botones/marcadores -->
+
+            <!-- Pestaña Encima (Modal centrado en el mapa): ventana emergente con el detalle de una caseta -->
+            <div id="modal-overlay" class="modal-overlay hidden"> <!-- Capa oscura que cubre el mapa; "hidden" la oculta hasta que se selecciona un marcador -->
+                <div id="info-modal" class="info-modal"> <!-- Caja blanca centrada que contiene la información de la caseta seleccionada -->
+                    <button id="close-modal" class="close-btn">&times;</button> <!-- Botón "×" para cerrar el modal; app.js escucha su clic -->
+                    <div class="modal-content"> <!-- Área de contenido interior del modal -->
+                        <span id="punto-tipo" class="badge">Tipo</span> <!-- Etiqueta de categoría del punto (ej: "Caseta", "Servicio"); app.js la rellena -->
+                        <h2 id="punto-nombre">Nombre del Punto</h2> <!-- Nombre de la caseta seleccionada; app.js lo rellena -->
+                        <p id="punto-horario" class="schedule">🕒 10:00 - 22:00</p> <!-- Horario general de apertura; app.js lo rellena -->
+                        <p id="punto-descripcion" class="description">Descripción detallada...</p> <!-- Descripción de la caseta; app.js la rellena -->
+
+                        <h3>Programación de Hoy</h3> <!-- Subtítulo de la sección de actividades del día -->
+                        <ul id="punto-programacion" class="programacion-list"> <!-- Lista desordenada donde app.js inyecta cada actividad como <li> -->
+                            <!-- Los items se inyectan por JS --> <!-- Nota: este espacio lo rellena app.js en tiempo de ejecución -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
-    <!-- 5. Panel de Información (Desplegable) -->
-    <aside id="infoOverlay" class="detailsOverlay" aria-hidden="true">
-        <button id="closePanelBtn" class="closeOverlayBtn" aria-label="Cerrar detalles">&times;</button>
-        <div class="detailsContent">
-            <h2 id="displayName">Nombre de la Caseta</h2>
-            <p id="displayLocation">Ubicación: Calle Principal</p>
-            <div id="firebaseData"></div>
-        </div>
-    </aside>
-
-    <!-- 6. Pie de Página (Diseño institucional según imagen) -->
-    <footer class="mainFooter">
-        <!-- Barra azul inferior -->
-        <div class="footerContent">
-            <div class="footerLeft">
-                <img src="fotos/Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png" alt="Escudo" class="footerIcon">
-                <span class="footerHandle">ayuntamientoalgeciras</span>
-            </div>
-            <div class="footerRight">
-                <span class="copyrightText">&copy; Ayuntamiento de Algeciras</span>
-            </div>
-        </div>
+    <!-- Pie de página: banda inferior con información general y enlace de administración -->
+    <footer class="evento-footer"> <!-- Elemento semántico de pie de página -->
+        <p>Información del evento y organización.</p> <!-- Texto informativo genérico del pie -->
+        <a href="admin.html" class="admin-link">Acceso Gestión</a> <!-- Enlace discreto hacia el panel de administración para los propietarios de casetas -->
     </footer>
 
-    <!-- Configuración de la conexión con Firebase -->
-    <script type="module" src="firebase-config.js"></script>
-    <!-- Lógica de la aplicación -->
-    <script type="module" src="script.js"></script>
-</body>
-</html>
+    <script type="module" src="app.js"></script> <!-- Carga app.js como módulo ES6 (permite usar import/export); se coloca al final para que el HTML esté listo antes de ejecutarse -->
+
+</body> <!-- Fin del contenido visible -->
+</html> <!-- Cierre del documento HTML -->

@@ -1,448 +1,524 @@
-/* 
-   Proyecto: Mapa de Eventos Interactivo - Ayuntamiento de Algeciras
-   Estándar: Normativa Web Municipal
-   Prioridad: Mobile-First (Móvil primero)
-*/
-
-/* Reseteo y Estilos Globales */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* ─── VARIABLES GLOBALES ───────────────────────────────────────────────────── */
+/* :root define variables CSS disponibles en toda la hoja de estilos           */
 :root {
-    --primaryColor: #00599f;
-    --secondaryColor: #003a6a;
-    --white: #ffffff;
-    --lightGray: #f5f5f5;
-    --textColor: #333333;
-    --accentColor: #e30613;
-    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+    --primary: #4F46E5;                                       /* Color principal (morado/índigo) usado en botones, títulos y marcadores */
+    --primary-hover: #4338CA;                                 /* Variante más oscura del color principal para estados hover */
+    --secondary: #10B981;                                     /* Color secundario (verde esmeralda) usado en botones de éxito y marcadores resaltados */
+    --dark: #111827;                                          /* Color casi negro para textos principales */
+    --light: #F3F4F6;                                         /* Gris muy claro usado como fondo general de la página */
+    --white: #FFFFFF;                                         /* Blanco puro para fondos de tarjetas y cabecera */
+    --danger: #EF4444;                                        /* Rojo para botones y textos de acción destructiva (eliminar) */
+    --glass-bg: rgba(255, 255, 255, 0.95);                    /* Blanco semitransparente para el fondo del modal (efecto cristal) */
+    --glass-border: rgba(255, 255, 255, 0.3);                 /* Borde semitransparente para el contorno del modal */
+    --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Sombra estándar usada en tarjetas y elementos flotantes */
 }
 
+/* ─── RESET UNIVERSAL ──────────────────────────────────────────────────────── */
+/* El selector * aplica estas reglas a TODOS los elementos de la página        */
+* {
+    margin: 0;                        /* Elimina el margen exterior por defecto del navegador en todos los elementos */
+    padding: 0;                       /* Elimina el relleno interior por defecto del navegador en todos los elementos */
+    box-sizing: border-box;           /* Hace que el padding y el borde se incluyan dentro del ancho/alto declarado */
+    font-family: 'Inter', sans-serif; /* Aplica la fuente Inter (Google Fonts) a todo; sans-serif como alternativa si no carga */
+}
+
+/* ─── BODY ─────────────────────────────────────────────────────────────────── */
 body {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    color: var(--textColor);
-    background-color: var(--lightGray);
-    line-height: 1.6;
-    display: flex; /* Para empujar el footer abajo */
-    flex-direction: column;
-    min-height: 100vh;
+    background-color: var(--light); /* Fondo gris claro para toda la página */
+    color: var(--dark);             /* Color de texto predeterminado: casi negro */
+    min-height: 100vh;              /* La página ocupa al menos el 100% de la altura de la ventana */
+    display: flex;                  /* Activa el modelo de caja flexible (flexbox) */
+    flex-direction: column;         /* Apila los hijos (header, main, footer) en columna vertical */
 }
 
-main.mapWrapper {
-    flex: 1; /* Ocupa el espacio restante */
+/* ─── CABECERA EVENTO ──────────────────────────────────────────────────────── */
+.evento-header {
+    background-color: var(--white);                      /* Fondo blanco para la cabecera */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);     /* Sombra suave inferior para separar la cabecera del contenido */
+    z-index: 1000;                                       /* Mantiene la cabecera por encima de otros elementos superpuestos */
 }
 
-/* Cabecera - Diseño Algeciras según imagen oficial */
-.mainHeader {
-    padding: 10px 15px;
+.header-top {                              /* Fila superior de la cabecera: logo, título de organización y espaciador */
+    display: flex;                         /* Coloca sus hijos en fila horizontal */
+    justify-content: space-between;        /* Distribuye el espacio entre los tres elementos */
+    align-items: center;                   /* Alinea verticalmente al centro */
+    padding: 1rem 2rem;                    /* Relleno: 1rem arriba/abajo, 2rem a los lados */
+    border-bottom: 1px solid #E5E7EB;      /* Línea separadora gris claro entre la fila superior e inferior */
 }
 
-.headerContent {
-    background: linear-gradient(to right, #00599f, #2989d8, #00599f);
-    padding: 10px 20px;
-    border-radius: 12px; /* Redondeado según boceto */
-    display: flex;
-    flex-direction: row; /* Desktop por defecto */
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    color: var(--white);
-    min-height: 80px;
+.logo {
+    display: flex;              /* Alinea el icono y el texto del logo en fila */
+    align-items: center;        /* Centra verticalmente el icono con el texto */
+    gap: 0.5rem;                /* Separación entre el icono y el texto del logo */
+    font-size: 1.25rem;         /* Tamaño de fuente del logo */
+    font-weight: 800;           /* Negrita muy fuerte */
+    color: var(--primary);      /* Color morado/índigo */
+    width: 150px;               /* Ancho fijo para equilibrar con el .spacer del lado opuesto */
 }
 
-.headerLeft {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.cabecera-title {
+    font-size: 1.5rem;      /* Tamaño del nombre de la organización */
+    font-weight: 700;       /* Negrita */
+    color: var(--dark);     /* Color de texto casi negro */
+    text-align: center;     /* Centra el texto horizontalmente */
+    flex: 1;                /* Ocupa todo el espacio disponible entre el logo y el espaciador */
 }
 
-.shieldWrapper {
-    width: 60px;
-    height: 70px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
+.spacer {
+    width: 150px; /* Elemento vacío con el mismo ancho que .logo para centrar .cabecera-title visualmente */
 }
 
-.headerShield {
-    height: 110px; /* Tamaño mayor para recortar el texto de abajo */
-    width: auto;
-    transform: translateY(-5px);
+.header-bottom {                        /* Fila inferior de la cabecera: contiene el título principal del evento */
+    padding: 1.5rem;                    /* Relleno interior */
+    text-align: center;                 /* Centra el título */
+    background-color: #F8FAFC;          /* Fondo ligeramente diferente al de la fila superior */
 }
 
-.headerText {
-    display: flex;
-    flex-direction: column;
-    font-size: 1.6rem;
-    font-weight: 500;
-    line-height: 1;
-    color: var(--white);
+.evento-title {
+    font-size: 2rem;             /* Título grande y destacado */
+    font-weight: 800;            /* Negrita máxima */
+    color: var(--primary);       /* Color morado principal */
+    letter-spacing: -0.5px;      /* Reduce ligeramente el espacio entre letras para un aspecto más compacto */
 }
 
-.headerRight {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* Alineado a la derecha como en la imagen */
-    gap: 12px;
+/* ─── SECCIÓN MAPA ─────────────────────────────────────────────────────────── */
+.map-section {
+    flex: 1;                  /* Ocupa todo el espacio vertical restante entre cabecera y pie */
+    display: flex;            /* Activa flexbox */
+    flex-direction: column;   /* Apila en columna */
+    padding: 0;               /* Sin padding: el mapa llega hasta los bordes */
+    background-color: #000;   /* Fondo negro visible si la imagen no cubre el ratio completo */
 }
 
-/* Barra de Búsqueda en Cabecera */
-.searchContainer {
-    width: 100%;
-    display: flex;
-    background: var(--white);
-    border-radius: 4px;
-    overflow: hidden;
-    max-width: 320px;
-    height: 36px;
-    border: none;
+#static-map-wrapper {         /* Contenedor relativo que agrupa imagen, marcadores y modal */
+    position: relative;       /* Necesario para que los hijos con position:absolute se posicionen respecto a este div */
+    width: 100%;              /* Ocupa todo el ancho disponible */
+    flex: 1;                  /* Ocupa todo el alto disponible dentro de .map-section */
+    overflow: hidden;         /* Oculta cualquier parte de los hijos que sobresalga de este contenedor */
+    display: flex;            /* Activa flexbox para centrar la imagen */
+    justify-content: center;  /* Centra horizontalmente */
+    align-items: center;      /* Centra verticalmente */
 }
 
-.searchInput {
-    flex: 1;
-    border: none;
-    padding: 5px 12px;
-    font-family: inherit;
-    font-size: 0.9rem;
-    outline: none;
-    color: #333;
+#map-image {
+    position: absolute;    /* Saca la imagen del flujo normal: se posiciona respecto a #static-map-wrapper */
+    top: 0;                /* Ancla el borde superior de la imagen al borde superior del contenedor */
+    left: 0;               /* Ancla el borde izquierdo de la imagen al borde izquierdo del contenedor */
+    width: 100%;           /* La imagen ocupa todo el ancho del contenedor */
+    height: 100%;          /* La imagen ocupa todo el alto del contenedor */
+    object-fit: cover;     /* Escala la imagen para cubrir el contenedor sin deformarla; recorta si es necesario */
 }
 
-.searchBtn {
-    background: #004a80; /* Azul más oscuro para el botón */
-    color: var(--white);
-    border: none;
-    padding: 0 15px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+#markers-container {            /* Capa transparente superpuesta sobre la imagen del mapa */
+    position: absolute;         /* Se posiciona respecto a #static-map-wrapper */
+    top: 0;                     /* Empieza desde el borde superior del mapa */
+    left: 0;                    /* Empieza desde el borde izquierdo del mapa */
+    width: 100%;                /* Cubre todo el ancho del mapa */
+    height: 100%;               /* Cubre todo el alto del mapa */
+    pointer-events: none;       /* Deja pasar los clics al fondo; los botones hijos lo anulan con pointer-events: auto */
 }
 
-.searchBtn:hover {
-    background: #003a6a;
+/* ─── BUSCADOR ─────────────────────────────────────────────────────────────── */
+.search-container {                  /* Contenedor del campo de búsqueda flotante sobre el mapa */
+    position: absolute;              /* Se posiciona respecto a #static-map-wrapper */
+    top: 20px;                       /* Separación de 20px desde el borde superior del mapa */
+    left: 50%;                       /* Punto de referencia: el centro horizontal del mapa */
+    transform: translateX(-50%);     /* Desplaza el elemento -50% de su propio ancho para centrarlo exactamente */
+    z-index: 100;                    /* Se sitúa por encima del mapa pero por debajo del modal (z-index 2000) */
+    width: 90%;                      /* Ocupa el 90% del ancho del mapa para que quepa en móviles */
+    max-width: 450px;                /* Ancho máximo en pantallas grandes */
 }
 
-/* Navegación Cabecera */
-.headerNav {
-    display: flex;
-    gap: 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+#search-input {                                          /* Campo de texto del buscador */
+    width: 100%;                                         /* Ocupa todo el ancho de .search-container */
+    padding: 1rem 1.5rem;                                /* Relleno interior: cómodo para tocar en móvil */
+    border: none;                                        /* Sin borde visible por defecto */
+    border-radius: 999px;                                /* Valor muy alto = esquinas completamente redondeadas (píldora) */
+    font-size: 1rem;                                     /* Tamaño de texto estándar */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);    /* Sombra pronunciada para que destaque sobre el mapa */
+    outline: none;                                       /* Elimina el borde azul por defecto del navegador al hacer foco */
+    transition: box-shadow 0.2s, transform 0.2s;         /* Animación suave al enfocar el campo */
+    background: rgba(255, 255, 255, 0.95);               /* Fondo blanco casi opaco con ligera transparencia */
+    backdrop-filter: blur(5px);                          /* Desenfoca el fondo que hay detrás del campo */
+    font-weight: 600;                                    /* Texto semi-negrita */
 }
 
-.headerNav a {
-    color: var(--white);
-    text-decoration: none;
+#search-input:focus {                                        /* Estilos cuando el usuario hace clic en el buscador */
+    box-shadow: 0 10px 30px -5px rgba(79, 70, 229, 0.5);    /* Sombra morada más pronunciada para indicar foco activo */
+    transform: translateY(-2px);                             /* Sube 2px para dar sensación de elevación */
+    background: white;                                       /* Fondo totalmente blanco al enfocar */
 }
 
-.headerNav a:hover {
-    text-decoration: underline;
+/* ─── MARCADORES Y RESALTADO ───────────────────────────────────────────────── */
+.marker-btn {                   /* Botón circular numérico posicionado sobre el mapa */
+    position: absolute;         /* Se posiciona respecto a #markers-container (que a su vez es respecto al mapa) */
+    transform: translate(-50%, -50%); /* Centra el botón exactamente en las coordenadas top/left indicadas por JS */
+    pointer-events: auto;       /* Anula el pointer-events:none del contenedor padre para recibir clics */
+    width: 32px;                /* Ancho del botón circular */
+    height: 32px;               /* Alto del botón circular (igual al ancho = círculo perfecto) */
+    background-color: var(--primary); /* Fondo morado principal */
+    border: 3px solid white;    /* Borde blanco que separa visualmente el botón del mapa */
+    border-radius: 50%;         /* Esquinas completamente redondeadas = círculo */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3); /* Sombra para dar profundidad */
+    cursor: pointer;            /* Cambia el cursor a mano al pasar por encima */
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, background-color 0.2s; /* Animación elástica al escalar */
+    display: flex;              /* Flexbox para centrar el número */
+    align-items: center;        /* Centra verticalmente el número */
+    justify-content: center;    /* Centra horizontalmente el número */
+    color: white;               /* Color del texto (número) */
+    font-weight: bold;          /* Número en negrita */
+    font-size: 0.85rem;         /* Tamaño del número ligeramente reducido para que quepa en 32px */
 }
 
-.navDivider {
-    color: rgba(255, 255, 255, 0.6);
+.marker-btn:hover {                                       /* Estado al pasar el ratón por encima */
+    transform: translate(-50%, -50%) scale(1.15);         /* Agranda el botón un 15% manteniendo el centrado */
+    box-shadow: 0 6px 12px rgba(79, 70, 229, 0.4);        /* Sombra morada más intensa */
+    background-color: var(--primary-hover);               /* Color más oscuro en hover */
+    z-index: 10;                                          /* Sube por encima de otros marcadores cercanos */
 }
 
-/* Identidad del Evento */
-.eventTitleSection {
-    background: var(--white);
-    padding: 12px 20px;
-    margin: 0 20px 10px 20px;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    text-align: center;
+/* Animación de pulso para marcadores resaltados por el buscador */
+@keyframes pulse-highlight {
+    0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.8);  transform: translate(-50%, -50%) scale(1);   } /* Inicio: sin halo */
+    70%  { box-shadow: 0 0 0 25px rgba(16, 185, 129, 0); transform: translate(-50%, -50%) scale(1.3); } /* Expansión máxima del halo y del marcador */
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);  transform: translate(-50%, -50%) scale(1);   } /* Regresa al estado inicial */
 }
 
-.eventTitle {
-    font-size: 1.2rem;
-    color: var(--primaryColor);
-    text-transform: uppercase;
-    text-align: center;
+.marker-btn.highlighted {              /* Clase añadida por JS cuando el nombre coincide con la búsqueda */
+    background-color: var(--secondary); /* Cambia a verde esmeralda */
+    border-color: white;               /* Mantiene borde blanco */
+    animation: pulse-highlight 1.5s infinite; /* Aplica la animación de pulso indefinidamente */
+    z-index: 20;                       /* Por encima de todos los demás marcadores */
+    transform: translate(-50%, -50%) scale(1.2); /* Ligeramente más grande que el estado normal */
 }
 
-/* Contenedor del Mapa */
-.mapWrapper {
-    padding: 10px;
-    flex: 1;
+/* ─── MODAL Y OVERLAY ──────────────────────────────────────────────────────── */
+.modal-overlay {                                              /* Capa oscura que cubre toda la pantalla al abrir un marcador */
+    position: fixed;                                          /* Fijo en la ventana: no se mueve aunque la página haga scroll */
+    top: 0;                                                   /* Empieza desde el borde superior de la ventana */
+    left: 0;                                                  /* Empieza desde el borde izquierdo de la ventana */
+    width: 100vw;                                             /* Ocupa el 100% del ancho de la ventana (vw = viewport width) */
+    height: 100vh;                                            /* Ocupa el 100% del alto de la ventana (vh = viewport height) */
+    background-color: rgba(17, 24, 39, 0.75);                 /* Fondo oscuro semitransparente (75% de opacidad) */
+    backdrop-filter: blur(6px);                               /* Desenfoca el contenido detrás del overlay */
+    -webkit-backdrop-filter: blur(6px);                       /* Mismo efecto para navegadores Safari/Chrome antiguos */
+    z-index: 2000;                                            /* Valor alto: aparece por encima de todo (cabecera z:1000, marcadores z:20) */
+    display: flex;                                            /* Activa flexbox para centrar el modal */
+    justify-content: center;                                  /* Centra el modal horizontalmente */
+    align-items: center;                                      /* Centra el modal verticalmente */
+    transition: opacity 0.3s ease, visibility 0.3s ease;      /* Animación suave de aparición/desaparición */
 }
 
-/* Contenedor relativo para superponer SVG sobre la imagen */
-.mapImageContainer {
-    position: relative;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
+.modal-overlay.hidden {        /* Estado del overlay cuando el modal está cerrado */
+    opacity: 0;                /* Transparente: invisible */
+    visibility: hidden;        /* Oculto para lectores de pantalla y tabulación */
+    pointer-events: none;      /* No intercepta clics cuando está oculto */
 }
 
-/* Imagen real del mapa */
-.mapImage {
-    display: block;
-    width: 100%;
-    height: auto;
+.info-modal {                                                   /* Cuadro blanco flotante con la información de la caseta */
+    position: relative;                                         /* Necesario para posicionar el botón de cierre (absolute) dentro */
+    width: 85%;                                                 /* Ocupa el 85% del ancho del overlay */
+    max-width: 1000px;                                          /* Ancho máximo en pantallas grandes */
+    height: 80vh;                                               /* Alto del 80% de la ventana: semi-pantalla completa */
+    background: var(--glass-bg);                                /* Fondo blanco casi opaco (variable --glass-bg) */
+    border: 1px solid var(--glass-border);                      /* Borde semitransparente para el efecto cristal */
+    border-radius: 24px;                                        /* Esquinas muy redondeadas */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);          /* Sombra intensa para sensación de profundidad */
+    transform: scale(1);                                        /* Escala normal cuando está visible */
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);  /* Animación elástica al aparecer/desaparecer */
+    overflow-y: auto;                                           /* Añade scroll vertical si el contenido supera el alto */
 }
 
-/* SVG interactivo superpuesto sobre la imagen */
-.mapSvgOverlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.modal-overlay.hidden .info-modal {
+    transform: scale(0.9); /* Cuando el modal está oculto, se encoge al 90% para dar efecto de cierre */
 }
 
-.mapItem {
-    fill: #eeeeee;
-    stroke: #cccccc;
-    stroke-width: 1;
-    cursor: pointer;
-    transition: fill 0.3s ease;
+.close-btn {                    /* Botón circular "×" para cerrar el modal */
+    position: absolute;         /* Se posiciona dentro de .info-modal (que es position:relative) */
+    top: 20px;                  /* Separación de 20px desde el borde superior del modal */
+    right: 20px;                /* Separación de 20px desde el borde derecho del modal */
+    background: #F3F4F6;        /* Fondo gris claro */
+    border: none;               /* Sin borde */
+    border-radius: 50%;         /* Forma circular */
+    width: 32px;                /* Ancho del botón */
+    height: 32px;               /* Alto del botón (igual al ancho = círculo) */
+    display: flex;              /* Flexbox para centrar el icono × */
+    align-items: center;        /* Centra verticalmente */
+    justify-content: center;    /* Centra horizontalmente */
+    font-size: 1.2rem;          /* Tamaño del símbolo × */
+    cursor: pointer;            /* Cursor de mano */
+    color: #6B7280;             /* Color gris medio del símbolo × */
+    transition: all 0.2s ease;  /* Animación suave en hover */
 }
 
-.mapItem:hover {
-    fill: #bbdefb;
+.close-btn:hover {              /* Estado al pasar el ratón sobre el botón de cierre */
+    background: #E5E7EB;        /* Fondo gris ligeramente más oscuro */
+    color: var(--dark);         /* Icono más oscuro */
+    transform: scale(1.05);     /* Ligero aumento de tamaño */
 }
 
-.mapItem.active {
-    fill: var(--accentColor);
-    stroke: var(--secondaryColor);
+.modal-content {                /* Área de padding interior del modal donde va el texto */
+    padding: 2.5rem 2rem;       /* Espacio interior: 2.5rem arriba/abajo, 2rem a los lados */
 }
 
-/* Panel de Información (Superposición) */
-.detailsOverlay {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--white);
-    padding: 20px;
-    border-top: 5px solid var(--primaryColor);
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 100;
+.badge {                                                          /* Etiqueta de categoría (ej: "CASETA") */
+    background: linear-gradient(135deg, var(--primary), #818CF8); /* Degradado de morado oscuro a morado claro */
+    color: white;                                                 /* Texto blanco */
+    padding: 0.35rem 1rem;                                        /* Relleno compacto */
+    border-radius: 999px;                                         /* Forma de píldora */
+    font-size: 0.75rem;                                           /* Texto pequeño */
+    font-weight: 700;                                             /* Negrita */
+    text-transform: uppercase;                                    /* Todo en mayúsculas */
+    margin-bottom: 1.2rem;                                        /* Separación inferior respecto al título */
+    display: inline-block;                                        /* Necesario para que el padding funcione en un <span> */
 }
 
-.detailsOverlay.visible {
-    transform: translateY(0);
+.modal-content h2 {             /* Título principal (nombre de la caseta) dentro del modal */
+    font-size: 1.75rem;         /* Tamaño grande y destacado */
+    font-weight: 800;           /* Negrita máxima */
+    margin-bottom: 0.75rem;     /* Separación inferior */
+    color: var(--dark);         /* Color casi negro */
 }
 
-.closeOverlayBtn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
+.schedule {                     /* Bloque de horario con fondo gris */
+    color: #4B5563;             /* Color gris oscuro */
+    font-weight: 600;           /* Semi-negrita */
+    margin-bottom: 1.25rem;     /* Separación inferior */
+    display: flex;              /* Flexbox para alinear el icono 🕒 con el texto */
+    align-items: center;        /* Alinea verticalmente el icono con el texto */
+    gap: 0.5rem;                /* Espacio entre el icono y el texto */
+    background: #F3F4F6;        /* Fondo gris muy claro */
+    padding: 0.5rem 1rem;       /* Relleno interior */
+    border-radius: 8px;         /* Esquinas ligeramente redondeadas */
+    width: fit-content;         /* El bloque se ajusta al ancho del contenido (no ocupa todo el ancho) */
 }
 
-/* Pie de Página - Diseño Institucional según Imagen */
-.mainFooter {
-    padding: 15px;
-    margin-top: 20px;
+.description {                          /* Párrafo de descripción de la caseta */
+    color: #4B5563;                     /* Gris oscuro */
+    line-height: 1.7;                   /* Interlineado amplio para facilitar la lectura */
+    margin-bottom: 2rem;                /* Separación inferior */
+    padding-bottom: 2rem;               /* Relleno inferior para que la línea divisoria no esté pegada al texto */
+    border-bottom: 1px solid #E5E7EB;   /* Línea separadora entre la descripción y la programación */
+    font-size: 0.95rem;                 /* Tamaño de texto ligeramente reducido */
 }
 
-.footerContent {
-    background: linear-gradient(to right, #00599f, #2989d8, #00599f);
-    padding: 12px 25px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--white);
-    font-size: 0.9rem;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+.modal-content h3 {             /* Subtítulo "Programación de Hoy" dentro del modal */
+    font-size: 1.1rem;          /* Tamaño ligeramente mayor al cuerpo */
+    font-weight: 700;           /* Negrita */
+    margin-bottom: 1.25rem;     /* Separación inferior antes de la lista */
+    color: var(--dark);         /* Color casi negro */
 }
 
-.footerLeft {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.programacion-list {            /* Lista <ul> de actividades programadas */
+    list-style: none;           /* Elimina los puntos/viñetas por defecto de la lista */
 }
 
-.footerIcon {
-    height: 30px;
-    width: auto;
+.programacion-list li {             /* Cada elemento <li> de la lista de actividades */
+    display: flex;                  /* Coloca hora y actividad en fila horizontal */
+    background: white;              /* Fondo blanco para destacar del fondo gris del modal */
+    padding: 1rem;                  /* Relleno interior */
+    border-radius: 12px;            /* Esquinas redondeadas */
+    margin-bottom: 0.75rem;         /* Separación entre items */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Sombra muy sutil */
+    border: 1px solid #F3F4F6;      /* Borde muy claro */
 }
 
-.footerHandle {
-    font-weight: 500;
+.prog-time {                /* Columna de la hora dentro de cada ítem de programación */
+    font-weight: 800;       /* Negrita máxima para destacar la hora */
+    color: var(--primary);  /* Color morado */
+    width: 65px;            /* Ancho fijo para que todas las horas estén alineadas */
+    flex-shrink: 0;         /* Evita que la columna de hora se comprima si el texto de actividad es largo */
 }
 
-.copyrightText {
-    font-weight: 600;
+.prog-act {             /* Columna de descripción de la actividad */
+    color: #374151;     /* Gris oscuro */
+    font-weight: 500;   /* Peso medio (entre normal y negrita) */
 }
 
-/* Estilos para los iconos móviles */
-.mobileIcons {
-    display: none;
+/* ─── PIE DE PÁGINA ────────────────────────────────────────────────────────── */
+.evento-footer {                         /* Banda inferior de la vista pública */
+    background-color: var(--white);      /* Fondo blanco */
+    padding: 1.5rem 2rem;                /* Relleno interior */
+    text-align: center;                  /* Centra el texto por defecto */
+    border-top: 1px solid #E5E7EB;       /* Línea separadora superior */
+    display: flex;                       /* Flexbox para separar texto e información */
+    justify-content: space-between;      /* Coloca el texto a la izquierda y el enlace a la derecha */
+    align-items: center;                 /* Alinea verticalmente al centro */
+    z-index: 1000;                       /* Por encima del mapa si hay superposición */
 }
 
-.iconSquare {
-    width: 35px;
-    height: 35px;
-    border: 1px solid rgba(255, 255, 255, 0.8); /* Borde más visible */
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--white);
-    font-size: 1.1rem;
+.evento-footer p {          /* Párrafo de texto informativo del pie */
+    color: #6B7280;         /* Gris medio */
+    font-size: 0.9rem;      /* Texto ligeramente más pequeño que el cuerpo */
+    font-weight: 500;       /* Peso medio */
 }
 
-/* Sección de enlaces arriba del footer azul */
-.footerLinksSection {
-    background: #fdfdfd;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 20px 0;
-    font-size: 0.8rem;
-    border-top: 1px solid #eee;
+.admin-link {                   /* Enlace de acceso al panel de administración */
+    color: var(--primary);      /* Color morado */
+    text-decoration: none;      /* Sin subrayado por defecto */
+    font-weight: 600;           /* Semi-negrita */
+    font-size: 0.9rem;          /* Mismo tamaño que el texto del pie */
 }
 
-.footerLinksSection a {
-    text-decoration: none;
-    color: #444;
-    font-weight: 500;
+.admin-link:hover {             /* Estado al pasar el ratón sobre el enlace de administración */
+    text-decoration: underline; /* Subrayado solo en hover para indicar que es un enlace */
 }
 
-/* Ajustes para móviles (Distribución con logo grande y alineación clara) */
-@media (max-width: 600px) {
-    .mainHeader, .mainFooter {
-        padding: 5px;
-    }
-
-    .headerContent {
-        padding: 8px 12px;
-        min-height: 80px;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .headerLeft {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-shrink: 0;
-    }
-
-    .headerShield {
-        height: 55px; /* Logo más grande como se pidió */
-    }
-
-    .headerText {
-        font-size: 0.7rem;
-        line-height: 1.1;
-        margin-right: 10px; /* Espacio entre título y búsqueda */
-    }
-
-    .headerRight {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: center;
-        gap: 5px;
-    }
-
-    .searchContainer {
-        height: 22px;
-        width: 100%;
-        max-width: 150px;
-    }
-
-    .searchInput {
-        font-size: 0.5rem;
-        padding: 0 3px;
-    }
-
-    .searchBtn {
-        padding: 0 3px;
-        font-size: 0.5rem;
-        gap: 2px;
-    }
-
-    .headerNav {
-        display: flex;
-        gap: 4px;
-        font-size: 0.45rem; /* Fuente extremadamente pequeña para que quepa */
-        letter-spacing: -0.2px;
-    }
-
-    .navDivider {
-        font-size: 0.45rem;
-    }
-
-    .eventTitleSection {
-        padding: 6px;
-        margin: 0 10px 10px 10px;
-    }
-
-    .eventTitle {
-        font-size: 0.85rem;
-    }
-
-    /* Footer móvil */
-    .footerContent {
-        padding: 6px 12px;
-        min-height: 35px;
-        border-radius: 6px;
-    }
-
-    .footerIcon {
-        height: 16px;
-    }
-
-    .footerHandle, .copyrightText {
-        font-size: 0.55rem;
-    }
+/* ─── NAVBAR (barra de administración) ─────────────────────────────────────── */
+/* Usada en admin.html en lugar de .evento-header                               */
+.navbar {                                                    /* Barra de navegación del panel de administración */
+    background-color: var(--white);                          /* Fondo blanco */
+    padding: 1rem 2rem;                                      /* Relleno interior */
+    display: flex;                                           /* Coloca logo y menú en fila */
+    justify-content: space-between;                          /* Logo a la izquierda, menú a la derecha */
+    align-items: center;                                     /* Alinea verticalmente */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);         /* Sombra suave inferior */
+    z-index: 1000;                                           /* Por encima de otros elementos */
 }
 
-/* Consulta de Medios para Escritorio */
-@media (min-width: 768px) {
-    .headerContent {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 10px 40px;
-        height: 100px;
-    }
+.navbar .logo {         /* Sobrescribe el ancho fijo de .logo para la navbar de admin */
+    font-size: 1.5rem;  /* Logo ligeramente más grande que en la cabecera de evento */
+    width: auto;        /* Ancho automático (sin el 150px fijo de .logo genérico) */
+}
 
-    .headerRight {
-        align-items: flex-end;
-        width: auto;
-    }
+.navbar nav a {                     /* Enlaces del menú de la navbar de admin */
+    text-decoration: none;          /* Sin subrayado */
+    color: #4B5563;                 /* Gris oscuro */
+    margin-left: 2rem;              /* Separación entre enlaces del menú */
+    font-weight: 600;               /* Semi-negrita */
+    font-size: 0.95rem;             /* Tamaño de texto */
+    transition: all 0.3s ease;      /* Transición suave en hover */
+}
 
-    .headerNav {
-        font-size: 0.85rem;
-    }
-    
-    .eventTitleSection {
-        padding: 20px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+.navbar nav a:hover {           /* Estado al pasar el ratón sobre un enlace del menú */
+    color: var(--primary);      /* Cambia a color morado */
+}
 
-    .eventTitle {
-        text-align: left;
-    }
 
-    .mapWrapper {
-        padding: 30px;
-    }
+/* ─── PANEL DE ADMINISTRACIÓN ──────────────────────────────────────────────── */
+.admin-body {                                                        /* Fondo del body exclusivo de admin.html */
+    background: linear-gradient(135deg, #EEF2FF 0%, #F8FAFC 100%);  /* Degradado suave de azul lavanda a blanco grisáceo */
+}
+
+.admin-container {          /* Contenedor principal del panel; centra la tarjeta de formulario */
+    flex: 1;                /* Ocupa todo el espacio vertical entre la navbar y el borde */
+    display: flex;          /* Flexbox para centrar */
+    justify-content: center; /* Centra horizontalmente la tarjeta */
+    align-items: center;    /* Centra verticalmente la tarjeta */
+    padding: 3rem 2rem;     /* Relleno para que la tarjeta no toque los bordes en pantallas pequeñas */
+}
+
+.glass-card {                                              /* Tarjeta blanca con efecto de elevación */
+    background: white;                                     /* Fondo blanco sólido */
+    padding: 3rem;                                         /* Relleno interior generoso */
+    border-radius: 24px;                                   /* Esquinas muy redondeadas */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);    /* Sombra grande pero muy sutil */
+    width: 100%;                                           /* Ocupa todo el ancho disponible */
+    max-width: 450px;                                      /* Ancho máximo para no ser demasiado ancha en escritorio */
+    border: 1px solid #F3F4F6;                             /* Borde muy claro */
+}
+
+.dashboard-card {       /* Modificador que amplía el ancho máximo para el panel de edición de caseta */
+    max-width: 650px;   /* Más ancho que .glass-card para acomodar el formulario completo */
+}
+
+.glass-card h2 {            /* Título principal dentro de la tarjeta */
+    text-align: center;     /* Centrado */
+    margin-bottom: 2.5rem;  /* Separación inferior generosa antes del formulario */
+    color: var(--dark);     /* Color casi negro */
+    font-weight: 800;       /* Negrita máxima */
+}
+
+.form-group {               /* Envuelve cada pareja etiqueta + campo del formulario */
+    margin-bottom: 1.5rem;  /* Separación vertical entre grupos de campos */
+}
+
+.form-group label {         /* Etiqueta descriptiva de cada campo */
+    display: block;         /* Ocupa su propia línea (no va inline con el input) */
+    margin-bottom: 0.5rem;  /* Pequeña separación entre la etiqueta y el campo */
+    font-weight: 600;       /* Semi-negrita */
+    color: #4B5563;         /* Gris oscuro */
+    font-size: 0.875rem;    /* Texto ligeramente más pequeño que el cuerpo */
+}
+
+.form-group input, .form-group textarea { /* Estilos aplicados a todos los inputs y textareas del formulario */
+    width: 100%;                          /* Ocupa todo el ancho del grupo */
+    padding: 0.875rem 1.25rem;            /* Relleno interior cómodo */
+    border: 1px solid #D1D5DB;            /* Borde gris claro */
+    border-radius: 12px;                  /* Esquinas redondeadas */
+    font-size: 1rem;                      /* Tamaño de texto estándar */
+    transition: all 0.2s ease;            /* Animación suave al enfocar */
+    background: #F9FAFB;                  /* Fondo gris muy claro cuando está sin foco */
+}
+
+.form-group input:focus, .form-group textarea:focus { /* Estado cuando el usuario hace clic en un campo */
+    outline: none;                                    /* Elimina el borde azul por defecto del navegador */
+    border-color: var(--primary);                     /* Borde morado al enfocar */
+    background: white;                                /* Fondo blanco al enfocar */
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);    /* Halo morado semitransparente alrededor del campo */
+}
+
+button {                        /* Estilos base aplicados a TODOS los botones de la aplicación */
+    width: 100%;                /* Ocupa todo el ancho disponible por defecto */
+    padding: 1rem 1.5rem;       /* Relleno interior generoso (cómodo en móvil) */
+    border: none;               /* Sin borde */
+    border-radius: 12px;        /* Esquinas redondeadas */
+    font-size: 1rem;            /* Tamaño de texto estándar */
+    font-weight: 700;           /* Negrita */
+    cursor: pointer;            /* Cursor de mano */
+    transition: all 0.2s ease;  /* Animación suave en hover */
+}
+
+.btn-primary {                                                    /* Botón de acción principal (morado) */
+    background: linear-gradient(135deg, var(--primary), #6366F1); /* Degradado de morado oscuro a morado claro */
+    color: white;                                                 /* Texto blanco */
+}
+
+.btn-success {                                                      /* Botón de guardado/éxito (verde) */
+    background: linear-gradient(135deg, var(--secondary), #059669); /* Degradado de verde esmeralda a verde oscuro */
+    color: white;                                                   /* Texto blanco */
+    margin-top: 1.5rem;                                             /* Separación superior para aislarlo de los campos */
+}
+
+.btn-secondary {                    /* Botón secundario (gris claro, acción no destructiva) */
+    background-color: #F3F4F6;      /* Fondo gris muy claro */
+    color: #4B5563;                 /* Texto gris oscuro */
+}
+
+.btn-danger {                       /* Botón de eliminación (fondo rojo claro) */
+    background-color: #FEE2E2;      /* Fondo rojo muy pálido */
+    color: var(--danger);           /* Texto en rojo intenso */
+    width: auto;                    /* Sobrescribe el width:100% base; se ajusta al contenido */
+    padding: 0.5rem 1rem;           /* Relleno más compacto que el botón base */
+}
+
+.programacion-editor {              /* Bloque contenedor del editor de actividades en admin.html */
+    background: #F8FAFC;            /* Fondo gris muy claro para diferenciarlo del formulario principal */
+    padding: 1.5rem;                /* Relleno interior */
+    border-radius: 16px;            /* Esquinas redondeadas */
+    border: 1px solid #E2E8F0;      /* Borde gris suave */
+    margin-bottom: 1.5rem;          /* Separación inferior antes del botón de guardar */
+}
+
+.programacion-editor h3 {   /* Subtítulo "Programación de Hoy" dentro del editor */
+    margin-bottom: 1.25rem; /* Separación inferior antes de las filas de actividades */
+}
+
+.prog-item {                /* Fila individual de actividad: hora + campo de texto + botón X */
+    display: flex;          /* Coloca los tres elementos en fila horizontal */
+    gap: 0.75rem;           /* Separación entre los elementos de la fila */
+    margin-bottom: 1rem;    /* Separación entre filas de actividad */
+}
+
+.time-input {                   /* Campo de hora dentro de cada fila de programación */
+    width: 110px !important;    /* Ancho fijo reducido; !important necesario para sobrescribir el width:100% de .form-group input */
+}
+
+.act-input {    /* Campo de actividad dentro de cada fila de programación */
+    flex: 1;    /* Ocupa todo el espacio restante de la fila después del campo de hora y el botón X */
+}
+
+/* ─── UTILIDADES ────────────────────────────────────────────────────────────── */
+.hidden {                   /* Clase utilitaria para ocultar elementos completamente */
+    display: none !important; /* !important asegura que esta regla tiene prioridad sobre cualquier otra display */
 }
