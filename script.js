@@ -1,8 +1,12 @@
 /**
  * script.js
  * 
+<<<<<<< Updated upstream
  * Lógica para la aplicación del Mapa de Eventos de Algeciras.
  * Desarrollado con nombres de variables en inglés para reusabilidad, pero con contenido en español para los usuarios.
+=======
+ * Lógica de interacción institucional: Búsqueda Interactiva.
+>>>>>>> Stashed changes
  */
 
 // Importar la configuración compartida de Firebase

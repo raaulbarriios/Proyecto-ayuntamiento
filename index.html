@@ -14,6 +14,7 @@
 
     <!-- 1. Cabecera Institucional (Diseño según imagen oficial) -->
     <header class="mainHeader" role="banner">
+<<<<<<< Updated upstream
         <div class="headerContent">
             <div class="headerLeft">
                 <div class="shieldWrapper">
@@ -36,6 +37,47 @@
                     <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar" aria-label="Buscar caseta">
                     <button id="searchTrigger" class="searchBtn" aria-label="Botón de buscar">
                         <span class="searchIcon">🔍</span> Buscar
+=======
+        <div class="headerContent" id="headerMainBox">
+            <div class="headerTopRow">
+                <div class="mobilePlaceholder"></div>
+
+                <!-- Centro: Logo Institucional -->
+                <div class="headerLeft">
+                    <img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras" class="mainLogoImg">
+                </div>
+                
+                <!-- Derecha: Botón de Interacción (Búsqueda) -->
+                <div class="headerRight">
+                    <div class="mobileActions">
+                        <button id="toggleSearch" class="mobileBtnSquare" aria-label="Buscar">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="desktopOnly">
+                        <div class="searchContainer">
+                            <input type="text" class="searchInput" placeholder="Texto a buscar">
+                            <button class="searchBtn"><i class="fas fa-search"></i> Buscar</button>
+                        </div>
+                        <nav class="headerNav">
+                            <a href="#">TEMAS</a>
+                            <span class="navDivider">|</span>
+                            <a href="#">AYUNTAMIENTO</a>
+                            <span class="navDivider">|</span>
+                            <a href="#">LA CIUDAD</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fila de Búsqueda Móvil (Aparece al pulsar la lupa) -->
+            <div id="searchRow" class="searchRowMobile">
+                <div class="searchInlineBox">
+                    <input type="text" id="mobileSearchInput" placeholder="Texto a buscar" aria-label="Texto a buscar">
+                    <button id="mobileSearchBtn">
+                        <i class="fas fa-search"></i> Buscar
+>>>>>>> Stashed changes
                     </button>
                 </div>
                 <!-- Navegación de la Cabecera -->

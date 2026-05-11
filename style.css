@@ -1,7 +1,12 @@
 /* 
+<<<<<<< Updated upstream
    Proyecto: Mapa de Eventos Interactivo - Ayuntamiento de Algeciras
    Estándar: Normativa Web Municipal
    Prioridad: Mobile-First (Móvil primero)
+=======
+   Proyecto: Mapa de la Feria Real - Ayuntamiento de Algeciras
+   Ajustes: Reversión a estado anterior (Inter Medium + Logo Blanco)
+>>>>>>> Stashed changes
 */
 
 /* Reseteo y Estilos Globales */
@@ -39,12 +44,38 @@ main.mapWrapper {
 /* Cabecera - Diseño Algeciras según imagen oficial */
 .mainHeader {
     padding: 10px 15px;
+<<<<<<< Updated upstream
 }
 
 .headerContent {
     background: linear-gradient(to right, #00599f, #2989d8, #00599f);
     padding: 10px 20px;
     border-radius: 12px; /* Redondeado según boceto */
+=======
+    position: relative;
+    z-index: 1000;
+}
+
+.headerContent {
+    background: var(--blueGradient);
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+    .headerContent {
+        padding: 15px 10px;
+    }
+}
+
+.headerTopRow {
+>>>>>>> Stashed changes
     display: flex;
     flex-direction: row; /* Desktop por defecto */
     justify-content: space-between;
@@ -60,12 +91,40 @@ main.mapWrapper {
     gap: 15px;
 }
 
+<<<<<<< Updated upstream
 .shieldWrapper {
     width: 60px;
     height: 70px;
     overflow: hidden;
     display: flex;
     justify-content: center;
+=======
+.mainLogoImg {
+    height: 75px;
+    width: auto;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
+    transition: height 0.3s ease;
+}
+
+.mobileActions {
+    display: flex;
+    gap: 8px;
+}
+
+.mobileBtnSquare {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: white;
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.2s;
+>>>>>>> Stashed changes
 }
 
 .headerShield {
@@ -74,7 +133,64 @@ main.mapWrapper {
     transform: translateY(-5px);
 }
 
+<<<<<<< Updated upstream
 .headerText {
+=======
+.searchRowMobile {
+    display: none;
+    padding-top: 5px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.searchRowMobile.active {
+    display: block;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.searchInlineBox {
+    display: flex;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 45px;
+}
+
+#mobileSearchInput {
+    flex: 1;
+    border: none;
+    padding: 0 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: #333;
+    outline: none;
+}
+
+#mobileSearchBtn {
+    background: var(--accentBlue);
+    color: white;
+    border: none;
+    padding: 0 18px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Desktop Styles (Ocultos por defecto si la pantalla es pequeña) */
+@media (min-width: 1025px) {
+    .mobileActions, .mobilePlaceholder, .searchRowMobile {
+        display: none !important;
+    }
+}
+
+.desktopOnly {
+>>>>>>> Stashed changes
     display: flex;
     flex-direction: column;
     font-size: 1.6rem;
@@ -143,6 +259,7 @@ main.mapWrapper {
     text-decoration: none;
 }
 
+<<<<<<< Updated upstream
 .headerNav a:hover {
     text-decoration: underline;
 }
@@ -152,6 +269,13 @@ main.mapWrapper {
 }
 
 /* Identidad del Evento */
+=======
+.navDivider {
+    color: rgba(255,255,255,0.4);
+}
+
+/* --- EVENT TITLE --- */
+>>>>>>> Stashed changes
 .eventTitleSection {
     background: var(--white);
     padding: 12px 20px;
@@ -192,6 +316,7 @@ main.mapWrapper {
     height: auto;
 }
 
+<<<<<<< Updated upstream
 /* SVG interactivo superpuesto sobre la imagen */
 .mapSvgOverlay {
     position: absolute;
@@ -248,6 +373,9 @@ main.mapWrapper {
 }
 
 /* Pie de Página - Diseño Institucional según Imagen */
+=======
+/* --- PIE DE PÁGINA --- */
+>>>>>>> Stashed changes
 .mainFooter {
     padding: 15px;
     margin-top: 20px;
@@ -272,7 +400,11 @@ main.mapWrapper {
 }
 
 .footerIcon {
+<<<<<<< Updated upstream
     height: 30px;
+=======
+    height: 25px;
+>>>>>>> Stashed changes
     width: auto;
 }
 
@@ -281,6 +413,7 @@ main.mapWrapper {
 }
 
 .copyrightText {
+<<<<<<< Updated upstream
     font-weight: 600;
 }
 
@@ -332,6 +465,34 @@ main.mapWrapper {
         justify-content: space-between;
         align-items: center;
         gap: 10px;
+=======
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* --- RESPONSIVIDAD (Aparece el botón de búsqueda interactivo) --- */
+@media (max-width: 1024px) {
+    .desktopOnly {
+        display: none;
+    }
+
+    .mobilePlaceholder {
+        display: block;
+        width: 45px; /* Reajustado para un solo botón (lupa) para centrar el logo */
+    }
+
+    .headerContent {
+        padding: 12px 15px;
+    }
+
+    .mainLogoImg {
+        height: 55px;
+    }
+
+    .footerContent {
+        flex-direction: row;
+        justify-content: space-between;
+>>>>>>> Stashed changes
     }
 
     .headerLeft {
@@ -413,6 +574,7 @@ main.mapWrapper {
     }
 }
 
+<<<<<<< Updated upstream
 /* Consulta de Medios para Escritorio */
 @media (min-width: 768px) {
     .headerContent {
@@ -444,5 +606,11 @@ main.mapWrapper {
 
     .mapWrapper {
         padding: 30px;
+=======
+@media (max-width: 480px) {
+    .footerContent {
+        flex-direction: column;
+        gap: 8px;
+>>>>>>> Stashed changes
     }
 }
