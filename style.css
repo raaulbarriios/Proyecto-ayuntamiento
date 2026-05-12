@@ -1,40 +1,71 @@
 /* 
-   Proyecto: Mapa de la Feria Real - Ayuntamiento de Algeciras
-   Estado: Restaurado a versión funcional previa
+   ==========================================================================
+   PROYECTO: Mapa de la Feria Real - Ayuntamiento de Algeciras
+   ==========================================================================
+   Descripción: Estilos globales y componentes principales del frontend.
+   Arquitectura: CSS Modular y organizado, enfocado en Accesibilidad (WCAG).
+   Normativa: Basado en el Manual de Identidad Visual Corporativa.
 */
 
-/* Reseteo y Estilos Globales */
-* {
+/* --- 1. VARIABLES INSTITUCIONALES Y THEME --- */
+:root {
+    /* Colores Institucionales (Pantone - Manual de Identidad) */
+    --color-pantone-116c: #ffcd00; /* Amarillo Escudo */
+    --color-pantone-485c: #da291c; /* Rojo Escudo */
+    --color-pantone-355c: #009639; /* Verde Escudo */
+    --color-pantone-285c: #0072ce; /* Azul Escudo */
+    --color-pantone-123c: #ffc72c; /* Amarillo Bandera */
+    --color-pantone-293c: #003da5; /* Azul Bandera */
+    --color-azul-digital: rgb(3, 123, 180); /* Azul Digital Específico */
+
+    /* Colores Funcionales (UI) */
+    --color-dark-blue: #002d55;
+    --color-accent-blue: #00599f;
+    --color-white: #ffffff;
+    --color-light-gray: #f5f5f5;
+    --color-text: #333333;
+    
+    /* Degradados y Sombras */
+    --gradient-header: linear-gradient(to right, #00599f, #2989d8, #00599f);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.15);
+    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    /* Accesibilidad (Focus) */
+    --focus-ring-color: #ffc72c; /* Amarillo institucional para alto contraste */
+}
+
+/* --- 2. RESET Y ESTILOS GLOBALES --- */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-:root {
-    --blueGradient: linear-gradient(to right, #00599f, #2989d8, #00599f);
-    --darkBlue: #002d55;
-    --accentBlue: #00599f;
-    --white: #ffffff;
-    --lightGray: #f5f5f5;
-    --textColor: #333333;
-    --shadow: 0 4px 15px rgba(0,0,0,0.15);
-}
-
 body {
-    font-family: 'Inter', sans-serif;
-    color: var(--textColor);
-    background-color: var(--lightGray);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--color-text);
+    background-color: var(--color-light-gray);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    /* Suavizado de fuentes para mejor legibilidad */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- CABECERA INSTITUCIONAL (NORMATIVA ALGECIRAS) --- */
+/* Accesibilidad: Estilos de foco global para navegación por teclado */
+:focus-visible {
+    outline: 3px solid var(--focus-ring-color);
+    outline-offset: 2px;
+}
+
+/* --- 3. CABECERA INSTITUCIONAL (HEADER) --- */
 .mainHeader {
-    background: var(--blueGradient);
+    background: var(--gradient-header);
     padding: 10px 20px;
-    box-shadow: var(--shadow);
-    color: var(--white);
+    box-shadow: var(--shadow-md);
+    color: var(--color-white);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -55,6 +86,7 @@ body {
     min-height: 60px;
 }
 
+/* 3.1 Logo */
 .logoContainer {
     display: flex;
     align-items: center;
@@ -65,60 +97,67 @@ body {
     width: auto;
 }
 
+/* 3.2 Acciones Móvil (Buscador) */
 .mobileActions {
     display: flex;
     gap: 10px;
 }
 
-.desktopHeaderActions {
-    display: none; /* Oculto en móvil */
-}
-
-/* Botones de Acción Móvil */
 .mobileBtn {
     width: 44px;
     height: 44px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 6px;
-    font-size: 1.1rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.outlineBtn {
-    background: transparent;
-    color: var(--white);
-    border: 1px solid rgba(255,255,255,0.8);
-}
-
-/* Estado activo según imagen 3 */
-.mobileBtn.active {
-    background: #001d36;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, background-color 0.3s ease;
+    background: var(--color-white);
+    color: var(--color-accent-blue);
     border: none;
+    box-shadow: var(--shadow-sm);
 }
 
-/* Buscador Móvil Desplegable */
+.mobileBtn:hover, 
+.mobileBtn:active {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.mobileBtn.active {
+    background: var(--color-light-gray);
+    color: var(--color-dark-blue);
+    transform: scale(0.95);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* 3.3 Buscador Móvil Desplegable */
 .searchRowMobile {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out, padding 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.4s ease, 
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
 }
 
 .searchRowMobile.active {
     max-height: 120px;
     padding: 15px 0 8px 0;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .searchInlineBox {
     display: flex;
-    background: var(--white);
-    border-radius: 4px;
+    background: var(--color-white);
+    border-radius: 8px;
     overflow: hidden;
-    height: 44px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    height: 48px;
+    box-shadow: var(--shadow-md);
 }
 
 .searchInlineBox input {
@@ -129,12 +168,12 @@ body {
     font-weight: 500;
     font-size: 1rem;
     outline: none;
-    color: #333;
+    color: var(--color-text);
 }
 
 .mobileSearchActionBtn {
-    background: #005691;
-    color: var(--white);
+    background: var(--color-accent-blue);
+    color: var(--color-white);
     border: none;
     padding: 0 20px;
     font-weight: 600;
@@ -142,83 +181,81 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    transition: background-color 0.3s ease;
 }
 
-/* --- DISEÑO ESCRITORIO (IMAGEN 1) --- */
-@media (min-width: 992px) {
-    .headerTopRow {
-        min-height: 90px;
-    }
-
-    .mainLogoImg {
-        height: 65px;
-    }
-
-    .mobileActions {
-        display: none;
-    }
-
-    .desktopHeaderActions {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 12px;
-        flex: 1;
-    }
-
-    .searchContainer {
-        display: flex;
-        background: var(--white);
-        border-radius: 4px;
-        overflow: hidden;
-        height: 40px;
-        width: 350px;
-    }
-
-    .searchInput {
-        flex: 1;
-        border: none;
-        padding: 0 15px;
-        outline: none;
-        font-family: 'Inter', sans-serif;
-        font-weight: 500;
-    }
-
-    .searchBtn {
-        background: #005691;
-        color: var(--white);
-        border: none;
-        padding: 0 20px;
-        cursor: pointer;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .headerNav {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .headerNav a {
-        color: var(--white);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .navDivider {
-        color: rgba(255,255,255,0.4);
-    }
+.mobileSearchActionBtn:hover, 
+.mobileSearchActionBtn:active {
+    background: var(--color-dark-blue);
 }
 
-/* --- EVENT TITLE --- */
+/* 3.4 Acciones Escritorio (Ocultas en móvil por defecto) */
+.desktopHeaderActions {
+    display: none;
+}
+
+.searchContainer {
+    display: flex;
+    background: var(--color-white);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 40px;
+    width: 350px;
+}
+
+.searchInput {
+    flex: 1;
+    border: none;
+    padding: 0 15px;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+.searchBtn {
+    background: var(--color-accent-blue);
+    color: var(--color-white);
+    border: none;
+    padding: 0 20px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.searchBtn:hover {
+    background: var(--color-dark-blue);
+}
+
+.headerNav {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.headerNav a {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.headerNav a:hover {
+    text-decoration: underline;
+}
+
+.navDivider {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* --- 4. CONTENIDO PRINCIPAL --- */
+/* 4.1 Identidad del Evento */
 .eventTitleSection {
-    background: var(--white);
+    background: var(--color-white);
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
@@ -226,12 +263,12 @@ body {
 
 .eventTitle {
     font-size: 1.8rem;
-    color: var(--accentBlue);
+    color: var(--color-accent-blue);
     text-transform: uppercase;
     font-weight: 800;
 }
 
-/* --- MAPA INTERACTIVO --- */
+/* 4.2 Mapa Interactivo */
 .mapWrapper {
     flex: 1;
     padding: 20px;
@@ -264,29 +301,32 @@ body {
 
 .mapItem {
     fill: rgba(255, 255, 255, 0.3);
-    stroke: var(--white);
+    stroke: var(--color-white);
     stroke-width: 2;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.mapItem:hover {
-    fill: rgba(0, 89, 159, 0.5);
-    stroke: var(--accentBlue);
+.mapItem:hover,
+.mapItem:focus-visible {
+    fill: rgba(0, 89, 159, 0.5); /* var(--color-accent-blue) con opacidad */
+    stroke: var(--color-accent-blue);
+    outline: none; /* Controlado por el fill/stroke */
 }
 
-/* --- PANEL DE DETALLES --- */
+/* --- 5. PANEL DE DETALLES (LATERAL) --- */
 .detailsOverlay {
     position: fixed;
     top: 0;
-    right: -400px;
+    right: -400px; /* Oculto por defecto fuera de pantalla */
     width: 350px;
     height: 100vh;
-    background: var(--white);
+    background: var(--color-white);
     box-shadow: -5px 0 20px rgba(0,0,0,0.1);
     z-index: 2000;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 30px;
+    overflow-y: auto; /* Permite scroll interno si el contenido excede la altura */
 }
 
 .detailsOverlay.active {
@@ -302,14 +342,24 @@ body {
     font-size: 2rem;
     cursor: pointer;
     color: #999;
+    transition: color 0.2s ease;
 }
 
-/* --- PIE DE PÁGINA (NORMATIVA ALGECIRAS) --- */
+.closeOverlayBtn:hover,
+.closeOverlayBtn:focus-visible {
+    color: var(--color-text);
+}
+
+.casetaInfo {
+    margin-top: 15px;
+}
+
+/* --- 6. PIE DE PÁGINA (FOOTER) --- */
 .mainFooter {
     margin-top: auto;
-    background: var(--blueGradient);
+    background: var(--gradient-header);
     padding: 14px 20px;
-    color: var(--white);
+    color: var(--color-white);
 }
 
 .footerContent {
@@ -350,16 +400,49 @@ body {
     opacity: 0.85;
 }
 
-/* --- RESPONSIVIDAD --- */
+/* --- 7. MEDIA QUERIES (RESPONSIVE) --- */
+
+/* 7.1 Móvil Pequeño */
 @media (max-width: 480px) {
     .detailsOverlay {
         width: 100%;
-        right: -100%;
+        right: -100%; /* Ajuste para ocupar todo el ancho en móvil */
     }
 
     .footerContent {
         flex-direction: column;
         gap: 8px;
         text-align: center;
+    }
+}
+
+/* 7.2 Escritorio / Tablets Grandes (min-width: 992px) */
+@media (min-width: 992px) {
+    /* Cabecera */
+    .headerTopRow {
+        min-height: 90px;
+    }
+
+    .mainLogoImg {
+        height: 65px;
+    }
+
+    /* Ocultar acciones exclusivas de móvil */
+    .mobileActions {
+        display: none;
+    }
+
+    /* Evitar que el buscador móvil se muestre si se redimensiona la ventana estando activo */
+    .searchRowMobile {
+        display: none !important;
+    }
+
+    /* Mostrar acciones de escritorio */
+    .desktopHeaderActions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 12px;
+        flex: 1;
     }
 }

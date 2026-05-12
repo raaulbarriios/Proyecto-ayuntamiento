@@ -7,7 +7,7 @@
     <!-- Google Fonts: Inter (Medium 500) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome 5.15.4 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -20,38 +20,43 @@
             <!-- Fila Superior: Logo y Acciones -->
             <div class="headerTopRow">
                 <div class="logoContainer">
-                    <img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras" class="mainLogoImg">
+                    <a href="#" aria-label="Ir a la página principal del Ayuntamiento de Algeciras">
+                        <img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Logotipo del Ayuntamiento de Algeciras" class="mainLogoImg">
+                    </a>
                 </div>
                 
                 <!-- Acciones Móvil -->
                 <div class="mobileActions">
-                    <button id="toggleMobileSearch" class="mobileBtn outlineBtn" aria-label="Abrir buscador">
-                        <i class="fas fa-search"></i>
+                    <button id="toggleMobileSearch" class="mobileBtn" aria-label="Abrir buscador" aria-expanded="false" aria-controls="mobileSearchRow">
+                        <i class="fas fa-search" aria-hidden="true"></i>
                     </button>
                 </div>
 
                 <!-- Acciones Desktop -->
                 <div class="desktopHeaderActions">
-                    <div class="searchContainer">
-                        <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar">
-                        <button id="searchTrigger" class="searchBtn"><i class="fas fa-search"></i> <span class="searchBtnText">Buscar</span></button>
+                    <div class="searchContainer" role="search">
+                        <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar" aria-label="Buscar en el sitio">
+                        <button id="searchTrigger" class="searchBtn" aria-label="Ejecutar búsqueda">
+                            <i class="fas fa-search" aria-hidden="true"></i> 
+                            <span class="searchBtnText">Buscar</span>
+                        </button>
                     </div>
-                    <nav class="headerNav">
+                    <nav class="headerNav" aria-label="Navegación principal">
                         <a href="#">TEMAS</a>
-                        <span class="navDivider">|</span>
+                        <span class="navDivider" aria-hidden="true">|</span>
                         <a href="#">AYUNTAMIENTO</a>
-                        <span class="navDivider">|</span>
+                        <span class="navDivider" aria-hidden="true">|</span>
                         <a href="#">LA CIUDAD</a>
                     </nav>
                 </div>
             </div>
 
             <!-- Fila Inferior (Buscador Móvil Desplegable) -->
-            <div id="mobileSearchRow" class="searchRowMobile" aria-hidden="true">
+            <div id="mobileSearchRow" class="searchRowMobile" aria-hidden="true" role="search">
                 <div class="searchInlineBox">
-                    <input type="text" id="mobileSearchInput" placeholder="Texto a buscar">
-                    <button id="mobileSearchAction" class="mobileSearchActionBtn">
-                        <i class="fas fa-search"></i> Buscar
+                    <input type="text" id="mobileSearchInput" placeholder="Texto a buscar" aria-label="Buscar en el sitio versión móvil">
+                    <button id="mobileSearchAction" class="mobileSearchActionBtn" aria-label="Ejecutar búsqueda">
+                        <i class="fas fa-search" aria-hidden="true"></i> Buscar
                     </button>
                 </div>
             </div>
@@ -59,40 +64,41 @@
     </header>
 
     <!-- 2. Identidad del Evento -->
-    <section class="eventTitleSection">
-        <h1 class="eventTitle">Feria Real de Algeciras 2026</h1>
+    <section class="eventTitleSection" aria-labelledby="mainTitle">
+        <h1 id="mainTitle" class="eventTitle">Feria Real de Algeciras 2026</h1>
     </section>
 
     <!-- 3. Mapa Interactivo -->
-    <main class="mapWrapper">
+    <main class="mapWrapper" role="main">
         <div class="mapImageContainer">
-            <img src="fotos/mapa_evento.jpg" alt="Mapa de la Feria Real de Algeciras 2026" class="mapImage">
-            <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" class="mapSvgOverlay">
+            <img src="fotos/mapa_evento.jpg" alt="Mapa visual de la Feria Real de Algeciras 2026" class="mapImage">
+            <!-- Capa interactiva SVG accesible por teclado -->
+            <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" class="mapSvgOverlay" aria-label="Mapa interactivo de casetas" role="application">
                 <!-- Casetas (Ejemplos) -->
-                <rect x="100" y="150" width="60" height="40" class="mapItem" data-name="Caseta Los Amigos" data-street="Calle Principal, 12"></rect>
-                <rect x="200" y="200" width="60" height="40" class="mapItem" data-name="Caseta La Alegría" data-street="Avenida del Real, 5"></rect>
-                <rect x="350" y="120" width="80" height="50" class="mapItem" data-name="Caseta Municipal" data-street="Plaza Mayor, 1"></rect>
-                <rect x="500" y="300" width="70" height="45" class="mapItem" data-name="Peña El Estribo" data-street="Calle del Sol, 24"></rect>
+                <rect x="100" y="150" width="60" height="40" class="mapItem" tabindex="0" role="button" aria-label="Caseta Los Amigos en Calle Principal, 12" data-name="Caseta Los Amigos" data-street="Calle Principal, 12"></rect>
+                <rect x="200" y="200" width="60" height="40" class="mapItem" tabindex="0" role="button" aria-label="Caseta La Alegría en Avenida del Real, 5" data-name="Caseta La Alegría" data-street="Avenida del Real, 5"></rect>
+                <rect x="350" y="120" width="80" height="50" class="mapItem" tabindex="0" role="button" aria-label="Caseta Municipal en Plaza Mayor, 1" data-name="Caseta Municipal" data-street="Plaza Mayor, 1"></rect>
+                <rect x="500" y="300" width="70" height="45" class="mapItem" tabindex="0" role="button" aria-label="Peña El Estribo en Calle del Sol, 24" data-name="Peña El Estribo" data-street="Calle del Sol, 24"></rect>
             </svg>
         </div>
     </main>
 
     <!-- 4. Panel de Detalles (Lateral) -->
-    <div id="infoOverlay" class="detailsOverlay" aria-hidden="true">
-        <button id="closePanelBtn" class="closeOverlayBtn" aria-label="Cerrar panel">&times;</button>
+    <aside id="infoOverlay" class="detailsOverlay" aria-hidden="true" aria-labelledby="displayName" role="dialog">
+        <button id="closePanelBtn" class="closeOverlayBtn" aria-label="Cerrar panel de información">&times;</button>
         <h2 id="displayName">Nombre de la Caseta</h2>
         <p id="displayLocation">Ubicación: Calle Principal</p>
         <hr>
         <div class="casetaInfo">
-            <p><i class="fas fa-info-circle"></i> Información detallada sobre la caseta seleccionada.</p>
+            <p><i class="fas fa-info-circle" aria-hidden="true"></i> Información detallada sobre la caseta seleccionada.</p>
         </div>
-    </div>
+    </aside>
 
     <!-- 5. Pie de Página -->
-    <footer class="mainFooter">
+    <footer class="mainFooter" role="contentinfo">
         <div class="footerContent">
             <div class="footerLeft">
-                <img src="fotos/Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png" alt="Escudo" class="footerIcon">
+                <img src="fotos/Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png" alt="Escudo simplificado del Ayuntamiento" class="footerIcon">
                 <span class="footerHandle">ayuntamientoalgeciras</span>
             </div>
             <div class="footerRight">
