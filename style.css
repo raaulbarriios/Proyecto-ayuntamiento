@@ -5,7 +5,11 @@
    Prioridad: Mobile-First (Móvil primero)
 =======
    Proyecto: Mapa de la Feria Real - Ayuntamiento de Algeciras
+<<<<<<< Updated upstream
    Ajustes: Reversión a estado anterior (Inter Medium + Logo Blanco)
+>>>>>>> Stashed changes
+=======
+   Estado: Restaurado a versión funcional previa
 >>>>>>> Stashed changes
 */
 
@@ -28,7 +32,10 @@
 
 body {
     font-family: 'Inter', sans-serif;
+<<<<<<< Updated upstream
     font-weight: 500;
+=======
+>>>>>>> Stashed changes
     color: var(--textColor);
     background-color: var(--lightGray);
     line-height: 1.6;
@@ -37,6 +44,7 @@ body {
     min-height: 100vh;
 }
 
+<<<<<<< Updated upstream
 main.mapWrapper {
     flex: 1; /* Ocupa el espacio restante */
 }
@@ -53,17 +61,25 @@ main.mapWrapper {
     border-radius: 12px; /* Redondeado según boceto */
 =======
     position: relative;
+=======
+/* --- CABECERA INSTITUCIONAL (NORMATIVA ALGECIRAS) --- */
+.mainHeader {
+    background: var(--blueGradient);
+    padding: 10px 20px;
+    box-shadow: var(--shadow);
+    color: var(--white);
+    position: sticky;
+    top: 0;
+>>>>>>> Stashed changes
     z-index: 1000;
 }
 
 .headerContent {
-    background: var(--blueGradient);
-    padding: 15px 20px;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    color: var(--white);
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
+<<<<<<< Updated upstream
     gap: 12px;
     transition: all 0.3s ease;
 }
@@ -72,6 +88,8 @@ main.mapWrapper {
     .headerContent {
         padding: 15px 10px;
     }
+=======
+>>>>>>> Stashed changes
 }
 
 .headerTopRow {
@@ -80,6 +98,7 @@ main.mapWrapper {
     flex-direction: row; /* Desktop por defecto */
     justify-content: space-between;
     align-items: center;
+<<<<<<< Updated upstream
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     color: var(--white);
     min-height: 80px;
@@ -89,6 +108,15 @@ main.mapWrapper {
     display: flex;
     align-items: center;
     gap: 15px;
+=======
+    width: 100%;
+    min-height: 60px;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+>>>>>>> Stashed changes
 }
 
 <<<<<<< Updated upstream
@@ -100,7 +128,11 @@ main.mapWrapper {
     justify-content: center;
 =======
 .mainLogoImg {
+<<<<<<< Updated upstream
     height: 75px;
+=======
+    height: 65px;
+>>>>>>> Stashed changes
     width: auto;
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
     transition: height 0.3s ease;
@@ -108,9 +140,10 @@ main.mapWrapper {
 
 .mobileActions {
     display: flex;
-    gap: 8px;
+    gap: 10px;
 }
 
+<<<<<<< Updated upstream
 .mobileBtnSquare {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.6);
@@ -118,11 +151,22 @@ main.mapWrapper {
     width: 42px;
     height: 42px;
     border-radius: 6px;
+=======
+.desktopHeaderActions {
+    display: none; /* Oculto en móvil */
+}
+
+/* Botones de Acción Móvil */
+.mobileBtn {
+    width: 44px;
+    height: 44px;
+>>>>>>> Stashed changes
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    border-radius: 6px;
     font-size: 1.1rem;
+<<<<<<< Updated upstream
     transition: background 0.2s;
 >>>>>>> Stashed changes
 }
@@ -140,10 +184,35 @@ main.mapWrapper {
     display: none;
     padding-top: 5px;
     animation: slideDown 0.3s ease-out;
+=======
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.outlineBtn {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.8);
+}
+
+/* Estado activo según imagen 3 */
+.mobileBtn.active {
+    background: #001d36;
+    border: none;
+}
+
+/* Buscador Móvil Desplegable */
+.searchRowMobile {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+    width: 100%;
+>>>>>>> Stashed changes
 }
 
 .searchRowMobile.active {
-    display: block;
+    max-height: 120px;
+    padding: 15px 0 8px 0;
 }
 
 @keyframes slideDown {
@@ -153,30 +222,46 @@ main.mapWrapper {
 
 .searchInlineBox {
     display: flex;
+<<<<<<< Updated upstream
     background: white;
     border-radius: 6px;
+=======
+    background: var(--white);
+    border-radius: 4px;
+>>>>>>> Stashed changes
     overflow: hidden;
-    height: 45px;
+    height: 44px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-#mobileSearchInput {
+.searchInlineBox input {
     flex: 1;
     border: none;
     padding: 0 15px;
     font-family: 'Inter', sans-serif;
+<<<<<<< Updated upstream
     font-size: 0.95rem;
     color: #333;
+=======
+    font-weight: 500;
+    font-size: 1rem;
+>>>>>>> Stashed changes
     outline: none;
+    color: #333;
 }
 
-#mobileSearchBtn {
-    background: var(--accentBlue);
-    color: white;
+.mobileSearchActionBtn {
+    background: #005691;
+    color: var(--white);
     border: none;
+<<<<<<< Updated upstream
     padding: 0 18px;
     font-family: 'Inter', sans-serif;
+=======
+    padding: 0 20px;
+>>>>>>> Stashed changes
     font-weight: 600;
-    font-size: 0.9rem;
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -189,6 +274,7 @@ main.mapWrapper {
     }
 }
 
+<<<<<<< Updated upstream
 .desktopOnly {
 >>>>>>> Stashed changes
     display: flex;
@@ -272,20 +358,97 @@ main.mapWrapper {
 =======
 .navDivider {
     color: rgba(255,255,255,0.4);
+=======
+/* --- DISEÑO ESCRITORIO (IMAGEN 1) --- */
+@media (min-width: 992px) {
+    .headerTopRow {
+        min-height: 90px;
+    }
+
+    .mainLogoImg {
+        height: 65px;
+    }
+
+    .mobileActions {
+        display: none;
+    }
+
+    .desktopHeaderActions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 12px;
+        flex: 1;
+    }
+
+    .searchContainer {
+        display: flex;
+        background: var(--white);
+        border-radius: 4px;
+        overflow: hidden;
+        height: 40px;
+        width: 350px;
+    }
+
+    .searchInput {
+        flex: 1;
+        border: none;
+        padding: 0 15px;
+        outline: none;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+    }
+
+    .searchBtn {
+        background: #005691;
+        color: var(--white);
+        border: none;
+        padding: 0 20px;
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .headerNav {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .headerNav a {
+        color: var(--white);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .navDivider {
+        color: rgba(255,255,255,0.4);
+    }
+>>>>>>> Stashed changes
 }
 
 /* --- EVENT TITLE --- */
 >>>>>>> Stashed changes
 .eventTitleSection {
     background: var(--white);
+<<<<<<< Updated upstream
     padding: 12px 20px;
     margin: 0 20px 10px 20px;
     border-radius: 8px;
     box-shadow: var(--shadow);
+=======
+    padding: 20px;
+>>>>>>> Stashed changes
     text-align: center;
 }
 
 .eventTitle {
+<<<<<<< Updated upstream
     font-size: 1.2rem;
     color: var(--primaryColor);
     text-transform: uppercase;
@@ -295,18 +458,36 @@ main.mapWrapper {
 /* Contenedor del Mapa */
 .mapWrapper {
     padding: 10px;
+=======
+    font-size: 1.8rem;
+    color: var(--accentBlue);
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+/* --- MAPA INTERACTIVO --- */
+.mapWrapper {
+>>>>>>> Stashed changes
     flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 /* Contenedor relativo para superponer SVG sobre la imagen */
 .mapImageContainer {
     position: relative;
+    max-width: 1000px;
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
     border-radius: 8px;
     overflow: hidden;
+<<<<<<< Updated upstream
     box-shadow: var(--shadow);
+=======
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+>>>>>>> Stashed changes
 }
 
 /* Imagen real del mapa */
@@ -317,7 +498,10 @@ main.mapWrapper {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* SVG interactivo superpuesto sobre la imagen */
+=======
+>>>>>>> Stashed changes
 .mapSvgOverlay {
     position: absolute;
     top: 0;
@@ -327,6 +511,7 @@ main.mapWrapper {
 }
 
 .mapItem {
+<<<<<<< Updated upstream
     fill: #eeeeee;
     stroke: #cccccc;
     stroke-width: 1;
@@ -360,10 +545,41 @@ main.mapWrapper {
 
 .detailsOverlay.visible {
     transform: translateY(0);
+=======
+    fill: rgba(255, 255, 255, 0.3);
+    stroke: var(--white);
+    stroke-width: 2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mapItem:hover {
+    fill: rgba(0, 89, 159, 0.5);
+    stroke: var(--accentBlue);
+}
+
+/* --- PANEL DE DETALLES --- */
+.detailsOverlay {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 350px;
+    height: 100vh;
+    background: var(--white);
+    box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+    z-index: 2000;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 30px;
+}
+
+.detailsOverlay.active {
+    right: 0;
+>>>>>>> Stashed changes
 }
 
 .closeOverlayBtn {
     position: absolute;
+<<<<<<< Updated upstream
     top: 10px;
     right: 15px;
     background: none;
@@ -391,6 +607,34 @@ main.mapWrapper {
     color: var(--white);
     font-size: 0.9rem;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+=======
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #999;
+}
+
+/* --- PIE DE PÁGINA (NORMATIVA ALGECIRAS) --- */
+.mainFooter {
+    margin-top: auto;
+    background: var(--blueGradient);
+    padding: 12px 25px;
+    color: var(--white);
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footerContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+>>>>>>> Stashed changes
 }
 
 .footerLeft {
@@ -401,18 +645,28 @@ main.mapWrapper {
 
 .footerIcon {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     height: 30px;
 =======
     height: 25px;
 >>>>>>> Stashed changes
+=======
+    height: 26px;
+>>>>>>> Stashed changes
     width: auto;
+    filter: brightness(0) invert(1); /* Asegura que sea blanco */
 }
 
 .footerHandle {
+<<<<<<< Updated upstream
+=======
+    font-size: 0.9rem;
+>>>>>>> Stashed changes
     font-weight: 500;
 }
 
 .copyrightText {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     font-weight: 600;
 }
@@ -611,6 +865,23 @@ main.mapWrapper {
     .footerContent {
         flex-direction: column;
         gap: 8px;
+>>>>>>> Stashed changes
+=======
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* --- RESPONSIVIDAD --- */
+@media (max-width: 480px) {
+    .detailsOverlay {
+        width: 100%;
+        right: -100%;
+    }
+
+    .footerContent {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
 >>>>>>> Stashed changes
     }
 }
