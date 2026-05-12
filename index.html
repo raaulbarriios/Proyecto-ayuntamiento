@@ -3,155 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mapa interactivo de la Feria Real de Algeciras 2026. Encuentra casetas, ubicaciones y servicios del recinto ferial. Ayuntamiento de Algeciras.">
-    <meta name="theme-color" content="#00599f">
     <title>Mapa de la Feria - Ayuntamiento de Algeciras</title>
-
-    <!-- Precarga de fuentes para optimizar el rendimiento de carga inicial -->
+    <!-- Google Fonts: Inter (Medium 500) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Iconos vectoriales Font Awesome 5.15.4 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 5.15.4 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <!-- Hoja de estilos principal del proyecto -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- ============================================================
-         ENLACE DE SALTO PARA ACCESIBILIDAD (Skip Link)
-         Permite a los usuarios de teclado y lectores de pantalla
-         saltar directamente al contenido principal sin tener
-         que recorrer todo el menú de navegación.
-    ============================================================ -->
-    <a href="#mainContent" class="skipLink" id="skipToContent">Saltar al contenido principal</a>
-
-    <!-- ============================================================
-         1. CABECERA INSTITUCIONAL (Normativa Algeciras)
-         ─────────────────────────────────────────────────
-         NOTA: Este componente está TERMINADO y NO debe modificarse
-         visualmente. Se respeta íntegramente el diseño aprobado.
-    ============================================================ -->
+    <!-- 1. Cabecera Institucional (Normativa Algeciras) -->
     <header class="mainHeader" role="banner">
         <div class="headerContent">
             <!-- Fila Superior: Logo y Acciones -->
             <div class="headerTopRow">
                 <div class="logoContainer">
-                    <a href="#" aria-label="Ir a la página principal del Ayuntamiento de Algeciras">
-                        <img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Logotipo del Ayuntamiento de Algeciras" class="mainLogoImg">
-                    </a>
+                    <img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras" class="mainLogoImg">
                 </div>
                 
-                <!-- Acciones Móvil: Botón de lupa para desplegar buscador -->
+                <!-- Acciones Móvil -->
                 <div class="mobileActions">
-                    <button id="toggleMobileSearch" class="mobileBtn" aria-label="Abrir buscador" aria-expanded="false" aria-controls="mobileSearchRow">
-                        <i class="fas fa-search" aria-hidden="true"></i>
+                    <button id="toggleMobileSearch" class="mobileBtn" aria-label="Abrir buscador" aria-expanded="false">
+                        <i class="fas fa-search"></i>
                     </button>
                 </div>
 
-                <!-- Acciones Desktop: Buscador y navegación principal -->
+                <!-- Acciones Desktop -->
                 <div class="desktopHeaderActions">
-                    <div class="searchContainer" role="search">
-                        <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar" aria-label="Buscar en el sitio">
-                        <button id="searchTrigger" class="searchBtn" aria-label="Ejecutar búsqueda">
-                            <i class="fas fa-search" aria-hidden="true"></i> 
-                            <span class="searchBtnText">Buscar</span>
-                        </button>
+                    <div class="searchContainer">
+                        <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar">
+                        <button id="searchTrigger" class="searchBtn"><i class="fas fa-search"></i> <span class="searchBtnText">Buscar</span></button>
+                    </div>
+                    <nav class="headerNav">
+                        <a href="#">TEMAS</a>
+                        <span class="navDivider">|</span>
+                        <a href="#">AYUNTAMIENTO</a>
+                        <span class="navDivider">|</span>
+                        <a href="#">LA CIUDAD</a>
+                    </nav>
+                </div>
             </div>
 
-            <!-- Fila Inferior: Buscador Móvil Desplegable con animación -->
-            <div id="mobileSearchRow" class="searchRowMobile" aria-hidden="true" role="search">
+            <!-- Fila Inferior (Buscador Móvil Desplegable) -->
+            <div id="mobileSearchRow" class="searchRowMobile" aria-hidden="true">
                 <div class="searchInlineBox">
-                    <input type="text" id="mobileSearchInput" placeholder="Texto a buscar" aria-label="Buscar en el sitio versión móvil">
-                    <button id="mobileSearchAction" class="mobileSearchActionBtn" aria-label="Ejecutar búsqueda">
-                        <i class="fas fa-search" aria-hidden="true"></i> Buscar
+                    <input type="text" id="mobileSearchInput" placeholder="Texto a buscar">
+                    <button id="mobileSearchAction" class="mobileSearchActionBtn">
+                        <i class="fas fa-search"></i> Buscar
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- ============================================================
-         2. CONTENIDO PRINCIPAL DE LA PÁGINA
-         ─────────────────────────────────────────────────
-         Envuelve el título del evento y el mapa interactivo.
-         Utiliza scroll interno para mantener el diseño fullscreen
-         sin barra de desplazamiento visible en el body.
-    ============================================================ -->
-    <main id="mainContent" class="pageContent" role="main">
+    <!-- 2. Identidad del Evento -->
+    <section class="eventTitleSection">
+        <h1 class="eventTitle">Feria Real de Algeciras 2026</h1>
+    </section>
 
-        <!-- 2.1 Identidad del Evento: Título principal (único h1 de la página) -->
-        <section class="eventTitleSection" aria-labelledby="mainTitle">
-            <h1 id="mainTitle" class="eventTitle">Feria Real de Algeciras 2026</h1>
-        </section>
-
-        <!-- 2.2 Mapa Interactivo del Recinto Ferial -->
-        <section class="mapWrapper" aria-label="Mapa interactivo del recinto ferial">
-            <div class="mapImageContainer">
-                <!-- Imagen base del plano de la feria -->
-                <img src="fotos/mapa_evento.jpg" alt="Mapa visual de la Feria Real de Algeciras 2026" class="mapImage">
-
-                <!-- Capa SVG interactiva superpuesta sobre la imagen del mapa.
-                     Cada <rect> representa una caseta que puede ser clickeada/enfocada.
-                     Los atributos data-* almacenan la información de cada caseta.
-                     [FUTURO FIREBASE]: Estos datos se cargarán dinámicamente desde Firestore. -->
-                <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" class="mapSvgOverlay" aria-label="Mapa interactivo de casetas" role="img">
-                    <title>Mapa de casetas de la Feria Real</title>
-                    <desc>Mapa interactivo donde cada zona resaltada representa una caseta del recinto ferial. Pulse o haga clic sobre cada caseta para ver su información.</desc>
-
-                    <!-- Casetas del recinto ferial (datos de ejemplo) -->
-                    <rect x="100" y="150" width="60" height="40" class="mapItem" tabindex="0" role="button" aria-label="Caseta Los Amigos en Calle Principal, 12" data-name="Caseta Los Amigos" data-street="Calle Principal, 12"></rect>
-                    <rect x="200" y="200" width="60" height="40" class="mapItem" tabindex="0" role="button" aria-label="Caseta La Alegría en Avenida del Real, 5" data-name="Caseta La Alegría" data-street="Avenida del Real, 5"></rect>
-                    <rect x="350" y="120" width="80" height="50" class="mapItem" tabindex="0" role="button" aria-label="Caseta Municipal en Plaza Mayor, 1" data-name="Caseta Municipal" data-street="Plaza Mayor, 1"></rect>
-                    <rect x="500" y="300" width="70" height="45" class="mapItem" tabindex="0" role="button" aria-label="Peña El Estribo en Calle del Sol, 24" data-name="Peña El Estribo" data-street="Calle del Sol, 24"></rect>
-                </svg>
-            </div>
-        </section>
-
-        <!-- 2.3 Región de anuncios en vivo para lectores de pantalla.
-             Cuando se selecciona una caseta, el texto se actualiza aquí
-             para que los lectores de pantalla lo anuncien automáticamente. -->
-        <div id="searchFeedback" class="srOnly" aria-live="polite" aria-atomic="true"></div>
-
+    <!-- 3. Mapa Interactivo -->
+    <main class="mapWrapper">
+        <div class="mapImageContainer">
+            <img src="fotos/mapa_evento.jpg" alt="Mapa de la Feria Real de Algeciras 2026" class="mapImage">
+            <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" class="mapSvgOverlay">
+                <!-- Casetas (Ejemplos) -->
+                <rect x="100" y="150" width="60" height="40" class="mapItem" data-name="Caseta Los Amigos" data-street="Calle Principal, 12"></rect>
+                <rect x="200" y="200" width="60" height="40" class="mapItem" data-name="Caseta La Alegría" data-street="Avenida del Real, 5"></rect>
+                <rect x="350" y="120" width="80" height="50" class="mapItem" data-name="Caseta Municipal" data-street="Plaza Mayor, 1"></rect>
+                <rect x="500" y="300" width="70" height="45" class="mapItem" data-name="Peña El Estribo" data-street="Calle del Sol, 24"></rect>
+            </svg>
+        </div>
     </main>
 
-    <!-- ============================================================
-         3. PANEL DE DETALLES (Lateral Deslizante)
-         ─────────────────────────────────────────────────
-         Se despliega desde la derecha cuando el usuario selecciona
-         una caseta del mapa. Contiene la información detallada.
-         Implementa trampa de foco (focus trap) para accesibilidad.
-    ============================================================ -->
-    <aside id="infoOverlay" class="detailsOverlay" aria-hidden="true" aria-labelledby="displayName" role="dialog" aria-modal="true">
-        <button id="closePanelBtn" class="closeOverlayBtn" aria-label="Cerrar panel de información">&times;</button>
-        <div class="detailsContent">
-            <h2 id="displayName">Nombre de la Caseta</h2>
-            <p id="displayLocation">Ubicación: Calle Principal</p>
-            <hr aria-hidden="true">
-            <div class="casetaInfo">
-                <p><i class="fas fa-info-circle" aria-hidden="true"></i> Información detallada sobre la caseta seleccionada.</p>
-            </div>
-            <!-- [FUTURO FIREBASE]: Contenedor para datos dinámicos adicionales -->
-            <div id="dynamicContent" class="dynamicDataContainer" aria-label="Información adicional cargada dinámicamente"></div>
+    <!-- 4. Panel de Detalles (Lateral) -->
+    <div id="infoOverlay" class="detailsOverlay" aria-hidden="true">
+        <button id="closePanelBtn" class="closeOverlayBtn" aria-label="Cerrar panel">&times;</button>
+        <h2 id="displayName">Nombre de la Caseta</h2>
+        <p id="displayLocation">Ubicación: Calle Principal</p>
+        <hr>
+        <div class="casetaInfo">
+            <p><i class="fas fa-info-circle"></i> Información detallada sobre la caseta seleccionada.</p>
         </div>
-    </aside>
+    </div>
 
-    <!-- Fondo oscuro semitransparente que aparece detrás del panel lateral.
-         Permite cerrar el panel haciendo clic fuera de él. -->
-    <div id="overlayBackdrop" class="overlayBackdrop" aria-hidden="true"></div>
-
-    <!-- ============================================================
-         4. PIE DE PÁGINA INSTITUCIONAL (Footer)
-         ─────────────────────────────────────────────────
-         NOTA: Este componente está TERMINADO y NO debe modificarse
-         visualmente. Se respeta íntegramente el diseño aprobado.
-    ============================================================ -->
-    <footer class="mainFooter" role="contentinfo">
+    <!-- 5. Pie de Página -->
+    <footer class="mainFooter">
         <div class="footerContent">
             <div class="footerLeft">
-                <img src="fotos/Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png" alt="Escudo simplificado del Ayuntamiento" class="footerIcon">
+                <img src="fotos/Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png" alt="Escudo" class="footerIcon">
                 <span class="footerHandle">ayuntamientoalgeciras</span>
             </div>
             <div class="footerRight">
@@ -160,12 +101,7 @@
         </div>
     </footer>
 
-    <!-- ============================================================
-         5. SCRIPTS
-         ─────────────────────────────────────────────────
-         Se cargan como módulos ES6 para permitir imports/exports
-         entre archivos y mantener el scope aislado.
-    ============================================================ -->
+    <!-- Scripts -->
     <script type="module" src="firebase-config.js"></script>
     <script type="module" src="script.js"></script>
 </body>
