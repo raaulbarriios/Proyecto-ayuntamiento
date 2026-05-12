@@ -7,61 +7,13 @@
     <!-- Google Fonts: Inter (Medium 500) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<<<<<<< Updated upstream
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
-=======
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome 5.15.4 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
->>>>>>> Stashed changes
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<<<<<<< Updated upstream
-    <!-- 1. Cabecera Institucional (Diseño según imagen oficial) -->
-    <header class="mainHeader" role="banner">
-<<<<<<< Updated upstream
-        <div class="headerContent">
-            <div class="headerLeft">
-                <div class="shieldWrapper">
-                    <img src="fotos/Logo Algeciras color sin letras interiores.png" alt="Escudo de Algeciras" class="headerShield">
-                </div>
-                <div class="headerText">
-                    <span class="textLine">Ayuntamiento</span>
-                    <span class="textLine">de Algeciras</span>
-                </div>
-            </div>
-            
-            <div class="headerRight">
-                <!-- Iconos de accesibilidad/menú para móvil -->
-                <div class="mobileIcons">
-                    <div class="iconSquare"><span>♿</span></div>
-                    <div class="iconSquare"><span>☰</span></div>
-                </div>
-                <!-- Buscador (Oculto en móvil según imagen) -->
-                <div class="searchContainer">
-                    <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar" aria-label="Buscar caseta">
-                    <button id="searchTrigger" class="searchBtn" aria-label="Botón de buscar">
-                        <span class="searchIcon">🔍</span> Buscar
-=======
-        <div class="headerContent" id="headerMainBox">
-            <div class="headerTopRow">
-                <div class="mobilePlaceholder"></div>
-
-                <!-- Centro: Logo Institucional -->
-                <div class="headerLeft">
-                    <img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras" class="mainLogoImg">
-                </div>
-                
-                <!-- Derecha: Botón de Interacción (Búsqueda) -->
-                <div class="headerRight">
-                    <div class="mobileActions">
-                        <button id="toggleSearch" class="mobileBtnSquare" aria-label="Buscar">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-=======
     <!-- 1. Cabecera Institucional (Normativa Algeciras) -->
     <header class="mainHeader" role="banner">
         <div class="headerContent">
@@ -77,7 +29,6 @@
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
->>>>>>> Stashed changes
 
                 <!-- Acciones Desktop -->
                 <div class="desktopHeaderActions">
@@ -95,31 +46,14 @@
                 </div>
             </div>
 
-<<<<<<< Updated upstream
-            <!-- Fila de Búsqueda Móvil (Aparece al pulsar la lupa) -->
-            <div id="searchRow" class="searchRowMobile">
-                <div class="searchInlineBox">
-                    <input type="text" id="mobileSearchInput" placeholder="Texto a buscar" aria-label="Texto a buscar">
-                    <button id="mobileSearchBtn">
-=======
             <!-- Fila Inferior (Buscador Móvil Desplegable) -->
             <div id="mobileSearchRow" class="searchRowMobile" aria-hidden="true">
                 <div class="searchInlineBox">
                     <input type="text" id="mobileSearchInput" placeholder="Texto a buscar">
                     <button id="mobileSearchAction" class="mobileSearchActionBtn">
->>>>>>> Stashed changes
                         <i class="fas fa-search"></i> Buscar
->>>>>>> Stashed changes
                     </button>
                 </div>
-                <!-- Navegación de la Cabecera -->
-                <nav class="headerNav">
-                    <a href="#">TEMAS</a>
-                    <span class="navDivider">|</span>
-                    <a href="#">AYUNTAMIENTO</a>
-                    <span class="navDivider">|</span>
-                    <a href="#">LA CIUDAD</a>
-                </nav>
             </div>
         </div>
     </header>
@@ -129,44 +63,20 @@
         <h1 class="eventTitle">Feria Real de Algeciras 2026</h1>
     </section>
 
-<<<<<<< Updated upstream
-    <!-- 4. Mapa Interactivo -->
-=======
     <!-- 3. Mapa Interactivo -->
->>>>>>> Stashed changes
     <main class="mapWrapper">
         <div class="mapImageContainer">
-            <img src="fotos/mapa_evento.jpg" alt="Mapa de la Feria Real de Algeciras 2026" id="eventMapImg" class="mapImage">
-            <!-- SVG overlay para interactividad (casetas clicables) -->
+            <img src="fotos/mapa_evento.jpg" alt="Mapa de la Feria Real de Algeciras 2026" class="mapImage">
             <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" class="mapSvgOverlay">
-<<<<<<< Updated upstream
-                <rect x="50" y="50" width="100" height="80" class="mapItem" data-id="c1" data-name="Caseta Los Amigos" data-street="Calle Real, 1" data-owner="Asociación Recreativa"/>
-                <rect x="160" y="50" width="100" height="80" class="mapItem" data-id="c2" data-name="Peña El Estribo" data-street="Calle Real, 2" data-owner="Peña Flamenca"/>
-                <rect x="270" y="50" width="100" height="80" class="mapItem" data-id="c3" data-name="Caseta Municipal" data-street="Plaza Mayor" data-owner="Ayuntamiento"/>
-=======
                 <!-- Casetas (Ejemplos) -->
                 <rect x="100" y="150" width="60" height="40" class="mapItem" data-name="Caseta Los Amigos" data-street="Calle Principal, 12"></rect>
                 <rect x="200" y="200" width="60" height="40" class="mapItem" data-name="Caseta La Alegría" data-street="Avenida del Real, 5"></rect>
                 <rect x="350" y="120" width="80" height="50" class="mapItem" data-name="Caseta Municipal" data-street="Plaza Mayor, 1"></rect>
                 <rect x="500" y="300" width="70" height="45" class="mapItem" data-name="Peña El Estribo" data-street="Calle del Sol, 24"></rect>
->>>>>>> Stashed changes
             </svg>
         </div>
     </main>
 
-<<<<<<< Updated upstream
-    <!-- 5. Panel de Información (Desplegable) -->
-    <aside id="infoOverlay" class="detailsOverlay" aria-hidden="true">
-        <button id="closePanelBtn" class="closeOverlayBtn" aria-label="Cerrar detalles">&times;</button>
-        <div class="detailsContent">
-            <h2 id="displayName">Nombre de la Caseta</h2>
-            <p id="displayLocation">Ubicación: Calle Principal</p>
-            <div id="firebaseData"></div>
-        </div>
-    </aside>
-
-    <!-- 6. Pie de Página (Diseño institucional según imagen) -->
-=======
     <!-- 4. Panel de Detalles (Lateral) -->
     <div id="infoOverlay" class="detailsOverlay" aria-hidden="true">
         <button id="closePanelBtn" class="closeOverlayBtn" aria-label="Cerrar panel">&times;</button>
@@ -179,9 +89,7 @@
     </div>
 
     <!-- 5. Pie de Página -->
->>>>>>> Stashed changes
     <footer class="mainFooter">
-        <!-- Barra azul inferior -->
         <div class="footerContent">
             <div class="footerLeft">
                 <img src="fotos/Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png" alt="Escudo" class="footerIcon">
@@ -193,13 +101,8 @@
         </div>
     </footer>
 
-<<<<<<< Updated upstream
-    <!-- Configuración de la conexión con Firebase -->
-=======
     <!-- Scripts -->
->>>>>>> Stashed changes
     <script type="module" src="firebase-config.js"></script>
-    <!-- Lógica de la aplicación -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
