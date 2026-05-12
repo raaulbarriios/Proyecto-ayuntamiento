@@ -1,47 +1,170 @@
 /* 
-   Proyecto: Mapa de la Feria Real - Ayuntamiento de Algeciras
-   Estado: Restaurado a versión funcional previa
+   ==========================================================================
+   PROYECTO: Mapa de la Feria Real - Ayuntamiento de Algeciras
+   ==========================================================================
+   Arquitectura: Mobile-First, CSS Custom Properties, WCAG Accesible.
+   Normativa: Manual de Identidad Visual Corporativa de Algeciras.
+   Versión: 2.0 — Refactorizado Mayo 2026
 */
 
-/* Reseteo y Estilos Globales */
-* {
+/* ═══════════════════════════════════════════════════════════════════
+   1. VARIABLES INSTITUCIONALES (Design Tokens)
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+    /* --- Colores Institucionales (Pantone - Manual de Identidad) --- */
+    --color-pantone-116c: #ffcd00;
+    --color-pantone-485c: #da291c;
+    --color-pantone-355c: #009639;
+    --color-pantone-285c: #0072ce;
+    --color-pantone-123c: #ffc72c;
+    --color-pantone-293c: #003da5;
+    --color-azul-digital: rgb(3, 123, 180);
+
+    /* --- Colores Funcionales (UI) --- */
+    --color-dark-blue: #002d55;
+    --color-accent-blue: #00599f;
+    --color-white: #ffffff;
+    --color-light-gray: #f5f5f5;
+    --color-text: #333333;
+    --color-text-muted: #666666;
+    --color-border: #e0e0e0;
+
+    /* --- Degradados y Sombras --- */
+    --gradient-header: linear-gradient(to right, #00599f, #2989d8, #00599f);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    /* --- Espaciado (escala consistente) --- */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+
+    /* --- Tipografía --- */
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.85rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    --font-size-2xl: 1.8rem;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    /* --- Bordes --- */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* --- Transiciones --- */
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+    --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* --- Accesibilidad (Focus) --- */
+    --focus-ring-color: #ffc72c;
+    --focus-ring-width: 3px;
+
+    /* --- Z-index --- */
+    --z-header: 1000;
+    --z-overlay-backdrop: 1500;
+    --z-overlay: 2000;
+
+    /* --- Layout --- */
+    --max-width: 1200px;
+    --header-height-mobile: 60px;
+    --header-height-desktop: 90px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   2. RESET Y ESTILOS GLOBALES
+   ═══════════════════════════════════════════════════════════════════ */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-:root {
-    --blueGradient: linear-gradient(to right, #00599f, #2989d8, #00599f);
-    --darkBlue: #002d55;
-    --accentBlue: #00599f;
-    --white: #ffffff;
-    --lightGray: #f5f5f5;
-    --textColor: #333333;
-    --shadow: 0 4px 15px rgba(0,0,0,0.15);
+html {
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    color: var(--textColor);
-    background-color: var(--lightGray);
-    min-height: 100vh;
+    font-family: var(--font-family);
+    color: var(--color-text);
+    background-color: var(--color-light-gray);
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- CABECERA INSTITUCIONAL (NORMATIVA ALGECIRAS) --- */
+/* Accesibilidad: foco visible para navegación por teclado */
+:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: 2px;
+}
+
+/* Clase de solo lectura para lectores de pantalla (oculto visualmente) */
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   3. SKIP LINK (Enlace de salto para accesibilidad)
+   ═══════════════════════════════════════════════════════════════════ */
+.skipLink {
+    position: absolute;
+    top: -100%;
+    left: var(--spacing-md);
+    background: var(--color-dark-blue);
+    color: var(--color-white);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    z-index: 9999;
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition: top var(--transition-fast);
+}
+
+.skipLink:focus {
+    top: var(--spacing-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   4. CABECERA INSTITUCIONAL (HEADER) — NO MODIFICAR VISUALMENTE
+   ═══════════════════════════════════════════════════════════════════ */
 .mainHeader {
-    background: var(--blueGradient);
+    background: var(--gradient-header);
     padding: 10px 20px;
-    box-shadow: var(--shadow);
-    color: var(--white);
+    box-shadow: var(--shadow-md);
+    color: var(--color-white);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: var(--z-header);
+    flex-shrink: 0;
 }
 
 .headerContent {
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -52,9 +175,10 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    min-height: 60px;
+    min-height: var(--header-height-mobile);
 }
 
+/* 4.1 Logo */
 .logoContainer {
     display: flex;
     align-items: center;
@@ -65,64 +189,50 @@ body {
     width: auto;
 }
 
+/* 4.2 Acciones Móvil (Buscador) */
 .mobileActions {
     display: flex;
     gap: 10px;
 }
 
-.desktopHeaderActions {
-    display: none; /* Oculto en móvil */
-}
-
-/* Botones de Acción Móvil */
 .mobileBtn {
     width: 44px;
     height: 44px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: var(--white);
-    color: var(--accentBlue);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-base), background-color var(--transition-base);
+    background: var(--color-white);
+    color: var(--color-accent-blue);
     border: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-sm);
 }
 
-.mobileBtn:hover, .mobileBtn:active {
+.mobileBtn:hover, 
+.mobileBtn:active {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-hover);
 }
 
-.mobileBtn:focus-visible {
-    outline: 2px solid var(--white);
-    outline-offset: 2px;
-}
-
-.outlineBtn {
-    /* Mantener para otros usos si hiciera falta, aunque lo quitamos del search */
-    background: transparent;
-    color: var(--white);
-    border: 1px solid rgba(255,255,255,0.8);
-}
-
-/* Estado activo del botón lupa */
 .mobileBtn.active {
-    background: var(--lightGray);
-    color: var(--darkBlue);
+    background: var(--color-light-gray);
+    color: var(--color-dark-blue);
     transform: scale(0.95);
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
-/* Buscador Móvil Desplegable */
+/* 4.3 Buscador Móvil Desplegable */
 .searchRowMobile {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
     transform: translateY(-10px);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: max-height var(--transition-smooth), 
+                opacity var(--transition-smooth), 
+                transform var(--transition-smooth);
     width: 100%;
 }
 
@@ -135,147 +245,157 @@ body {
 
 .searchInlineBox {
     display: flex;
-    background: var(--white);
-    border-radius: 8px;
+    background: var(--color-white);
+    border-radius: var(--radius-md);
     overflow: hidden;
     height: 48px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    box-shadow: var(--shadow-md);
 }
 
 .searchInlineBox input {
     flex: 1;
     border: none;
     padding: 0 15px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 1rem;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base);
     outline: none;
-    color: var(--textColor);
+    color: var(--color-text);
 }
 
 .mobileSearchActionBtn {
-    background: var(--accentBlue);
-    color: var(--white);
+    background: var(--color-accent-blue);
+    color: var(--color-white);
     border: none;
     padding: 0 20px;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: background 0.3s ease;
+    gap: var(--spacing-sm);
+    transition: background-color var(--transition-base);
 }
 
-.mobileSearchActionBtn:hover, .mobileSearchActionBtn:active {
-    background: var(--darkBlue);
+.mobileSearchActionBtn:hover, 
+.mobileSearchActionBtn:active {
+    background: var(--color-dark-blue);
 }
 
-/* --- DISEÑO ESCRITORIO (IMAGEN 1) --- */
-@media (min-width: 992px) {
-    .headerTopRow {
-        min-height: 90px;
-    }
-
-    .mainLogoImg {
-        height: 65px;
-    }
-
-    .mobileActions {
-        display: none;
-    }
-
-    .searchRowMobile {
-        display: none !important;
-    }
-
-    .desktopHeaderActions {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 12px;
-        flex: 1;
-    }
-
-    .searchContainer {
-        display: flex;
-        background: var(--white);
-        border-radius: 4px;
-        overflow: hidden;
-        height: 40px;
-        width: 350px;
-    }
-
-    .searchInput {
-        flex: 1;
-        border: none;
-        padding: 0 15px;
-        outline: none;
-        font-family: 'Inter', sans-serif;
-        font-weight: 500;
-    }
-
-    .searchBtn {
-        background: #005691;
-        color: var(--white);
-        border: none;
-        padding: 0 20px;
-        cursor: pointer;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .headerNav {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .headerNav a {
-        color: var(--white);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .navDivider {
-        color: rgba(255,255,255,0.4);
-    }
+/* 4.4 Acciones Escritorio (Ocultas en móvil por defecto) */
+.desktopHeaderActions {
+    display: none;
 }
 
-/* --- EVENT TITLE --- */
+.searchContainer {
+    display: flex;
+    background: var(--color-white);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    height: 40px;
+    width: 350px;
+}
+
+.searchInput {
+    flex: 1;
+    border: none;
+    padding: 0 15px;
+    outline: none;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+}
+
+.searchBtn {
+    background: var(--color-accent-blue);
+    color: var(--color-white);
+    border: none;
+    padding: 0 20px;
+    cursor: pointer;
+    font-weight: var(--font-weight-semibold);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    transition: background-color var(--transition-fast);
+}
+
+.searchBtn:hover {
+    background: var(--color-dark-blue);
+}
+
+.headerNav {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.headerNav a {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.headerNav a:hover {
+    text-decoration: underline;
+}
+
+.navDivider {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. CONTENIDO PRINCIPAL (FULLSCREEN con scroll interno)
+   ═══════════════════════════════════════════════════════════════════ */
+.pageContent {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    /* Scroll interno suave */
+    scroll-behavior: smooth;
+    /* Ocultar scrollbar pero mantener funcionalidad */
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* IE/Edge */
+}
+
+.pageContent::-webkit-scrollbar {
+    display: none;                /* Chrome/Safari */
+}
+
+/* 5.1 Identidad del Evento */
 .eventTitleSection {
-    background: var(--white);
-    padding: 20px;
+    background: var(--color-white);
+    padding: var(--spacing-lg);
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    flex-shrink: 0;
 }
 
 .eventTitle {
-    font-size: 1.8rem;
-    color: var(--accentBlue);
+    font-size: var(--font-size-2xl);
+    color: var(--color-accent-blue);
     text-transform: uppercase;
-    font-weight: 800;
+    font-weight: var(--font-weight-extrabold);
 }
 
-/* --- MAPA INTERACTIVO --- */
+/* 5.2 Mapa Interactivo */
 .mapWrapper {
     flex: 1;
-    padding: 20px;
+    padding: var(--spacing-lg);
     display: flex;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .mapImageContainer {
     position: relative;
     max-width: 1000px;
     width: 100%;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-lg);
 }
 
 .mapImage {
@@ -294,29 +414,40 @@ body {
 
 .mapItem {
     fill: rgba(255, 255, 255, 0.3);
-    stroke: var(--white);
+    stroke: var(--color-white);
     stroke-width: 2;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: fill var(--transition-base), stroke var(--transition-base);
 }
 
-.mapItem:hover {
+.mapItem:hover,
+.mapItem:focus-visible {
     fill: rgba(0, 89, 159, 0.5);
-    stroke: var(--accentBlue);
+    stroke: var(--color-accent-blue);
+    outline: none;
 }
 
-/* --- PANEL DE DETALLES --- */
+.mapItem.active {
+    fill: rgba(0, 89, 159, 0.6);
+    stroke: var(--color-pantone-123c);
+    stroke-width: 3;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   6. PANEL DE DETALLES (Lateral Deslizante)
+   ═══════════════════════════════════════════════════════════════════ */
 .detailsOverlay {
     position: fixed;
     top: 0;
     right: -400px;
     width: 350px;
     height: 100vh;
-    background: var(--white);
+    background: var(--color-white);
     box-shadow: -5px 0 20px rgba(0,0,0,0.1);
-    z-index: 2000;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 30px;
+    z-index: var(--z-overlay);
+    transition: right var(--transition-smooth);
+    padding: var(--spacing-xl);
+    overflow-y: auto;
 }
 
 .detailsOverlay.active {
@@ -332,18 +463,82 @@ body {
     font-size: 2rem;
     cursor: pointer;
     color: #999;
+    transition: color var(--transition-fast);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* --- PIE DE PÁGINA (NORMATIVA ALGECIRAS) --- */
+.closeOverlayBtn:hover,
+.closeOverlayBtn:focus-visible {
+    color: var(--color-text);
+}
+
+.detailsContent h2 {
+    font-size: var(--font-size-xl);
+    color: var(--color-dark-blue);
+    margin-bottom: var(--spacing-sm);
+    padding-right: var(--spacing-xl);
+}
+
+.detailsContent p {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+.detailsContent hr {
+    border: none;
+    height: 1px;
+    background: var(--color-border);
+    margin: var(--spacing-md) 0;
+}
+
+.casetaInfo {
+    margin-top: var(--spacing-md);
+}
+
+.casetaInfo p {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+}
+
+/* Contenedor reservado para datos dinámicos de Firebase */
+.dynamicDataContainer {
+    margin-top: var(--spacing-md);
+}
+
+/* Fondo oscuro detrás del panel lateral */
+.overlayBackdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: var(--z-overlay-backdrop);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-base), visibility var(--transition-base);
+}
+
+.overlayBackdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   7. PIE DE PÁGINA (FOOTER) — NO MODIFICAR VISUALMENTE
+   ═══════════════════════════════════════════════════════════════════ */
 .mainFooter {
     margin-top: auto;
-    background: var(--blueGradient);
+    background: var(--gradient-header);
     padding: 14px 20px;
-    color: var(--white);
+    color: var(--color-white);
+    flex-shrink: 0;
 }
 
 .footerContent {
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -363,8 +558,8 @@ body {
 }
 
 .footerHandle {
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.3px;
     opacity: 0.95;
 }
@@ -375,12 +570,16 @@ body {
 }
 
 .copyrightText {
-    font-size: 0.8rem;
-    font-weight: 500;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
     opacity: 0.85;
 }
 
-/* --- RESPONSIVIDAD --- */
+/* ═══════════════════════════════════════════════════════════════════
+   8. MEDIA QUERIES — RESPONSIVE (Mobile-First)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 8.1 Móvil Pequeño (hasta 480px) */
 @media (max-width: 480px) {
     .detailsOverlay {
         width: 100%;
@@ -389,7 +588,89 @@ body {
 
     .footerContent {
         flex-direction: column;
-        gap: 8px;
+        gap: var(--spacing-sm);
         text-align: center;
+    }
+
+    .eventTitle {
+        font-size: var(--font-size-lg);
+    }
+
+    .mapWrapper {
+        padding: var(--spacing-md);
+    }
+}
+
+/* 8.2 Tablet (768px – 991px) */
+@media (min-width: 768px) {
+    .eventTitle {
+        font-size: var(--font-size-2xl);
+    }
+
+    .mapWrapper {
+        padding: var(--spacing-xl);
+    }
+
+    .detailsOverlay {
+        width: 380px;
+    }
+}
+
+/* 8.3 Escritorio (min-width: 992px) */
+@media (min-width: 992px) {
+    .headerTopRow {
+        min-height: var(--header-height-desktop);
+    }
+
+    .mainLogoImg {
+        height: 65px;
+    }
+
+    .mobileActions {
+        display: none;
+    }
+
+    .searchRowMobile {
+        display: none !important;
+    }
+
+    .desktopHeaderActions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: var(--spacing-md);
+        flex: 1;
+    }
+
+    .mapWrapper {
+        padding: var(--spacing-2xl);
+        align-items: center;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   9. ACCESIBILIDAD — Preferencias del usuario
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Respetar la preferencia del usuario de reducir animaciones */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Mejora de contraste para alto contraste forzado (Windows) */
+@media (forced-colors: active) {
+    .mapItem {
+        forced-color-adjust: none;
+    }
+
+    .skipLink:focus {
+        outline: 2px solid ButtonText;
     }
 }

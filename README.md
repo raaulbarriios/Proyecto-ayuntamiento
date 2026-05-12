@@ -1,91 +1,249 @@
-# Mapa de la Feria Real - Ayuntamiento de Algeciras
+# 🏛️ Mapa Interactivo — Feria Real de Algeciras 2026
 
-Este proyecto es una aplicación frontend diseñada para ofrecer un mapa interactivo de la Feria Real de Algeciras. Permite a los usuarios explorar las distintas casetas, visualizar información detallada y realizar búsquedas de forma intuitiva tanto en dispositivos móviles como de escritorio.
-
-El desarrollo está estrictamente regido por el **Manual de Identidad Visual Corporativa del Ayuntamiento de Algeciras**, garantizando una imagen limpia, profesional e institucional.
-
----
-
-## 🏗️ Arquitectura y Tecnologías Usadas
-
-El proyecto está desarrollado utilizando tecnologías estándar de la web para garantizar la máxima compatibilidad, velocidad y facilidad de integración con plataformas modernas:
-
-- **HTML5**: Estructurado de forma semántica y altamente accesible (WCAG).
-- **CSS3 Vanilla**: Hojas de estilo modulares (arquitectura tipo BEM adaptada), variables nativas y diseño *Mobile-First*.
-- **JavaScript Vanilla (ES6+)**: Lógica limpia modular (patrón IIFE), comentada línea por línea y sin dependencias o frameworks externos.
-- **Firebase**: (En preparación) Estructura lista para integrarse con Firebase Hosting, Authentication y Firestore/Realtime Database para cargar la información dinámicamente.
+**Proyecto institucional del Ayuntamiento de Algeciras**  
+**Versión:** 2.0 — Refactorizado  
+**Fecha:** Mayo 2026  
+**Estado:** En desarrollo activo
 
 ---
 
-## 📂 Estructura de Archivos y Carpetas
+## 📋 Descripción General
 
-La estructura del proyecto en la raíz es sencilla y fácil de mantener:
+Aplicación web institucional que ofrece un **mapa interactivo** del recinto de la Feria Real de Algeciras 2026. Los ciudadanos y visitantes pueden explorar las casetas del recinto, buscar por nombre y consultar información detallada de cada punto de interés.
+
+El proyecto sigue estrictamente el **Manual de Identidad Visual Corporativa del Ayuntamiento de Algeciras**, garantizando coherencia visual con la imagen institucional oficial.
+
+---
+
+## 🏗️ Tecnologías Utilizadas
+
+| Tecnología | Versión | Uso |
+|---|---|---|
+| HTML5 | — | Estructura semántica accesible |
+| CSS3 (Vanilla) | — | Diseño responsive Mobile-First con Custom Properties |
+| JavaScript ES6+ | — | Interactividad, patrón IIFE, módulos |
+| Firebase | 10.11.0 | Firestore, Analytics, Auth, Hosting |
+| Google Fonts (Inter) | — | Tipografía institucional |
+| Font Awesome | 5.15.4 | Iconografía vectorial |
+| GitHub | — | Control de versiones |
+| Jira | — | Gestión de tareas |
+
+---
+
+## 📂 Estructura del Proyecto
 
 ```text
-/ (Raíz del Proyecto)
+Proyecto-ayuntamiento/
 │
-├── index.html           # Archivo principal de la interfaz web.
-├── style.css            # Hoja de estilos principal refactorizada.
-├── script.js            # Lógica interactiva del DOM.
-├── firebase-config.js   # (Si existe) Archivo de inicialización para servicios de Google Firebase.
-├── /fotos/              # Directorio de assets estáticos (logotipos, escudo, mapa base).
-└── README.md            # Este documento.
+├── index.html              → Página principal (estructura HTML semántica)
+├── style.css               → Hoja de estilos completa (design tokens + responsive)
+├── script.js               → Lógica de interactividad (documentada línea por línea)
+├── firebase-config.js      → Configuración y conexión con servicios Firebase
+├── README.md               → Este documento
+├── PLANTEAMIENTO.md         → Notas de planteamiento inicial
+├── DOCUMENTACION_CODIGO.md  → Documentación técnica detallada del código
+├── DOCUMENTACION_PROYECTO.md → Documentación funcional del proyecto
+│
+└── fotos/                   → Recursos gráficos institucionales
+    ├── Logo algeciras color blanco texto derecha.png  → Logo cabecera
+    ├── Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png → Logo footer
+    ├── mapa_evento.jpg      → Imagen base del mapa del recinto ferial
+    └── [otros logos]        → Variantes del escudo oficial
 ```
 
-### Explicación de Archivos Principales:
-- **`index.html`**: Contiene la maquetación semántica. Está dividido en áreas lógicas: `<header>` institucional, `<section>` para el título, `<main>` para el mapa SVG y `<aside>` para el panel de detalles, terminando con un `<footer>` oficial.
-- **`style.css`**: Centraliza toda la estética. Empieza definiendo variables institucionales basadas en valores Pantone, luego reglas globales, luego componentes específicos, terminando con *Media Queries* para gobernar el responsive.
-- **`script.js`**: Controla el comportamiento al tocar botones, el cierre de menús al perder el foco, y la futura carga de eventos en el SVG del mapa interactivo.
+### Explicación de Archivos Principales
+
+| Archivo | Responsabilidad |
+|---|---|
+| `index.html` | Maquetación semántica: `<header>` institucional, `<main>` con título y mapa SVG interactivo, `<aside>` panel deslizante, `<footer>` oficial. Incluye skip-link, aria-live region y backdrop overlay. |
+| `style.css` | Sistema de diseño completo con 30+ Custom Properties (design tokens). Layout fullscreen sin scrollbar visible. Responsive con 3 breakpoints. Queries de accesibilidad (`prefers-reduced-motion`, `forced-colors`). |
+| `script.js` | Lógica encapsulada en IIFE. Objeto CONFIG centralizado. Estado de app (appState). Funciones genéricas reutilizables. Trampa de foco. Búsqueda unificada escritorio/móvil. Preparado para Firebase. |
+| `firebase-config.js` | Inicializa Firebase App, Firestore, Analytics y Auth. Exporta instancias como módulos ES6. |
 
 ---
 
-## 📱 Responsive Design Implementado
+## 📱 Responsive Design (Mobile-First)
 
-El frontend ha sido programado con un enfoque **Mobile First**:
-1. **Vista Móvil (Dispositivos pequeños)**: 
-   - El panel lateral de información se expande al 100% de la pantalla.
-   - Solo se muestra un botón minimalista de búsqueda (lupa) que despliega una barra adaptativa mediante suaves transiciones CSS.
-2. **Vista Escritorio (Pantallas > 992px)**: 
-   - La cabecera se amplía para darle mayor protagonismo al logotipo del Ayuntamiento.
-   - El menú de navegación y la barra de búsqueda de escritorio aparecen integrados en la zona superior derecha.
-   - El buscador móvil queda desactivado y oculto por completo para evitar colisiones lógicas.
+El frontend utiliza un enfoque **Mobile-First** con tres breakpoints:
+
+| Breakpoint | Dispositivo | Comportamiento |
+|---|---|---|
+| Base (< 480px) | Móvil pequeño | Panel ocupa 100% ancho. Título reducido. Buscador móvil (lupa). |
+| `≥ 768px` | Tablet | Panel lateral 380px. Mapa con más espacio. |
+| `≥ 992px` | Escritorio | Cabecera expandida (90px). Navegación + buscador desktop visibles. Lupa móvil oculta. |
+
+### Diseño Fullscreen
+- El `body` tiene `overflow: hidden` — **no hay scrollbar vertical visible**.
+- El contenido principal (`<main>`) tiene scroll interno con scrollbar oculta.
+- Header y footer permanecen fijos/visibles en todo momento.
 
 ---
 
 ## ♿ Accesibilidad (WCAG)
 
-El proyecto incluye medidas vitales para garantizar el acceso universal a ciudadanos con capacidades diversas:
-- **Lectores de Pantalla**: Inclusión masiva de atributos `aria-label`, `aria-hidden` y `aria-expanded` para narrar el estado dinámico de componentes como el buscador y el panel.
-- **Roles HTML**: Uso de etiquetas ARIA como `role="search"`, `role="banner"`, `role="dialog"` y `role="application"` para definir el significado del contenido.
-- **Navegación por Teclado**: 
-  - Anillos de enfoque de alto contraste (Amarillo institucional `var(--focus-ring-color)`) utilizando el selector `:focus-visible`.
-  - Atributo `tabindex="0"` en los elementos del mapa SVG.
-  - Listeners en JS para activar componentes pulsando `Enter` o `Space` y poder cerrar menús con `Escape`.
+### Criterios Implementados
+
+| Criterio | Implementación |
+|---|---|
+| Skip Link | Enlace oculto que aparece con Tab, permite saltar al contenido principal |
+| Roles ARIA | `role="banner"`, `role="main"`, `role="dialog"`, `role="search"`, `role="contentinfo"` |
+| aria-live | Región `aria-live="polite"` anuncia resultados de búsqueda y apertura/cierre de paneles |
+| aria-modal | Panel lateral marcado como `aria-modal="true"` |
+| Navegación por teclado | Casetas del mapa con `tabindex="0"`, activables con Enter/Espacio |
+| Tecla Escape | Cierra panel lateral y buscador móvil con prioridad lógica |
+| Focus visible | Anillo de foco amarillo institucional (`#ffc72c`) con `outline-offset: 2px` |
+| Tamaños táctiles | Botones mínimo 44×44px (WCAG 2.5.5) |
+| `prefers-reduced-motion` | Desactiva animaciones si el usuario lo solicita en su sistema |
+| `forced-colors` | Compatibilidad con modo de alto contraste de Windows |
+| Textos alternativos | Todas las imágenes con `alt` descriptivo |
+| SVG accesible | `<title>` y `<desc>` dentro del SVG del mapa |
 
 ---
 
-## ✨ Mejoras y Cambios Realizados Respecto al Original
+## ✨ Mejoras Realizadas (v2.0)
 
-1. **Estructura CSS**: Se ha limpiado la redundancia, agrupado por bloques lógicos y añadido variables globales que extraen los valores exactos (Pantone) del Manual de Identidad de Algeciras.
-2. **Botón de Búsqueda Móvil**: Rediseñado para ser completamente táctil, redondeado, con efecto hover y sin interferir en escritorio al girar el dispositivo.
-3. **Optimización JS**: El código fue envuelto en una estructura IIFE que protege el scope global.
-4. **Respeto Absoluto al Diseño**: No se alteraron los colores base, ni la jerarquía institucional existente en cabecera o footer, manteniéndolo intacto visualmente pero muy superior internamente.
+### HTML
+- ✅ Añadido `<meta name="description">` para SEO
+- ✅ Añadido `<meta name="theme-color">` para navegadores móviles
+- ✅ Añadido skip-link de accesibilidad
+- ✅ Añadido `aria-live` region para anuncios a lectores de pantalla
+- ✅ Añadido `aria-modal="true"` al panel lateral
+- ✅ Añadido backdrop overlay para cerrar panel al clicar fuera
+- ✅ Añadido contenedor `#dynamicContent` para datos futuros de Firebase
+- ✅ Añadido `<title>` y `<desc>` al SVG del mapa
+- ✅ Envuelto contenido en `<main>` con scroll interno (fullscreen)
+
+### CSS
+- ✅ **30+ Custom Properties** (design tokens) para colores, espaciados, tipografía, sombras, bordes, transiciones y z-index
+- ✅ Layout fullscreen: `overflow: hidden` en body, scroll interno en main
+- ✅ Scrollbar oculta en Firefox, Chrome/Safari y Edge
+- ✅ Breakpoint tablet añadido (768px)
+- ✅ Skip-link y `.srOnly` estilos de accesibilidad
+- ✅ Overlay backdrop con transición
+- ✅ Estado `.active` para casetas seleccionadas en el mapa
+- ✅ `prefers-reduced-motion` y `forced-colors` queries
+- ✅ Botón cerrar panel con tamaño táctil mínimo (44×44px)
+
+### JavaScript
+- ✅ Objeto **CONFIG** centralizado con todos los selectores, clases y mensajes
+- ✅ Objeto **appState** para rastreo de estado de la aplicación
+- ✅ Función `updateAccessibility()` genérica reutilizable
+- ✅ Función `announceToScreenReader()` para aria-live
+- ✅ Función `executeSearch()` unificada (escritorio + móvil)
+- ✅ Función `renderDynamicContent()` preparada para Firebase
+- ✅ Función `loadDataFromSource()` placeholder para Firestore
+- ✅ Cierre por backdrop overlay
+- ✅ Foco automático en panel al abrir
+- ✅ Escape con prioridad lógica (panel > buscador)
+- ✅ Documentación exhaustiva en cada función y bloque
 
 ---
 
-## 🚀 Integración Prevista con Firebase
+## 🔥 Integración con Firebase
 
-Actualmente, los datos de las casetas (nombre, calle) residen como atributos HTML (`data-name`, `data-street`).
-**Próximos pasos recomendados:**
-1. Inicializar `firebase-config.js` y conectar a Firestore o Realtime DB.
-2. Descargar un JSON dinámico al cargar la página en `script.js`.
-3. Modificar la función `handleMapItemClick()` para que, en lugar de leer el DOM, lea el JSON basándose en un ID de caseta (`data-id`).
-4. Almacenar este proyecto estático en **Firebase Hosting**, lo que garantizará carga casi instantánea mediante su CDN global.
+### Estado Actual
+El archivo `firebase-config.js` inicializa los siguientes servicios:
+
+| Servicio | Variable | Estado |
+|---|---|---|
+| Firebase App | `app` | ✅ Inicializado |
+| Firestore | `db` | ✅ Inicializado, sin consultas activas |
+| Analytics | `analytics` | ✅ Activo |
+| Auth | `auth` | ✅ Inicializado, sin uso activo |
+
+### Pasos para Integración Completa
+
+1. **Crear colección `casetas`** en Firestore con documentos que contengan: `name`, `street`, `coordinates`, `type`, `schedule`, `capacity`.
+2. **En `script.js`**: Reemplazar el contenido de `loadDataFromSource()` con una llamada real a `getDocs(collection(db, 'casetas'))`.
+3. **En `handleMapItemInteraction()`**: Buscar el documento de Firestore por `data-id` en lugar de leer `data-*` del DOM.
+4. **Usar `renderDynamicContent()`** para inyectar los datos adicionales de Firebase en el panel lateral.
+5. **Desplegar en Firebase Hosting**: `firebase deploy --only hosting`.
 
 ---
 
-## 🛠️ Instrucciones de Mantenimiento para Futuros Desarrolladores
+## 🔧 Variables JavaScript Reutilizables
 
-- **Alteraciones de Color**: Si el Ayuntamiento decide actualizar el "Azul Digital", no busques y reemplaces valores hexadecimales por todo el código. Simplemente dirígete a `style.css` y modifica la variable `:root { --color-azul-digital: ... }`.
-- **Modificación de JavaScript**: El archivo `script.js` está minuciosamente documentado. Por favor, lee los bloques de comentarios antes de alterar los escuchadores de eventos y respeta el uso de `e.stopPropagation()` en los menús desplegables para no romper la funcionalidad de "cerrar al perder el foco".
-- **SVG del Mapa**: Si el plano de la Feria cambia, debes subir el nuevo archivo JPG/PNG a `/fotos` y actualizar las coordenadas `<rect>` en el HTML del mapa SVG (`index.html`). Asegúrate de que las nuevas formas SVG sigan teniendo `tabindex="0"` y `class="mapItem"`.
+### CONFIG (Configuración)
+```javascript
+CONFIG.selectors    // Todos los selectores CSS del DOM
+CONFIG.classes      // Clases CSS que se manipulan dinámicamente
+CONFIG.aria         // Nombres de atributos ARIA
+CONFIG.messages     // Textos del usuario (fácil de traducir)
+CONFIG.timing       // Tiempos de animación/delay
+```
+
+### appState (Estado)
+```javascript
+appState.selectedItemId    // ID de la caseta seleccionada
+appState.isPanelOpen       // Boolean: panel lateral abierto
+appState.isMobileSearchOpen // Boolean: buscador móvil abierto
+```
+
+### Funciones Reutilizables
+| Función | Propósito | Reutilizable para |
+|---|---|---|
+| `updateAccessibility()` | Actualiza atributos ARIA | Cualquier componente interactivo |
+| `announceToScreenReader()` | Anuncia a lectores de pantalla | Cualquier acción del usuario |
+| `openDetailsPanel()` | Muestra panel con datos | Cualquier tipo de contenido |
+| `closeDetailsPanel()` | Oculta panel y limpia | — |
+| `executeSearch()` | Busca por nombre | Cualquier colección de datos |
+| `renderDynamicContent()` | Renderiza datos en panel | Datos de Firebase/JSON |
+| `loadDataFromSource()` | Carga datos externos | Cualquier colección Firestore |
+
+---
+
+## 🛠️ Instrucciones de Mantenimiento
+
+### Cambiar Colores Institucionales
+Editar las variables en `:root` de `style.css`. **No buscar/reemplazar** valores hex por todo el código.
+
+### Añadir Nuevas Casetas al Mapa
+1. Abrir `index.html`.
+2. Dentro del `<svg id="eventMap">`, añadir un nuevo `<rect>` con:
+   - Coordenadas `x`, `y`, `width`, `height` correctas.
+   - `class="mapItem"`, `tabindex="0"`, `role="button"`.
+   - `aria-label` descriptivo, `data-name` y `data-street`.
+3. El JavaScript detectará automáticamente los nuevos elementos.
+
+### Modificar Textos del Usuario
+Editar el objeto `CONFIG.messages` en `script.js`. Todos los textos están centralizados ahí.
+
+### Cambiar Breakpoints Responsive
+Buscar la sección `8. MEDIA QUERIES` en `style.css`. Los breakpoints son: `480px`, `768px`, `992px`.
+
+### Actualizar el Mapa (nueva imagen)
+1. Reemplazar `fotos/mapa_evento.jpg` con la nueva imagen.
+2. Ajustar las coordenadas de los `<rect>` en el SVG si el plano cambió.
+3. Mantener el `viewBox="0 0 800 600"` o ajustarlo a las proporciones de la nueva imagen.
+
+---
+
+## 📋 Instrucciones para Futuros Desarrolladores
+
+1. **Leer primero** `DOCUMENTACION_CODIGO.md` para entender la arquitectura técnica.
+2. **No modificar** visualmente el header ni el footer — están aprobados institucionalmente.
+3. **Respetar** el patrón IIFE en JavaScript y el objeto CONFIG centralizado.
+4. **Usar** las Custom Properties de CSS para cualquier nuevo estilo.
+5. **Documentar** todo nuevo código con comentarios claros en español.
+6. **Probar** en móvil, tablet y escritorio antes de cada despliegue.
+7. **Probar accesibilidad** con teclado (Tab, Enter, Escape) y lectores de pantalla.
+8. **Desplegar** siempre a Firebase Hosting: `firebase deploy --only hosting`.
+
+---
+
+## 🚀 Recomendaciones para Futuras Ampliaciones
+
+- [ ] Mapear casetas reales con coordenadas SVG exactas sobre el plano oficial.
+- [ ] Conectar Firestore con `loadDataFromSource()` para datos dinámicos.
+- [ ] Implementar filtrado por categoría (peñas, municipales, privadas).
+- [ ] Añadir geolocalización del usuario sobre el mapa.
+- [ ] Convertir logos PNG a SVG o WebP para mejor rendimiento.
+- [ ] Implementar Service Worker para funcionamiento offline.
+- [ ] Añadir modo oscuro respetando la paleta institucional.
+- [ ] Internacionalización (i18n) para turistas (inglés, francés).
+- [ ] Probar en dispositivos reales Android/iOS antes del lanzamiento.
+
+---
+
+*Documento generado para el proyecto Mapa Interactivo Feria Real de Algeciras 2026.*  
+*Ayuntamiento de Algeciras — Área de Innovación y Tecnología*
