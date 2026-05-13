@@ -11,9 +11,9 @@
 }
 
 :root {
-    --blueGradient: linear-gradient(to right, #00599f, #2989d8, #00599f);
-    --darkBlue: #002d55;
-    --accentBlue: #00599f;
+    --blueGradient: #0b63a5;
+    --darkBlue: #084d82;
+    --accentBlue: #0b63a5;
     --white: #ffffff;
     --lightGray: #f5f5f5;
     --textColor: #333333;
@@ -22,6 +22,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
+    font-weight: 500;
     color: var(--textColor);
     background-color: var(--lightGray);
     min-height: 100vh;
@@ -32,7 +33,7 @@ body {
 /* --- CABECERA INSTITUCIONAL (NORMATIVA ALGECIRAS) --- */
 .mainHeader {
     background: var(--blueGradient);
-    padding: 10px 20px;
+    padding: 10px 4%; /* Separación segura pero aprovechando el ancho */
     box-shadow: var(--shadow);
     color: var(--white);
     position: sticky;
@@ -41,7 +42,7 @@ body {
 }
 
 .headerContent {
-    max-width: 1200px;
+    max-width: 100%; /* Aprovecha todo el ancho disponible */
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -61,8 +62,14 @@ body {
 }
 
 .mainLogoImg {
-    height: 55px;
+    height: 75px;
     width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+}
+
+.mainLogoImg:hover {
+    transform: scale(1.02);
 }
 
 .mobileActions {
@@ -91,14 +98,18 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.mobileBtn:hover, .mobileBtn:active {
+.mobileBtn:hover, 
+.mobileBtn:focus-visible,
+.mobileBtn:active, 
+.mobileBtn.active {
+    background: var(--darkBlue);
+    color: var(--white);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-.mobileBtn:focus-visible {
-    outline: 2px solid var(--white);
-    outline-offset: 2px;
+.mobileBtn:active {
+    transform: scale(0.95);
 }
 
 .outlineBtn {
@@ -108,13 +119,7 @@ body {
     border: 1px solid rgba(255,255,255,0.8);
 }
 
-/* Estado activo del botón lupa */
-.mobileBtn.active {
-    background: var(--lightGray);
-    color: var(--darkBlue);
-    transform: scale(0.95);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
+/* El estado activo ahora se maneja arriba con hover/focus */
 
 /* Buscador Móvil Desplegable */
 .searchRowMobile {
@@ -172,12 +177,15 @@ body {
 
 /* --- DISEÑO ESCRITORIO (IMAGEN 1) --- */
 @media (min-width: 992px) {
+    .mainHeader {
+        padding: 10px 2%; /* En pantallas grandes, permitimos acercarnos más a los bordes */
+    }
     .headerTopRow {
         min-height: 90px;
     }
 
     .mainLogoImg {
-        height: 65px;
+        height: 90px;
     }
 
     .mobileActions {
@@ -190,8 +198,9 @@ body {
 
     .desktopHeaderActions {
         display: flex;
-        flex-direction: column;
-        align-items: flex-end;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
         gap: 12px;
         flex: 1;
     }
@@ -199,10 +208,11 @@ body {
     .searchContainer {
         display: flex;
         background: var(--white);
-        border-radius: 4px;
+        border-radius: 8px;
         overflow: hidden;
-        height: 40px;
+        height: 44px;
         width: 350px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .searchInput {
@@ -212,10 +222,11 @@ body {
         outline: none;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
+        font-size: 0.95rem;
     }
 
     .searchBtn {
-        background: #005691;
+        background: var(--accentBlue);
         color: var(--white);
         border: none;
         padding: 0 20px;
@@ -224,25 +235,11 @@ body {
         display: flex;
         align-items: center;
         gap: 8px;
+        transition: background 0.3s ease;
     }
 
-    .headerNav {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .headerNav a {
-        color: var(--white);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .navDivider {
-        color: rgba(255,255,255,0.4);
+    .searchBtn:hover {
+        background: var(--darkBlue);
     }
 }
 
@@ -299,113 +296,7 @@ body {
     stroke: var(--accentBlue);
 }
 
-/* 5. DROPDOWN DE BÚSQUEDA (MEJORA UI) */
-.uic-search-wrapper { position: relative; }
 
-.uic-search-dropdown {
-    position: absolute;
-    top: calc(100% + 15px);
-    right: 0;
-    width: 320px;
-    background: var(--accentBlue);
-    border-radius: 4px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    z-index: var(--z-dropdown);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 2px;
-}
-
-.uic-search-dropdown.uic-active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.uic-search-dropdown__content {
-    display: flex;
-    background: var(--white);
-    border-radius: 2px;
-    overflow: hidden;
-}
-
-.uic-search-dropdown__input {
-    flex: 1;
-    border: none;
-    padding: 12px 15px;
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    outline: none;
-}
-
-.uic-search-dropdown__submit-btn {
-    background: var(--accentBlue);
-    color: var(--white);
-    border: none;
-    padding: 0 18px;
-    cursor: pointer;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* 6. MODAL CENTRADO */
-.uic-modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: var(--z-modal-backdrop);
-    opacity: 0;
-    visibility: hidden;
-    backdrop-filter: blur(4px);
-    transition: all 0.3s;
-}
-
-.uic-modal-backdrop.uic-active { opacity: 1; visibility: visible; }
-
-.uic-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    background: var(--white);
-    width: 90%;
-    max-width: 450px;
-    border-radius: 12px;
-    z-index: var(--z-modal);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-}
-
-.uic-modal.uic-active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
-
-.uic-modal__header {
-    background: var(--blueGradient);
-    padding: 20px;
-    color: var(--white);
-    position: relative;
-}
-
-.uic-modal__close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: var(--white);
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.uic-modal__body { padding: 25px; }
 
 /* 7. PANEL LATERAL (DETALLES) */
 .detailsOverlay {
@@ -435,7 +326,7 @@ body {
 
 .footerContent {
     max-width: 100%;
-    padding: 0 4%;
+    padding: 0 2%;
     display: flex;
     justify-content: space-between;
     align-items: center;
