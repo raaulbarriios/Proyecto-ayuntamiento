@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de la Feria - Ayuntamiento de Algeciras</title>
+    <title>Mapa del Evento - Ayuntamiento de Algeciras</title>
     <!-- Google Fonts: Inter (Medium 500) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +25,15 @@
                 
                 <!-- Acciones Móvil -->
                 <div class="mobileActions">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Recinto+Ferial+de+Algeciras" 
+                       id="mapLinkMobile"
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="map-link-mobile" 
+                       aria-label="Ver ubicación en el mapa">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Mapa</span>
+                    </a>
                     <button id="toggleMobileSearch" class="mobileBtn" aria-label="Abrir buscador" aria-expanded="false">
                         <i class="fas fa-search"></i>
                     </button>
@@ -32,11 +41,24 @@
 
                 <!-- Acciones Desktop -->
                 <div class="desktopHeaderActions">
-                    <div class="searchContainer">
-                        <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar">
-                        <button id="searchTrigger" class="searchBtn"><i class="fas fa-search"></i> <span class="searchBtnText">Buscar</span></button>
+                    <div class="headerActionsWrapper">
+                        <div class="searchContainer">
+                            <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar">
+                            <button id="searchTrigger" class="searchBtn"><i class="fas fa-search"></i> <span class="searchBtnText">Buscar</span></button>
+                        </div>
+                        <div class="map-link-container">
+                            <a href="https://www.google.com/maps/search/?api=1&query=Recinto+Ferial+de+Algeciras" 
+                               id="mapLinkDesktop"
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="map-link" 
+                               aria-label="Ver ubicación en el mapa">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span class="map-text-desktop">Ver en el mapa</span>
+                                <span class="map-text-mobile">Mapa</span>
+                            </a>
+                        </div>
                     </div>
-
                 </div>
             </div>
 
@@ -60,13 +82,13 @@
     <!-- 3. Mapa Interactivo -->
     <main class="mapWrapper">
         <div class="mapImageContainer">
-            <img src="fotos/mapa_evento.jpg" alt="Mapa de la Feria Real de Algeciras 2026" class="mapImage">
+            <img src="fotos/mapa_evento.jpg" alt="Mapa interactivo del evento" class="mapImage">
             <svg id="eventMap" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" class="mapSvgOverlay">
-                <!-- Casetas (Ejemplos) -->
-                <rect x="100" y="150" width="60" height="40" class="mapItem" data-name="Caseta Los Amigos" data-street="Calle Principal, 12"></rect>
-                <rect x="200" y="200" width="60" height="40" class="mapItem" data-name="Caseta La Alegría" data-street="Avenida del Real, 5"></rect>
-                <rect x="350" y="120" width="80" height="50" class="mapItem" data-name="Caseta Municipal" data-street="Plaza Mayor, 1"></rect>
-                <rect x="500" y="300" width="70" height="45" class="mapItem" data-name="Peña El Estribo" data-street="Calle del Sol, 24"></rect>
+                <!-- Elementos del Mapa (Ejemplos) -->
+                <rect x="100" y="150" width="60" height="40" class="mapItem" data-name="Punto de Interés 1" data-location="Zona A, Bloque 1"></rect>
+                <rect x="200" y="200" width="60" height="40" class="mapItem" data-name="Punto de Interés 2" data-location="Zona B, Bloque 2"></rect>
+                <rect x="350" y="120" width="80" height="50" class="mapItem" data-name="Ubicación Principal" data-location="Plaza Central"></rect>
+                <rect x="500" y="300" width="70" height="45" class="mapItem" data-name="Peña de Ejemplo" data-location="Calle Exterior, 5"></rect>
             </svg>
         </div>
     </main>
@@ -74,11 +96,11 @@
     <!-- 4. Panel de Detalles (Lateral) -->
     <div id="infoOverlay" class="detailsOverlay" aria-hidden="true">
         <button id="closePanelBtn" class="closeOverlayBtn" aria-label="Cerrar panel">&times;</button>
-        <h2 id="displayName">Nombre de la Caseta</h2>
+        <h2 id="displayName">Nombre del Elemento</h2>
         <p id="displayLocation">Ubicación: Calle Principal</p>
         <hr>
-        <div class="casetaInfo">
-            <p><i class="fas fa-info-circle"></i> Información detallada sobre la caseta seleccionada.</p>
+        <div class="itemInfo">
+            <p><i class="fas fa-info-circle"></i> Información detallada sobre el elemento seleccionado.</p>
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-# 🏛️ Mapa Interactivo — Feria Real de Algeciras 2026
+# 🏛️ Mapa Interactivo de Eventos Municipales
 
 **Proyecto institucional del Ayuntamiento de Algeciras**  
 **Versión:** 2.0 — Refactorizado  
@@ -9,7 +9,7 @@
 
 ## 📋 Descripción General
 
-Aplicación web institucional que ofrece un **mapa interactivo** del recinto de la Feria Real de Algeciras 2026. Los ciudadanos y visitantes pueden explorar las casetas del recinto, buscar por nombre y consultar información detallada de cada punto de interés.
+Aplicación web institucional que ofrece un **mapa interactivo** para eventos municipales. Los ciudadanos y visitantes pueden explorar los puntos de interés, buscar por nombre y consultar información detallada.
 
 El proyecto sigue estrictamente el **Manual de Identidad Visual Corporativa del Ayuntamiento de Algeciras**, garantizando coherencia visual con la imagen institucional oficial.
 
@@ -47,7 +47,7 @@ Proyecto-ayuntamiento/
 └── fotos/                   → Recursos gráficos institucionales
     ├── Logo algeciras color blanco texto derecha.png  → Logo cabecera
     ├── Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png → Logo footer
-    ├── mapa_evento.jpg      → Imagen base del mapa del recinto ferial
+    ├── mapa_evento.jpg      → Imagen base del mapa del evento (recinto, edificio, etc.)
     └── [otros logos]        → Variantes del escudo oficial
 ```
 
@@ -89,7 +89,7 @@ El frontend utiliza un enfoque **Mobile-First** con tres breakpoints:
 | Roles ARIA | `role="banner"`, `role="main"`, `role="dialog"`, `role="search"`, `role="contentinfo"` |
 | aria-live | Región `aria-live="polite"` anuncia resultados de búsqueda y apertura/cierre de paneles |
 | aria-modal | Panel lateral marcado como `aria-modal="true"` |
-| Navegación por teclado | Casetas del mapa con `tabindex="0"`, activables con Enter/Espacio |
+| Navegación por teclado | Elementos del mapa con `tabindex="0"`, activables con Enter/Espacio |
 | Tecla Escape | Cierra panel lateral y buscador móvil con prioridad lógica |
 | Focus visible | Anillo de foco amarillo institucional (`#ffc72c`) con `outline-offset: 2px` |
 | Tamaños táctiles | Botones mínimo 44×44px (WCAG 2.5.5) |
@@ -120,9 +120,12 @@ El frontend utiliza un enfoque **Mobile-First** con tres breakpoints:
 - ✅ Breakpoint tablet añadido (768px)
 - ✅ Skip-link y `.srOnly` estilos de accesibilidad
 - ✅ Overlay backdrop con transición
-- ✅ Estado `.active` para casetas seleccionadas en el mapa
+- ✅ Estado `.active` para elementos seleccionados en el mapa
 - ✅ `prefers-reduced-motion` y `forced-colors` queries
 - ✅ Botón cerrar panel con tamaño táctil mínimo (44×44px)
+- ✅ Nuevo botón interactivo "Ver en el mapa" sincronizado con el buscador.
+- ✅ Iconos de cabecera con comportamiento toggle y feedback visual.
+- ✅ Refactorización completa a arquitectura genérica y escalable.
 
 ### JavaScript
 - ✅ Objeto **CONFIG** centralizado con todos los selectores, clases y mensajes
@@ -153,7 +156,7 @@ El archivo `firebase-config.js` inicializa los siguientes servicios:
 
 ### Pasos para Integración Completa
 
-1. **Crear colección `casetas`** en Firestore con documentos que contengan: `name`, `street`, `coordinates`, `type`, `schedule`, `capacity`.
+1. **Crear colección `items`** en Firestore con documentos que contengan: `name`, `location`, `coordinates`, `type`, `details`.
 2. **En `script.js`**: Reemplazar el contenido de `loadDataFromSource()` con una llamada real a `getDocs(collection(db, 'casetas'))`.
 3. **En `handleMapItemInteraction()`**: Buscar el documento de Firestore por `data-id` en lugar de leer `data-*` del DOM.
 4. **Usar `renderDynamicContent()`** para inyectar los datos adicionales de Firebase en el panel lateral.
@@ -174,7 +177,7 @@ CONFIG.timing       // Tiempos de animación/delay
 
 ### appState (Estado)
 ```javascript
-appState.selectedItemId    // ID de la caseta seleccionada
+appState.selectedItemId    // ID del elemento seleccionado
 appState.isPanelOpen       // Boolean: panel lateral abierto
 appState.isMobileSearchOpen // Boolean: buscador móvil abierto
 ```
@@ -197,12 +200,12 @@ appState.isMobileSearchOpen // Boolean: buscador móvil abierto
 ### Cambiar Colores Institucionales
 Editar las variables en `:root` de `style.css`. **No buscar/reemplazar** valores hex por todo el código.
 
-### Añadir Nuevas Casetas al Mapa
+### Añadir Nuevas Ubicaciones al Mapa
 1. Abrir `index.html`.
 2. Dentro del `<svg id="eventMap">`, añadir un nuevo `<rect>` con:
    - Coordenadas `x`, `y`, `width`, `height` correctas.
    - `class="mapItem"`, `tabindex="0"`, `role="button"`.
-   - `aria-label` descriptivo, `data-name` y `data-street`.
+   - `aria-label` descriptivo, `data-name` y `data-location`.
 3. El JavaScript detectará automáticamente los nuevos elementos.
 
 ### Modificar Textos del Usuario
@@ -233,7 +236,7 @@ Buscar la sección `8. MEDIA QUERIES` en `style.css`. Los breakpoints son: `480p
 
 ## 🚀 Recomendaciones para Futuras Ampliaciones
 
-- [ ] Mapear casetas reales con coordenadas SVG exactas sobre el plano oficial.
+- [ ] Mapear ubicaciones reales con coordenadas SVG exactas sobre el plano oficial.
 - [ ] Conectar Firestore con `loadDataFromSource()` para datos dinámicos.
 - [ ] Implementar filtrado por categoría (peñas, municipales, privadas).
 - [ ] Añadir geolocalización del usuario sobre el mapa.
@@ -245,5 +248,5 @@ Buscar la sección `8. MEDIA QUERIES` en `style.css`. Los breakpoints son: `480p
 
 ---
 
-*Documento generado para el proyecto Mapa Interactivo Feria Real de Algeciras 2026.*  
+*Documento generado para el proyecto de Mapa Interactivo de Eventos.*  
 *Ayuntamiento de Algeciras — Área de Innovación y Tecnología*

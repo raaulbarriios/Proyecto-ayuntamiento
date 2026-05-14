@@ -9,7 +9,7 @@
 
 ## 1. Descripción General
 
-Este proyecto es una **aplicación web interactiva** orientada principalmente a dispositivos móviles que permite a los ciudadanos y visitantes de la Feria Real de Algeciras 2026 explorar el recinto ferial a través de un mapa interactivo. Los usuarios pueden hacer clic sobre las diferentes casetas del mapa para obtener información detallada sobre cada una de ellas.
+Este proyecto es una **aplicación web interactiva** orientada principalmente a dispositivos móviles que permite a los ciudadanos y visitantes explorar un recinto o evento a través de un mapa interactivo. Los usuarios pueden hacer clic sobre los diferentes puntos de interés para obtener información detallada.
 
 La aplicación forma parte de la presencia digital del **Ayuntamiento de Algeciras** y sigue estrictamente las directrices de identidad visual institucional (colores, tipografía, logotipos y estructura de la web oficial del ayuntamiento).
 
@@ -18,8 +18,8 @@ La aplicación forma parte de la presencia digital del **Ayuntamiento de Algecir
 ## 2. Objetivo
 
 - Proporcionar un **mapa del recinto ferial** accesible desde cualquier dispositivo móvil.
-- Permitir la **búsqueda por nombre de caseta** para localizar de forma rápida un punto de interés.
-- Mostrar **información detallada** de cada caseta al hacer clic sobre ella.
+- Permitir la **búsqueda por nombre** para localizar de forma rápida un punto de interés.
+- Mostrar **información detallada** de cada elemento al hacer clic sobre él.
 - Mantener la coherencia visual con la **imagen institucional del Ayuntamiento de Algeciras**.
 
 ---
@@ -48,7 +48,7 @@ Proyecto-ayuntamiento/
 | HTML5 | Estructura semántica de la página |
 | CSS3 | Estilos, animaciones y diseño responsive |
 | JavaScript (ES Modules) | Interactividad, búsqueda y conexión con Firebase |
-| Firebase Firestore | Base de datos en tiempo real para datos de casetas |
+| Firebase Firestore | Base de datos en tiempo real para datos de elementos |
 | Firebase Analytics | Seguimiento de uso de la aplicación |
 | Firebase Auth | Autenticación (preparada para uso futuro) |
 | Google Fonts (Inter) | Tipografía institucional |
@@ -141,13 +141,13 @@ La aplicación está diseñada prioritariamente para **dispositivos móviles**. 
 ### 7.1 Mapa Interactivo
 
 - Se muestra la imagen `fotos/mapa_evento.jpg` como capa base del mapa.
-- Sobre la imagen se superpone un SVG transparente con elementos clicables (`.mapItem`) que representan las casetas.
-- Al hacer clic en una caseta, se muestra el **Panel de Detalle** con información de esa caseta.
+- Sobre la imagen se superpone un SVG transparente con elementos clicables (`.mapItem`) que representan los puntos de interés.
+- Al hacer clic en un elemento, se muestra el **Panel de Detalle** con información asociada.
 
 ### 7.2 Búsqueda de Casetas
 
-- El usuario puede escribir el nombre de una caseta en el buscador de la cabecera.
-- Al pulsar "Buscar" o la tecla Enter, se localiza la caseta en el mapa y se muestra su información.
+- El usuario puede escribir el nombre de un elemento en el buscador de la cabecera.
+- Al pulsar "Buscar" o la tecla Enter, se localiza el elemento en el mapa y se muestra su información.
 
 ### 7.3 Panel de Detalle
 
@@ -190,14 +190,14 @@ La aplicación está diseñada prioritariamente para **dispositivos móviles**. 
 
 ## 10. Próximos Pasos Recomendados
 
-- [ ] **Mapear las casetas reales** sobre la imagen del mapa definiendo las coordenadas correctas en los elementos SVG.
-- [ ] **Conectar Firestore** con los `data-id` de cada caseta para cargar nombre, propietario, horarios, etc.
-- [ ] **Implementar filtrado** por categoría de caseta (peñas, municipales, privadas...).
+- [ ] **Mapear los elementos reales** sobre la imagen del mapa definiendo las coordenadas correctas en los elementos SVG.
+- [ ] **Conectar Firestore** con los `data-id` de cada elemento para cargar nombre, descripción, etc.
+- [ ] **Implementar filtrado** por categoría (servicios, zonas, etc.).
 - [ ] **Añadir accesibilidad** (etiquetas ARIA, navegación por teclado en el mapa).
 - [ ] **Optimizar las imágenes** (convertir logos a SVG o WebP para mayor rendimiento).
 - [ ] **Probar en dispositivos reales** (Android/iOS) antes del lanzamiento oficial.
 
 ---
 
-*Documento generado para el proyecto Mapa Interactivo Feria Real de Algeciras 2026.*  
+*Documento generado para el proyecto de Mapa Interactivo de Eventos.*  
 *Ayuntamiento de Algeciras — Área de Innovación y Tecnología*

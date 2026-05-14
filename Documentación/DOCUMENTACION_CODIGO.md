@@ -1,4 +1,4 @@
-# 🛠️ Documentación Técnica del Código: Mapa Interactivo Feria de Algeciras 2026
+# 🛠️ Documentación Técnica del Código: Mapa Interactivo de Eventos
 
 **Versión:** 1.0  
 **Fecha:** Mayo 2026  
@@ -28,7 +28,7 @@
               │
               ├── Escucha clics en .mapItem (SVG sobre el mapa)
               ├── Escucha el buscador (#manualSearch + #searchTrigger)
-              └── Muestra el panel (#infoOverlay) con datos del elemento
+              └── Muestra el panel (#infoOverlay) con datos del punto de interés seleccionado.
 ```
 
 ---
@@ -42,24 +42,35 @@ El archivo `index.html` define la estructura semántica completa de la página. 
 ```html
 <header class="mainHeader" role="banner">
     <div class="headerContent">
-        <div class="headerLeft">           <!-- Logo + texto del ayuntamiento -->
-        <div class="headerRight">          <!-- Buscador + navegación -->
+        <div class="headerTopRow">
+            <div class="logoContainer">...</div>
+            <div class="mobileActions">
+                <a id="mapLinkMobile" class="map-link-mobile">...</a>
+                <button id="toggleMobileSearch" class="mobileBtn">...</button>
+            </div>
+            <div class="desktopHeaderActions">
+                <div class="headerActionsWrapper">
+                    <div class="searchContainer">...</div>
+                    <div class="map-link-container">
+                        <a id="mapLinkDesktop" class="map-link">...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mobileSearchRow" class="searchRowMobile">...</div>
     </div>
 </header>
 ```
 
 | Clase / ID | Descripción |
 |---|---|
-| `.mainHeader` | Contenedor externo que aplica el padding y espaciado |
-| `.headerContent` | Barra azul con gradiente institucional, bordes redondeados |
-| `.headerLeft` | Flexbox horizontal con escudo y texto del ayuntamiento |
-| `.headerShield` | Imagen del escudo/logo oficial |
-| `.headerText` | Bloque con las dos líneas de texto "Ayuntamiento / de Algeciras" |
-| `.headerRight` | Columna vertical con buscador y nav, alineada a la derecha |
-| `.searchContainer` | Contenedor del input + botón de búsqueda |
-| `#manualSearch` | Input de texto para buscar casetas (referenciado en `script.js`) |
-| `#searchTrigger` | Botón "Buscar" que dispara la búsqueda (referenciado en `script.js`) |
-| `.headerNav` | Barra de navegación con enlaces TEMAS / AYUNTAMIENTO / LA CIUDAD |
+| `.headerTopRow` | Contenedor principal de la fila superior (Logo + Acciones) |
+| `.mobileActions` | Contenedor de botones visibles solo en móvil/tablet |
+| `.desktopHeaderActions` | Contenedor del buscador y links visibles en escritorio |
+| `.headerActionsWrapper` | Stack vertical para alinear buscador y link de mapa |
+| `#mapLinkDesktop` / `#mapLinkMobile` | Enlaces a Google Maps con comportamiento de botón sincronizado |
+| `#toggleMobileSearch` | Botón tipo toggle para desplegar el buscador móvil |
+| `#mobileSearchRow` | Fila desplegable que contiene el buscador en dispositivos móviles |
 
 ### Sección del Evento `<section class="eventTitleSection">`
 
@@ -97,9 +108,9 @@ El archivo `index.html` define la estructura semántica completa de la página. 
 
 | Atributo | Descripción |
 |---|---|
-| `data-id` | Identificador único de la caseta (ej. `c1`) |
-| `data-name` | Nombre de la caseta (ej. `"Caseta Los Amigos"`) |
-| `data-street` | Dirección o ubicación |
+| `data-id` | Identificador único del elemento (ej. `e1`) |
+| `data-name` | Nombre del elemento (ej. `"Ubicación 1"`) |
+| `data-location` | Dirección o ubicación |
 | `data-owner` | Propietario o entidad gestora |
 
 ### Panel de Detalle `<aside id="infoOverlay">`
@@ -119,8 +130,8 @@ El archivo `index.html` define la estructura semántica completa de la página. 
 |---|---|
 | `#infoOverlay` | Panel deslizante. Oculto por defecto (`transform: translateY(100%)`) |
 | `#closePanelBtn` | Botón ✕ para cerrar el panel |
-| `#displayName` | Texto donde se inyecta el nombre de la caseta seleccionada |
-| `#displayLocation` | Texto donde se inyecta el identificador de la caseta |
+| `#displayName` | Texto donde se inyecta el nombre del elemento seleccionado |
+| `#displayLocation` | Texto donde se inyecta la ubicación del elemento |
 | `#firebaseData` | Contenedor reservado para datos adicionales de Firebase |
 
 ### Pie de Página `<footer class="mainFooter">`
@@ -270,7 +281,7 @@ const appState = {
 
 Un objeto de estado centralizado facilita rastrear qué está pasando en la aplicación.
 
-### 4.3 `updateDetailsPanel(element)` — Mostrar Información de una Caseta
+### 4.3 `updateInfoPanel(item)` — Mostrar Información de un Elemento
 
 ```javascript
 const updateDetailsPanel = (element) => {
@@ -313,7 +324,7 @@ const executeManualSearch = () => {
         updateDetailsPanel(foundItem);
         foundItem.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Desplaza al elemento
     } else {
-        alert("No se encontró ninguna caseta con ese nombre.");
+        alert("No se encontró ningún elemento con ese nombre.");
     }
 };
 ```
@@ -423,5 +434,5 @@ export { app, analytics, db, auth };   // Se exportan para uso en otros módulos
 
 ---
 
-*Documento técnico generado para el proyecto Mapa Interactivo Feria Real de Algeciras 2026.*  
+*Documento técnico generado para el proyecto de Mapa Interactivo de Eventos.*  
 *Ayuntamiento de Algeciras — Área de Innovación y Tecnología*
