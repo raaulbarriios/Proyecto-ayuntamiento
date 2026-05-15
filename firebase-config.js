@@ -1,5 +1,3 @@
-// Configuración de Firebase para la conexión con la base de datos
-// Este archivo debe ser completado con las credenciales del proyecto de Firebase
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
