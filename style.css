@@ -370,7 +370,7 @@ body {
     height: 100vh;
     background: var(--white);
     box-shadow: -5px 0 30px rgba(0,0,0,0.15);
-    z-index: var(--z-overlay);
+    z-index: 2000;
     transition: right 0.4s ease;
     padding: 40px 30px;
 }
