@@ -1,0 +1,410 @@
+/* 
+   Proyecto: Mapa de Eventos - Ayuntamiento de Algeciras
+   Estado: Restaurado a versión funcional previa
+*/
+
+/* Reseteo y Estilos Globales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blueGradient: #0b63a5;
+    --darkBlue: #084d82;
+    --accentBlue: #0b63a5;
+    --white: #ffffff;
+    --lightGray: #f5f5f5;
+    --textColor: #333333;
+    --shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--textColor);
+    background-color: var(--lightGray);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- CABECERA INSTITUCIONAL (NORMATIVA ALGECIRAS) --- */
+.mainHeader {
+    background: var(--blueGradient);
+    padding: 10px 4%; /* Separación segura pero aprovechando el ancho */
+    box-shadow: var(--shadow);
+    color: var(--white);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.headerContent {
+    max-width: 100%; /* Aprovecha todo el ancho disponible */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.headerTopRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-height: 60px;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+}
+
+.mainLogoImg {
+    height: 75px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+}
+
+.mainLogoImg:hover {
+    transform: scale(1.02);
+}
+
+.mobileActions {
+    display: flex;
+    gap: 10px;
+}
+
+.desktopHeaderActions {
+    display: none; /* Oculto en móvil */
+}
+
+/* Botón de Acción Base (Estilo Lupa/Mapa) */
+.mobileBtn, .map-link-mobile, .map-link {
+    width: auto;
+    min-width: 44px;
+    height: 44px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--accentBlue);
+    color: var(--white);
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+.mobileBtn:hover, 
+.mobileBtn:focus-visible,
+.mobileBtn.active,
+.map-link-mobile:hover,
+.map-link-mobile:focus-visible,
+.map-link-mobile.active,
+.map-link:hover,
+.map-link:focus-visible,
+.map-link.active {
+    background: var(--darkBlue);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    outline: none;
+}
+
+.mobileBtn:active, .map-link-mobile:active, .map-link:active {
+    transform: scale(0.95);
+}
+
+.outlineBtn {
+    /* Mantener para otros usos si hiciera falta, aunque lo quitamos del search */
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.8);
+}
+
+/* El estado activo ahora se maneja arriba con hover/focus */
+
+/* Buscador Móvil Desplegable */
+.searchRowMobile {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+}
+
+.searchRowMobile.active {
+    max-height: 120px;
+    padding: 15px 0 8px 0;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.searchInlineBox {
+    display: flex;
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 48px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.searchInlineBox input {
+    flex: 1;
+    border: none;
+    padding: 0 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    outline: none;
+    color: var(--textColor);
+}
+
+.mobileSearchActionBtn {
+    background: var(--accentBlue);
+    color: var(--white);
+    border: none;
+    padding: 0 20px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s ease;
+}
+
+.mobileSearchActionBtn:hover, .mobileSearchActionBtn:active {
+    background: var(--darkBlue);
+}
+
+/* --- ESTILOS COMPONENTE MAPA (GENÉRICO Y REUTILIZABLE) --- */
+
+/* Contenedor Escritorio */
+.map-link-container {
+    margin-top: 8px;
+    text-align: right;
+}
+
+/* Estilo Base (Heredado del Sistema de Diseño del Buscador) */
+.map-link {
+    /* Las propiedades base ahora se heredan de la regla superior */
+    font-weight: 600;
+    gap: 8px;
+}
+
+/* Versión Escritorio */
+.map-link {
+    padding: 0 20px;
+    height: 44px;
+    font-size: 0.85rem;
+}
+
+/* Versión Móvil (Integrada en cabecera) */
+.map-link-mobile {
+    /* Hereda de la base de botones de acción arriba */
+    padding: 0; /* Anula el padding de .map-link si fuera necesario */
+    width: auto; /* Permite que el texto se vea si existe */
+    min-width: 44px;
+    gap: 5px;
+    padding: 0 10px; /* Espacio para el texto "Mapa" */
+}
+
+.map-link i, .map-link-mobile i {
+    font-size: 1.1rem;
+}
+
+.map-link:active, .map-link-mobile:active {
+    transform: scale(0.95);
+}
+
+/* Lógica de Visibilidad */
+.map-text-desktop { display: inline; }
+.map-text-mobile { display: none; }
+
+@media (max-width: 991px) {
+    .map-link-container { display: none; } /* Oculto en móvil/tablet para usar la versión de cabecera */
+}
+
+@media (min-width: 992px) {
+    .map-link-mobile { display: none; } /* Oculto en escritorio */
+}
+
+/* --- DISEÑO ESCRITORIO (IMAGEN 1) --- */
+@media (min-width: 992px) {
+    .mainHeader {
+        padding: 10px 2%; /* En pantallas grandes, permitimos acercarnos más a los bordes */
+    }
+    .headerTopRow {
+        min-height: 90px;
+    }
+
+    .mainLogoImg {
+        height: 90px;
+    }
+
+    .mobileActions {
+        display: none;
+    }
+
+    .searchRowMobile {
+        display: none !important;
+    }
+
+    .desktopHeaderActions {
+        display: flex;
+        justify-content: flex-end;
+        flex: 1;
+    }
+
+    .headerActionsWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .searchContainer {
+        display: flex;
+        background: var(--white);
+        border-radius: 8px;
+        overflow: hidden;
+        height: 44px;
+        width: 350px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .searchInput {
+        flex: 1;
+        border: none;
+        padding: 0 15px;
+        outline: none;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+
+    .searchBtn {
+        background: var(--accentBlue);
+        color: var(--white);
+        border: none;
+        padding: 0 20px;
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.3s ease;
+    }
+
+    .searchBtn:hover {
+        background: var(--darkBlue);
+    }
+}
+
+/* 3. IDENTIDAD DEL EVENTO */
+.eventTitleSection {
+    background: var(--white);
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+
+.eventTitle {
+    font-size: 1.5rem;
+    color: var(--accentBlue);
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* 4. MAPA INTERACTIVO */
+.mapWrapper {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto; /* El mapa sí puede tener scroll si es más grande */
+}
+
+.mapImageContainer {
+    position: relative;
+    max-width: 1000px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    background: #eee;
+}
+
+.mapImage { width: 100%; height: auto; display: block; }
+.mapSvgOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+.mapItem {
+    fill: rgba(255, 255, 255, 0.25);
+    stroke: var(--white);
+    stroke-width: 1.5;
+    cursor: pointer;
+    transition: all 0.25s;
+    outline: none;
+}
+
+.mapItem:hover, .mapItem:focus {
+    fill: rgba(0, 89, 159, 0.4);
+    stroke: var(--accentBlue);
+}
+
+
+
+/* 7. PANEL LATERAL (DETALLES) */
+.detailsOverlay {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 350px;
+    height: 100vh;
+    background: var(--white);
+    box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+    z-index: 2000;
+    transition: right 0.4s ease;
+    padding: 40px 30px;
+}
+
+.detailsOverlay.active { right: 0; }
+.overlayBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1900; opacity: 0; visibility: hidden; transition: 0.3s; }
+.overlayBackdrop.active { opacity: 1; visibility: visible; }
+
+/* 8. PIE DE PÁGINA */
+.mainFooter {
+    background: var(--blueGradient);
+    padding: 15px 0;
+    color: var(--white);
+    flex-shrink: 0;
+}
+
+.footerContent {
+    max-width: 100%;
+    padding: 0 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footerLeft { display: flex; align-items: center; gap: 10px; }
+.footerIcon { height: 24px; opacity: 0.9; }
+.footerHandle { font-size: 0.85rem; font-weight: 500; }
+.copyrightText { font-size: 0.8rem; opacity: 0.8; }
+
+/* Accesibilidad */
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+@media (max-width: 480px) {
+    .eventTitle { font-size: 1.2rem; }
+    .detailsOverlay { width: 100%; right: -100%; }
+    .footerContent { flex-direction: column; gap: 10px; text-align: center; }
+}

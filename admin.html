@@ -3,134 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Restringido - Gestión de Eventos</title>
+    <title>Panel de Administración Privado</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="../style.css">
-    <style>
-        .authBody {
-            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .authCard {
-            background: white;
-            padding: 45px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-        }
-        .authCard i.mainIcon {
-            font-size: 3rem;
-            color: var(--blueGradient);
-            margin-bottom: 20px;
-        }
-        .authCard h1 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .authCard p {
-            color: #777;
-            font-size: 0.9rem;
-            margin-bottom: 30px;
-        }
-        .formGroup {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-        .formGroup label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            color: #555;
-            text-transform: uppercase;
-        }
-        .formGroup input {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #eaedf2;
-            border-radius: 10px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .formGroup input:focus {
-            border-color: var(--accentBlue);
-        }
-        .submitBtn {
-            width: 100%;
-            background: var(--blueGradient);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.1s, background 0.3s;
-            margin-top: 10px;
-        }
-        .submitBtn:hover {
-            background: #084d82;
-        }
-        .submitBtn:active {
-            transform: scale(0.98);
-        }
-        .errorFeedback {
-            color: #e74c3c;
-            font-size: 0.85rem;
-            margin-top: 20px;
-            font-weight: 600;
-            display: none;
-        }
-        .backHome {
-            display: block;
-            margin-top: 25px;
-            color: #999;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        .backHome:hover {
-            color: #666;
-            text-decoration: underline;
-        }
-    </style>
+    <!-- Estilos compartidos y específicos -->
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
-<body class="authBody">
+<body>
 
-    <div class="authCard">
-        <i class="fas fa-lock mainIcon"></i>
-        <h1>Acceso Privado</h1>
-        <p>Introduce tus credenciales de gestión</p>
-        
-        <form id="authForm">
-            <div class="formGroup">
-                <label for="userInput">Usuario o Correo</label>
-                <input type="text" id="userInput" placeholder="Identificador de acceso" required>
-            </div>
-            <div class="formGroup">
-                <label for="passwordInput">Contraseña</label>
-                <input type="password" id="passwordInput" placeholder="••••••••" required>
-            </div>
-            
-            <button type="submit" class="submitBtn">INICIAR SESIÓN</button>
-            <p id="errorBox" class="errorFeedback">Error: Usuario o contraseña incorrectos</p>
-        </form>
+    <!-- 1. SECCIÓN DE LOGIN -->
+    <div id="loginSection" class="authBody">
+        <div class="authCard">
+            <i class="fas fa-user-shield"></i>
+            <h1>Admin Login</h1>
+            <p>Sistema de gestión exclusivo</p>
+            <form id="adminLoginForm">
+                <div class="formGroup">
+                    <label>Usuario</label>
+                    <input type="text" id="userInput" placeholder="Introduce 'admin'" required>
+                </div>
+                <div class="formGroup">
+                    <label>Contraseña</label>
+                    <input type="password" id="passInput" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btnSubmit">ACCEDER AL PANEL</button>
+                <p id="errorBox" class="errorMsg">Credenciales incorrectas (Usa admin/admin)</p>
+            </form>
+        </div>
+    </div>
 
-        <a href="../index.html" class="backHome">Regresar al sitio público</a>
+    <!-- 2. SECCIÓN DE PANEL (OCULTA POR DEFECTO) -->
+    <div id="panelSection" class="hidden">
+        <header class="adminHeader">
+            <h1>Control de Administración</h1>
+            <button id="logoutBtn" class="logoutBtn"><i class="fas fa-power-off"></i> SALIR</button>
+        </header>
+
+        <main class="panelMain">
+            <div class="adminCard">
+                <h2>Gestión de la Base de Datos</h2>
+                <form id="managementForm">
+                    <div class="formGrid">
+                        <div class="formGroup">
+                            <label>Nº de Caseta</label>
+                            <input type="text" id="numCaseta" placeholder="Ej: 54" required>
+                        </div>
+                        <div class="formGroup">
+                            <label>Nombre de la Caseta</label>
+                            <input type="text" id="nombreCaseta" placeholder="Nombre completo">
+                        </div>
+                        <div class="formGroup">
+                            <label>Correo del Propietario</label>
+                            <input type="email" id="correo" placeholder="ejemplo@correo.com">
+                        </div>
+                        <div class="formGroup">
+                            <label>Contraseña</label>
+                            <input type="text" id="password" placeholder="Contraseña de acceso">
+                        </div>
+                    </div>
+
+                    <div class="btnRow">
+                        <button type="button" id="saveAction" class="btn btnSave"><i class="fas fa-save"></i> GUARDAR / ACTUALIZAR</button>
+                        <button type="button" id="deleteAction" class="btn btnDelete"><i class="fas fa-trash-alt"></i> ELIMINAR CASETA</button>
+                    </div>
+
+                    <div id="statusBox" class="statusNotif"></div>
+                </form>
+            </div>
+        </main>
     </div>
 
     <script type="module" src="admin.js"></script>

@@ -1,44 +1,152 @@
-import { db } from '../firebase-config.js';
-import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { db } from './firebase-config.js';
+import { doc, getDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-const authForm = document.getElementById('authForm');
-const userInput = document.getElementById('userInput');
-const passwordInput = document.getElementById('passwordInput');
-const errorBox = document.getElementById('errorBox');
+document.addEventListener('DOMContentLoaded', () => {
+    // Referencias a las secciones
+    const loginSection = document.getElementById('loginSection');
+    const panelSection = document.getElementById('panelSection');
 
-authForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const user = userInput.value.trim();
-    const pass = passwordInput.value.trim();
+    // Referencias Login
+    const loginForm = document.getElementById('adminLoginForm');
+    const userInput = document.getElementById('userInput');
+    const passInput = document.getElementById('passInput');
+    const errorBox = document.getElementById('errorBox');
 
-    errorBox.style.display = 'none';
+    // Referencias Panel
+    const numCasetaInput = document.getElementById('numCaseta');
+    const nombreInput = document.getElementById('nombreCaseta');
+    const correoInput = document.getElementById('correo');
+    const passwordInput = document.getElementById('password');
+    const saveAction = document.getElementById('saveAction');
+    const deleteAction = document.getElementById('deleteAction');
+    const statusBox = document.getElementById('statusBox');
+    const logoutBtn = document.getElementById('logoutBtn');
 
-    // 1. Verificación ADMINISTRADOR (Datos fijos)
-    if (user === 'admin' && pass === 'admin') {
-        localStorage.setItem('adminSession', 'admin');
-        window.location.href = 'admin-panel.html';
-        return;
+    /**
+     * Gestión de estados de visibilidad
+     */
+    const showPanel = () => {
+        loginSection.classList.add('hidden');
+        panelSection.classList.remove('hidden');
+    };
+
+    const showLogin = () => {
+        loginSection.classList.remove('hidden');
+        panelSection.classList.add('hidden');
+    };
+
+    // Verificar sesión al cargar
+    if (localStorage.getItem('adminSession') === 'true') {
+        showPanel();
+    } else {
+        showLogin();
     }
 
-    // 2. Verificación CASETERO (Consulta real en Firebase)
-    try {
-        const casetasRef = collection(db, "casetas");
-        // Buscamos coincidencia de correo y contraseña en la colección de casetas
-        const q = query(casetasRef, where("correo", "==", user), where("password", "==", pass));
-        const querySnapshot = await getDocs(q);
+    // --- LÓGICA DE LOGIN ---
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Verificación admin/admin fija solicitada
+            if (userInput.value.trim() === 'admin' && passInput.value.trim() === 'admin') {
+                localStorage.setItem('adminSession', 'true');
+                showPanel();
+                errorBox.style.display = 'none';
+            } else {
+                errorBox.style.display = 'block';
+            }
+        });
+    }
 
-        if (!querySnapshot.empty) {
-            // Guardamos los datos de la caseta en sesión para el panel del casetero
-            const casetaData = querySnapshot.docs[0].data();
-            localStorage.setItem('caseteroSession', JSON.stringify(casetaData));
-            window.location.href = 'casetero.html';
-        } else {
-            errorBox.textContent = "Error: Credenciales no válidas";
-            errorBox.style.display = 'block';
+    // --- LÓGICA DEL PANEL ---
+    
+    // Búsqueda automática al escribir el número
+    numCasetaInput.addEventListener('input', async () => {
+        const num = numCasetaInput.value.trim();
+        if (!num) {
+            clearFields();
+            return;
         }
-    } catch (error) {
-        console.error("Error en la autenticación:", error);
-        errorBox.textContent = "Error de conexión con el servidor";
-        errorBox.style.display = 'block';
-    }
+
+        try {
+            const docRef = doc(db, "casetas", num);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                nombreInput.value = data.nombreCaseta || '';
+                correoInput.value = data.correo || '';
+                passwordInput.value = data.password || '';
+            } else {
+                clearFields();
+            }
+        } catch (error) {
+            console.error("Error al buscar caseta:", error);
+        }
+    });
+
+    // Guardar / Actualizar
+    saveAction.addEventListener('click', async () => {
+        const num = numCasetaInput.value.trim();
+        const nombre = nombreInput.value.trim();
+        const correo = correoInput.value.trim();
+        const pass = passwordInput.value.trim();
+
+        if (!num || !nombre || !correo || !pass) {
+            showStatus("Por favor, completa todos los campos", "error");
+            return;
+        }
+
+        try {
+            await setDoc(doc(db, "casetas", num), {
+                numeroCaseta: num,
+                nombreCaseta: nombre,
+                correo: correo,
+                password: pass
+            });
+            showStatus("¡Datos guardados con éxito!", "success");
+        } catch (error) {
+            console.error("Error al guardar:", error);
+            showStatus("Error de conexión con Firebase", "error");
+        }
+    });
+
+    // Eliminar
+    deleteAction.addEventListener('click', async () => {
+        const num = numCasetaInput.value.trim();
+        if (!num) {
+            showStatus("Escribe un número de caseta para eliminar", "error");
+            return;
+        }
+
+        if (confirm(`¿Estás seguro de que quieres eliminar la caseta Nº ${num}?`)) {
+            try {
+                await deleteDoc(doc(db, "casetas", num));
+                clearFields();
+                numCasetaInput.value = '';
+                showStatus("Caseta eliminada correctamente", "success");
+            } catch (error) {
+                console.error("Error al eliminar:", error);
+                showStatus("No se pudo eliminar el registro", "error");
+            }
+        }
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('adminSession');
+        showLogin();
+    });
+
+    const clearFields = () => {
+        nombreInput.value = '';
+        correoInput.value = '';
+        passwordInput.value = '';
+    };
+
+    const showStatus = (msg, type) => {
+        statusBox.textContent = msg;
+        statusBox.className = `statusNotif ${type}`;
+        statusBox.style.display = 'block';
+        setTimeout(() => { statusBox.style.display = 'none'; }, 3000);
+    };
 });
