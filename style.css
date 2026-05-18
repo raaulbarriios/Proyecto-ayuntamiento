@@ -14,6 +14,10 @@
     --blueGradient: #0b63a5;
     --darkBlue: #084d82;
     --accentBlue: #0b63a5;
+    --navBtnNormal: #084d82;
+    --navBtnHover: #0a5a99;
+    --navBtnActive: #FFB500;
+    --navBtnTextActive: #084d82;
     --white: #ffffff;
     --lightGray: #f5f5f5;
     --textColor: #333333;
@@ -93,7 +97,7 @@ body {
     font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: var(--accentBlue);
+    background: var(--navBtnNormal);
     color: var(--white);
     border: none;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -102,22 +106,28 @@ body {
 
 .mobileBtn:hover, 
 .mobileBtn:focus-visible,
-.mobileBtn.active,
 .map-link-mobile:hover,
 .map-link-mobile:focus-visible,
-.map-link-mobile.active,
 .map-link:hover,
-.map-link:focus-visible,
-.map-link.active {
-    background: var(--darkBlue);
+.map-link:focus-visible {
+    background: var(--navBtnHover);
     color: var(--white);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     outline: none;
 }
 
-.mobileBtn:active, .map-link-mobile:active, .map-link:active {
+.mobileBtn:active, 
+.mobileBtn.active,
+.map-link-mobile:active,
+.map-link-mobile.active,
+.map-link:active,
+.map-link.active {
+    background: var(--navBtnActive);
+    color: var(--navBtnTextActive);
     transform: scale(0.95);
+    box-shadow: 0 4px 12px rgba(255, 181, 0, 0.4);
+    outline: none;
 }
 
 .outlineBtn {
@@ -167,7 +177,7 @@ body {
 }
 
 .mobileSearchActionBtn {
-    background: var(--accentBlue);
+    background: var(--navBtnNormal);
     color: var(--white);
     border: none;
     padding: 0 20px;
@@ -176,11 +186,19 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: background 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.mobileSearchActionBtn:hover, .mobileSearchActionBtn:active {
-    background: var(--darkBlue);
+.mobileSearchActionBtn:hover, 
+.mobileSearchActionBtn:focus-visible {
+    background: var(--navBtnHover);
+    color: var(--white);
+}
+
+.mobileSearchActionBtn:active,
+.mobileSearchActionBtn.active {
+    background: var(--navBtnActive);
+    color: var(--navBtnTextActive);
 }
 
 /* --- ESTILOS COMPONENTE MAPA (GENÉRICO Y REUTILIZABLE) --- */
@@ -289,7 +307,7 @@ body {
     }
 
     .searchBtn {
-        background: var(--accentBlue);
+        background: var(--navBtnNormal);
         color: var(--white);
         border: none;
         padding: 0 20px;
@@ -298,11 +316,19 @@ body {
         display: flex;
         align-items: center;
         gap: 8px;
-        transition: background 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .searchBtn:hover {
-        background: var(--darkBlue);
+    .searchBtn:hover,
+    .searchBtn:focus-visible {
+        background: var(--navBtnHover);
+        color: var(--white);
+    }
+
+    .searchBtn:active,
+    .searchBtn.active {
+        background: var(--navBtnActive);
+        color: var(--navBtnTextActive);
     }
 }
 
