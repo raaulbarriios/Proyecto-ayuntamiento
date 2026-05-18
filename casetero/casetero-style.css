@@ -225,6 +225,7 @@ body {
     margin-bottom: 20px;
     background: linear-gradient(135deg, var(--casetero-primary), var(--casetero-dark));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

@@ -1,5 +1,5 @@
-import { db } from '../firebase-config.js';
-import { collection, query, where, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { db } from './firebase-config.js';
+import { collection, query, where, getDocs, doc, getDoc, updateDoc } from "firebase/firestore";
 
 // DOM Elements
 const loginView = document.getElementById('loginView');
