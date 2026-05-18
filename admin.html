@@ -10,9 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Estilos compartidos y específicos -->
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="admin.css">
+    <!-- Estilo unificado y centralizado del Admin -->
+    <link rel="stylesheet" href="admin/assets/css/admin-style.css">
 </head>
 <body>
 
@@ -40,8 +39,15 @@
     <!-- 2. SECCIÓN DE PANEL (OCULTA POR DEFECTO) -->
     <div id="panelSection" class="hidden">
         <header class="adminHeader">
-            <h1>Control de Administración</h1>
-            <button id="logoutBtn" class="logoutBtn"><i class="fas fa-power-off"></i> SALIR</button>
+            <div class="adminHeaderLogo">
+                <img src="./fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras">
+            </div>
+            <div class="adminHeaderTitle">
+                <h1>Control de Administración</h1>
+            </div>
+            <div class="adminHeaderActions">
+                <button id="logoutBtn" class="logoutBtn" title="Cerrar Sesión" aria-label="Cerrar Sesión"><i class="fas fa-power-off"></i> <span class="logoutText">SALIR</span></button>
+            </div>
         </header>
 
         <main class="panelMain">

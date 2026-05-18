@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearFields();
             }
         } catch (error) {
-            console.error("Error al buscar caseta:", error);
+            // Manejo silencioso en frontend optimizado
         }
     });
 
@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             showStatus("¡Datos guardados con éxito!", "success");
         } catch (error) {
-            console.error("Error al guardar:", error);
             showStatus("Error de conexión con Firebase", "error");
         }
     });
@@ -125,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 numCasetaInput.value = '';
                 showStatus("Caseta eliminada correctamente", "success");
             } catch (error) {
-                console.error("Error al eliminar:", error);
                 showStatus("No se pudo eliminar el registro", "error");
             }
         }

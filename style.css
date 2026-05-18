@@ -120,15 +120,6 @@ body {
     transform: scale(0.95);
 }
 
-.outlineBtn {
-    /* Mantener para otros usos si hiciera falta, aunque lo quitamos del search */
-    background: transparent;
-    color: var(--white);
-    border: 1px solid rgba(255,255,255,0.8);
-}
-
-/* El estado activo ahora se maneja arriba con hover/focus */
-
 /* Buscador Móvil Desplegable */
 .searchRowMobile {
     max-height: 0;
