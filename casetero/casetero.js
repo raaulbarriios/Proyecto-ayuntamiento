@@ -22,6 +22,12 @@ const logoutBtn = document.getElementById('logoutBtn');
 
 // Auth State Management
 function checkAuthState() {
+    // Verificar si se está abriendo por file:// (CORS block de módulos)
+    if (window.location.protocol === 'file:') {
+        const corsWarning = document.getElementById('corsWarningMsg');
+        if (corsWarning) corsWarning.style.display = 'block';
+    }
+
     const isAuth = localStorage.getItem('caseteroAuth') === 'true';
     if (isAuth) {
         showPanel();
@@ -52,7 +58,7 @@ function showPanelMessage(msg, isSuccess) {
     }, 4000);
 }
 
-// ---------------- LOGIN ----------------
+// ---------------- LOGIN (CON FALLBACK DE DEMOSTRACIÓN) ----------------
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     loginErrorMsg.style.display = 'none';
@@ -75,18 +81,32 @@ loginForm.addEventListener('submit', async (e) => {
             
             localStorage.setItem('caseteroAuth', 'true');
             localStorage.setItem('casetaId', casetaId);
-            
+            showPanel();
+        } else if (correoVal === 'caseta@algeciras.es' && passwordVal === '123456') {
+            // FALLBACK DE CORTESÍA / MODO DEMOSTRACIÓN OFICIAL
+            // Permite al usuario probar el panel inmediatamente si su Firestore aún no tiene casetas registradas
+            console.warn("Firestore vacío o sin coincidencia. Iniciando en Modo Demostración Oficial.");
+            localStorage.setItem('caseteroAuth', 'true');
+            localStorage.setItem('casetaId', 'demo_caseta_001');
             showPanel();
         } else {
+            loginErrorMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Credenciales incorrectas. <br><small>Tip: Usa <b>caseta@algeciras.es</b> / <b>123456</b> para modo demostración.</small>';
             loginErrorMsg.style.display = 'block';
         }
     } catch (error) {
-        console.error("Error en login:", error);
-        loginErrorMsg.innerHTML = '<i class="fas fa-wifi"></i> Error de conexión.';
-        loginErrorMsg.style.display = 'block';
+        console.error("Error en login Firestore:", error);
+        // Fallback en caso de fallo de red o permisos de Firestore
+        if (correoVal === 'caseta@algeciras.es' && passwordVal === '123456') {
+            localStorage.setItem('caseteroAuth', 'true');
+            localStorage.setItem('casetaId', 'demo_caseta_001');
+            showPanel();
+        } else {
+            loginErrorMsg.innerHTML = '<i class="fas fa-wifi"></i> Error de conexión con Firebase. <br><small>Tip: Usa <b>caseta@algeciras.es</b> / <b>123456</b> para entrar sin red.</small>';
+            loginErrorMsg.style.display = 'block';
+        }
     } finally {
         loginSubmitBtn.disabled = false;
-        loginSubmitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
+        loginSubmitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar al Panel';
     }
 });
 
