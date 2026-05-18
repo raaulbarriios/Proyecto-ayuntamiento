@@ -115,11 +115,22 @@ async function loadCasetaData() {
     const casetaId = localStorage.getItem('casetaId');
     if (!casetaId) return showLogin();
 
+    const inputs = [panelNumero, panelNombre, panelCorreo, panelPassword];
+
+    // Modo Demostración de Cortesía
+    if (casetaId === 'demo_caseta_001') {
+        inputs[0].value = '001 (Modo Demo)';
+        inputs[1].value = 'Caseta de Pruebas';
+        inputs[2].value = 'caseta@algeciras.es';
+        inputs[3].value = '123456';
+        inputs.forEach(input => input.classList.remove('skeleton'));
+        showPanelMessage("Modo Demostración Activo", true);
+        return;
+    }
+
     try {
         const docRef = doc(db, "casetas", casetaId);
         const docSnap = await getDoc(docRef);
-
-        const inputs = [panelNumero, panelNombre, panelCorreo, panelPassword];
 
         if (docSnap.exists()) {
             const data = docSnap.data();
@@ -127,14 +138,14 @@ async function loadCasetaData() {
             inputs[1].value = data.nombreCaseta || '';
             inputs[2].value = data.correo || '';
             inputs[3].value = data.password || '';
-            
-            inputs.forEach(input => input.classList.remove('skeleton'));
         } else {
-            showPanelMessage("Datos no encontrados", false);
+            showPanelMessage("Datos no encontrados en el servidor", false);
         }
     } catch (error) {
         console.error("Error cargando panel:", error);
         showPanelMessage("Error de conexión", false);
+    } finally {
+        inputs.forEach(input => input.classList.remove('skeleton'));
     }
 }
 

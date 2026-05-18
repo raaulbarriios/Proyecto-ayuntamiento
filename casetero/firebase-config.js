@@ -11,7 +11,7 @@ const firebaseConfig = {
   storageBucket: "eventos-ayuntamiento.firebasestorage.app",
   messagingSenderId: "375769854696",
   appId: "1:375769854696:web:f6e13c750a99fc66f24f5d",
-  measurementId: "G-NV58CQT7BT"
+  measurementId: "G-NV58CQT7BT",
 };
 
 const app = initializeApp(firebaseConfig);
