@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Gestión de Caseta - Ayuntamiento de Algeciras</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Estilo centralizado de Caseteros -->
+    <link rel="stylesheet" href="assets/css/casetero-style.css">
+</head>
+<body>
+
+    <!-- Franja Identificativa Independiente -->
+    <div class="eventTitleSection" style="background: #e0e7ff; color: #084D82; padding: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <h2 class="eventTitle" style="font-size: 1.1rem; letter-spacing: 2px; margin: 0; font-weight: 800;">SISTEMA PRIVADO - GESTIÓN DE CASETAS</h2>
+    </div>
+
+    <!-- Contenedor para la Vista de Login -->
+    <div class="mainWrapper">
+        <!-- VISTA 1: LOGIN -->
+        <div id="loginView" class="view-section active">
+            <div class="privateCard loginContainer">
+                <div class="loginHeader">
+                    <i class="fas fa-store-alt"></i>
+                    <h1 class="loginTitle">Acceso Caseteros</h1>
+                    <p class="loginSubtitle">Feria Real de Algeciras 2026</p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="formGroup">
+                        <label for="idCaseta">Nº de Caseta</label>
+                        <div class="inputWrapper">
+                            <input type="text" id="idCaseta" class="inputControl" placeholder="Ej. 54" required autocomplete="username">
+                            <i class="fas fa-hashtag"></i>
+                        </div>
+                    </div>
+
+                    <div class="formGroup">
+                        <label for="passCaseta">Contraseña</label>
+                        <div class="inputWrapper">
+                            <input type="password" id="passCaseta" class="inputControl" placeholder="••••••••" required autocomplete="current-password">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="submitBtn">
+                        <i class="fas fa-sign-in-alt"></i> ACCEDER AL PANEL
+                    </button>
+
+                    <div id="loginError" class="statusMsg error">Credenciales incorrectas</div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA 2: PANEL PRIVADO (OCULTO POR DEFECTO) -->
+    <div id="panelView" class="view-section">
+        
+        <!-- Cabecera Institucional Clonada (Visible sólo tras login) -->
+        <header class="caseteroHeader">
+            <div class="caseteroHeaderLogo">
+                <img src="../fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras">
+            </div>
+            <div class="caseteroHeaderTitle">
+                <h1>Gestión de Casetas</h1>
+            </div>
+            <div class="caseteroHeaderActions">
+                <button id="logoutBtn" class="logoutBtn" title="Cerrar Sesión" aria-label="Cerrar Sesión">
+                    <i class="fas fa-sign-out-alt"></i> <span class="logoutText">Cerrar Sesión</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="panelMain">
+            <div class="privateCard panelContainer">
+                <div class="panelBody">
+                    
+                    <h1 class="panelTitle">
+                        <i class="fas fa-store"></i> Mi Caseta
+                    </h1>
+
+                    <!-- Tarjeta de Información Interna (Datos Fijos de Firebase) -->
+                    <div class="infoCard">
+                        <div class="infoCardIcon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="infoCardText">
+                            <h3 id="nombreCasetaDisplay" class="skeleton">Cargando datos...</h3>
+                            <p><strong>Titular:</strong> <span id="titularDisplay" class="skeleton">---</span></p>
+                            <p><strong>DNI/CIF:</strong> <span id="dniDisplay" class="skeleton">---</span></p>
+                            <p><strong>Ubicación:</strong> <span id="ubicacionDisplay" class="skeleton">---</span></p>
+                            <p><strong>Aforo:</strong> <span id="aforoDisplay" class="skeleton">---</span> personas</p>
+                        </div>
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 35px 0;">
+
+                    <!-- Formulario de Actualización de Contacto -->
+                    <h2 style="color: #084D82; font-size: 1.25rem; font-weight: 700; margin-bottom: 25px;">Actualizar Datos de Contacto</h2>
+                    <form id="updateForm">
+                        <div class="formGrid">
+                            <div class="formGroup">
+                                <label for="correoInput">Correo Electrónico</label>
+                                <div class="inputWrapper">
+                                    <input type="email" id="correoInput" class="inputControl" placeholder="ejemplo@correo.com" required>
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                            </div>
+
+                            <div class="formGroup">
+                                <label for="telefonoInput">Teléfono Móvil</label>
+                                <div class="inputWrapper">
+                                    <input type="tel" id="telefonoInput" class="inputControl" placeholder="600 000 000" required>
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="updateBtn" class="submitBtn" style="background: #10B981; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);">
+                            <i class="fas fa-save"></i> GUARDAR CAMBIOS
+                        </button>
+
+                        <div id="updateSuccess" class="statusMsg success">¡Datos actualizados correctamente!</div>
+                        <div id="updateError" class="statusMsg error">Error al guardar los datos</div>
+                    </form>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- Pie de Página Institucional Clonado según Referencia Visual -->
+        <footer class="caseteroFooter" role="contentinfo">
+            <div class="footerContent">
+                <div class="footerLeft">
+                    <img src="../fotos/Logo Algeciras 1 tinta fondos oscuros.png" alt="Ayuntamiento de Algeciras" class="footerIcon">
+                    <span class="footerHandle">ayuntamientoalgeciras</span>
+                </div>
+                <div class="copyrightText">© Ayuntamiento de Algeciras</div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Script Principal de Lógica y Autenticación -->
+    <script type="module" src="casetero.js"></script>
+</body>
+</html>

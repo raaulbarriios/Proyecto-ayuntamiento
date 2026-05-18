@@ -1,46 +1,33 @@
 /* ==========================================================================
-   PANEL DE ADMINISTRACIÓN - ESTILOS CENTRALIZADOS
-   Basado en la identidad visual de style.css
+   PANEL DE CASETEROS - ESTILOS CENTRALIZADOS
+   Basado en la identidad visual de style.css y admin-style.css
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
    VARIABLES
    -------------------------------------------------------------------------- */
 :root {
-    /* Paleta Institucional (Heredada visualmente) */
-    --admin-primary: #0B63A5;      /* Azul institucional */
-    --admin-primary-hover: #0A5A99; /* Azul más claro para hover */
-    --admin-dark: #042A4A;         /* Azul marino oscuro (botones normales/header) */
-    --admin-active: #FFB500;       /* Amarillo para estados activos/pulsados */
+    --casetero-primary: #0B63A5;      /* Azul institucional */
+    --casetero-primary-hover: #0A5A99; /* Azul más claro para hover */
+    --casetero-dark: #084D82;         /* Azul marino oscuro */
+    --casetero-active: #FFB500;       /* Amarillo oficial para active */
     
-    /* Grises y Neutros */
-    --admin-bg: #F3F6F9;           /* Gris azulado para diferenciar zona privada */
-    --admin-surface: #FFFFFF;      /* Blanco puro para tarjetas */
-    --admin-text: #333333;         /* Texto base */
-    --admin-text-muted: #64748B;   /* Texto secundario / labels */
-    --admin-border: #E2E8F0;       /* Bordes de formularios y tarjetas */
+    --casetero-bg: #F3F6F9;           /* Gris azulado de fondo privado */
+    --casetero-surface: #FFFFFF;      /* Blanco puro para tarjetas */
+    --casetero-text: #333333;
+    --casetero-text-muted: #64748B;
+    --casetero-border: #E2E8F0;
     
-    /* Semánticos */
-    --admin-success: #0F5132;
-    --admin-success-bg: #D1E7DD;
-    --admin-success-border: #BADBCC;
-    --admin-danger: #D93025;
-    --admin-danger-hover: #B3261E;
-    --admin-error-text: #842029;
-    --admin-error-bg: #F8D7DA;
-    --admin-error-border: #F5C2C7;
-    
-    /* Utilidades */
-    --admin-shadow: 0 10px 40px rgba(0,0,0,0.08); /* Sombra suave moderna */
-    --admin-radius: 12px;
+    --casetero-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+    --casetero-radius: 16px;
 }
 
 /* --------------------------------------------------------------------------
-   LAYOUT BASE
+   LAYOUT BASE & VISTAS
    -------------------------------------------------------------------------- */
 body {
-    background-color: var(--admin-bg);
-    color: var(--admin-text);
+    background-color: var(--casetero-bg);
+    color: var(--casetero-text);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -49,28 +36,44 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-.hidden { 
-    display: none !important; 
+.view-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
 }
 
-#panelSection {
+.view-section.active {
+    display: block;
+    opacity: 1;
+}
+
+#panelView {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     width: 100%;
 }
 
-#panelSection.hidden {
-    display: none !important;
+#panelView.active {
+    display: flex !important;
+    opacity: 1;
+}
+
+.mainWrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
 }
 
 /* --------------------------------------------------------------------------
    FOOTER DEL PANEL (COPIA EXACTA DE STYLE.CSS MAINFOOTER)
    -------------------------------------------------------------------------- */
-.adminFooter {
-    background: var(--admin-primary); /* Equivalente a var(--blueGradient) */
+.caseteroFooter {
+    background: var(--casetero-primary); /* Equivalente a var(--blueGradient) */
     padding: 15px 0;
-    color: var(--admin-surface);
+    color: var(--casetero-surface);
     flex-shrink: 0;
     margin-top: auto;
 }
@@ -113,140 +116,188 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   SECCIÓN LOGIN (AUTH)
+   TARJETAS COMPARTIDAS
    -------------------------------------------------------------------------- */
-.authBody {
-    background-color: var(--admin-bg);
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    position: relative;
-}
-
-.authCard {
-    background: var(--admin-surface);
-    padding: 50px 40px;
-    border-radius: 16px;
-    box-shadow: var(--admin-shadow);
-    border: 1px solid rgba(0,0,0,0.04);
+.privateCard {
     width: 100%;
-    max-width: 440px;
-    text-align: center;
+    background: var(--casetero-surface);
+    border-radius: var(--casetero-radius);
+    box-shadow: var(--casetero-shadow);
+    border: 1px solid rgba(0,0,0,0.04);
+    margin: 0 auto;
+    overflow: hidden;
 }
 
-.authCard i {
+/* --------------------------------------------------------------------------
+   VISTA LOGIN
+   -------------------------------------------------------------------------- */
+.loginContainer {
+    max-width: 440px;
+    padding: 50px 40px;
+}
+
+.loginHeader {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.loginHeader i {
     font-size: 3.5rem;
-    color: var(--admin-primary);
+    color: var(--casetero-primary);
     margin-bottom: 20px;
-    background: linear-gradient(135deg, var(--admin-primary), var(--admin-dark));
+    background: linear-gradient(135deg, var(--casetero-primary), var(--casetero-dark));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.authCard h1 {
+.loginTitle {
+    color: var(--casetero-dark);
     font-size: 1.75rem;
     font-weight: 800;
-    color: var(--admin-dark);
-    margin-bottom: 5px;
     letter-spacing: -0.5px;
+    margin-bottom: 5px;
 }
 
-.authCard p {
-    color: var(--admin-text-muted);
+.loginSubtitle {
+    color: var(--casetero-text-muted);
     font-size: 0.95rem;
     font-weight: 500;
-    margin-bottom: 35px;
 }
 
 /* --------------------------------------------------------------------------
-   HEADER DEL PANEL
+   HEADER DEL PANEL (COPIA EXACTA DE STYLE.CSS / ADMIN-STYLE.CSS)
    -------------------------------------------------------------------------- */
-/* --- CABECERA INSTITUCIONAL (COPIA EXACTA DE STYLE.CSS MAINHEADER) --- */
-.adminHeader {
-    background: var(--admin-primary); /* Azul Institucional #0B63A5 (blueGradient) */
-    color: var(--admin-surface);
+.caseteroHeader {
+    background: var(--casetero-primary); /* Azul Institucional #0B63A5 */
+    color: var(--casetero-surface);
     padding: 10px 4%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: var(--admin-shadow);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     position: sticky;
     top: 0;
     z-index: 1000;
     min-height: 60px;
 }
 
-.adminHeaderLogo {
+.caseteroHeaderLogo {
     display: flex;
     align-items: center;
 }
 
-.adminHeaderLogo img {
-    height: 75px;
+.caseteroHeaderLogo img {
+    height: 75px; /* Logo institucional de gran formato */
     width: auto;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
     transition: transform 0.3s ease;
 }
 
-.adminHeaderLogo img:hover {
+.caseteroHeaderLogo img:hover {
     transform: scale(1.02);
 }
 
-.adminHeaderTitle h1 {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.5rem; /* Título notablemente más grande */
-    font-weight: 500;  /* Letra Inter Medium (500) */
+.caseteroHeaderTitle h1 {
+    font-size: 1.2rem;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin: 0;
 }
 
-.adminHeaderActions {
+.caseteroHeaderActions {
     display: flex;
     align-items: center;
 }
 
-/* Diseño Escritorio (Heredado de min-width: 992px en style.css) */
+/* Diseño Escritorio */
 @media (min-width: 992px) {
-    .adminHeader {
-        padding: 10px 2%;
+    .caseteroHeader {
+        padding: 10px 2%; /* Extremos al límite seguro */
         min-height: 90px;
     }
-    .adminHeaderLogo img {
+    .caseteroHeaderLogo img {
         height: 90px; /* Altura imponente idéntica a mainLogoImg */
     }
 }
 
 /* --------------------------------------------------------------------------
-   PANEL MAIN & CARDS
+   VISTA PANEL PRIVADO
    -------------------------------------------------------------------------- */
 .panelMain {
     padding: 50px 4%;
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
     width: 100%;
     flex: 1;
     box-sizing: border-box;
 }
 
-.adminCard {
-    background: var(--admin-surface);
-    border-radius: 16px;
-    box-shadow: var(--admin-shadow);
-    border: 1px solid rgba(0,0,0,0.04);
+.panelContainer {
+    max-width: 100%;
+}
+
+.panelBody {
     padding: 35px;
 }
 
-.adminCard h2 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    margin-bottom: 30px;
-    color: var(--admin-dark);
-    border-bottom: 1px solid #edf2f7;
-    padding-bottom: 20px;
+.panelTitle {
+    color: var(--casetero-dark);
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #edf2f7;
+    padding-bottom: 15px;
+}
+
+.panelTitle i {
+    color: var(--casetero-primary);
+    font-size: 1.5rem;
+}
+
+/* Tarjeta de Información Interna */
+.infoCard {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    border: 1px solid #e2e8f0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.infoCardIcon {
+    background: var(--casetero-surface);
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--casetero-primary);
+    font-size: 1.6rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+
+.infoCardText h3 {
+    color: var(--casetero-dark);
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
+
+.infoCardText p {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin: 0;
 }
 
 /* --------------------------------------------------------------------------
@@ -259,192 +310,173 @@ body {
 }
 
 .formGroup {
-    text-align: left;
     margin-bottom: 22px;
+    text-align: left;
+}
+
+.formGroup.full-width {
+    grid-column: 1 / -1;
 }
 
 .formGroup label {
     display: block;
     margin-bottom: 8px;
+    color: var(--casetero-dark);
     font-weight: 600;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--admin-dark);
     opacity: 0.85;
 }
 
-.formGroup input {
+.inputWrapper {
+    position: relative;
+}
+
+.inputWrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+.inputControl {
     width: 100%;
-    padding: 14px 15px;
+    padding: 14px 15px 14px 45px;
     background-color: #f8fafc;
     border: 2px solid transparent;
     border-radius: 10px;
-    outline: none;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     font-weight: 500;
-    color: var(--admin-text);
-    box-sizing: border-box;
+    color: var(--casetero-text);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
 }
 
-.formGroup input:focus {
-    background-color: var(--admin-surface);
-    border-color: var(--admin-primary);
+.inputControl:focus {
+    background-color: var(--casetero-surface);
+    border-color: var(--casetero-primary);
     box-shadow: 0 0 0 4px rgba(11, 99, 165, 0.1);
+    outline: none;
 }
 
-.formGroup input:disabled {
+.inputControl:focus + i {
+    color: var(--casetero-primary);
+}
+
+.inputControl:disabled {
     background-color: #f1f5f9;
-    color: var(--admin-text-muted);
+    color: var(--casetero-text-muted);
     cursor: not-allowed;
-    border-color: var(--admin-border);
+    border-color: var(--casetero-border);
+}
+
+.inputControl:disabled + i {
+    color: #cbd5e1;
 }
 
 /* --------------------------------------------------------------------------
    BOTONES
    -------------------------------------------------------------------------- */
-.btnRow {
-    display: flex;
-    gap: 15px;
-    margin-top: 35px;
-}
-
-.btn {
-    flex: 1;
-    padding: 16px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 1.05rem;
-    cursor: pointer;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-}
-
-/* Botón Login/Submit (Azul) */
-.btnSubmit {
+.submitBtn {
     width: 100%;
-    background: var(--admin-primary);
-    color: var(--admin-surface);
-    border: none;
     padding: 16px;
+    background: var(--casetero-primary);
+    color: var(--casetero-surface);
+    border: none;
     border-radius: 10px;
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     font-family: 'Inter', sans-serif;
     margin-top: 15px;
     box-shadow: 0 4px 15px rgba(11, 99, 165, 0.25);
 }
 
-.btnSubmit:hover {
-    background: var(--admin-primary-hover);
+.submitBtn:hover {
+    background: var(--casetero-primary-hover);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(11, 99, 165, 0.35);
 }
 
-.btnSubmit:active {
-    background: var(--admin-active); /* Amarillo oficial */
-    color: var(--admin-dark);
+.submitBtn:active {
+    background: var(--casetero-active); /* Amarillo oficial */
+    color: var(--casetero-dark);
     transform: scale(0.98);
     box-shadow: 0 4px 12px rgba(255, 181, 0, 0.4);
 }
 
-/* Botón Guardar */
-.btnSave {
-    background: #10B981; /* Verde éxito */
-    color: var(--admin-surface);
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+.submitBtn:disabled {
+    background: #94a3b8;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
 }
 
-.btnSave:hover {
-    background: #059669;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
-}
-
-.btnSave:active {
-    background: var(--admin-active);
-    color: var(--admin-dark);
-    transform: scale(0.98);
-    box-shadow: 0 4px 12px rgba(255, 181, 0, 0.4);
-}
-
-/* Botones Peligro (Cerrar Sesión / Eliminar) */
-.btnDelete, .logoutBtn {
-    background: var(--admin-danger);
-    color: var(--admin-surface);
-    box-shadow: 0 4px 15px rgba(217, 48, 37, 0.25);
-}
-
+/* Botón Cerrar Sesión (Peligro) */
 .logoutBtn {
+    background: #D93025;
+    color: var(--casetero-surface);
     border: none;
     padding: 10px 18px;
     border-radius: 8px;
-    font-weight: 600;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-weight: 600;
     font-family: 'Inter', sans-serif;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(217, 48, 37, 0.25);
 }
 
-.btnDelete:hover, .logoutBtn:hover {
-    background: var(--admin-danger-hover);
+.logoutBtn:hover {
+    background: #B3261E;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(217, 48, 37, 0.35);
 }
 
-.btnDelete:active, .logoutBtn:active {
-    background: var(--admin-active);
-    color: var(--admin-dark);
+.logoutBtn:active {
+    background: var(--casetero-active);
+    color: var(--casetero-dark);
     transform: scale(0.98);
     box-shadow: 0 4px 12px rgba(255, 181, 0, 0.4);
 }
 
-/* --------------------------------------------------------------------------
-   ALERTAS Y ESTADOS (MODALS/NOTIFS)
-   -------------------------------------------------------------------------- */
-.statusNotif {
-    margin-top: 25px;
-    padding: 16px 20px;
+/* Mensajes */
+.statusMsg {
+    padding: 14px 20px;
     border-radius: 10px;
+    margin-top: 20px;
+    display: none;
     text-align: center;
     font-weight: 600;
-    display: none;
     font-size: 0.95rem;
     animation: slideUp 0.3s ease;
 }
 
-.success {
-    background: var(--admin-success-bg);
-    color: var(--admin-success);
-    border: 1px solid var(--admin-success-border);
+.statusMsg.success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border: 1px solid #badbcc;
+    display: block;
 }
 
-.error, .errorMsg {
-    background: var(--admin-error-bg);
-    color: var(--admin-error-text);
-    border: 1px solid var(--admin-error-border);
-}
-
-.errorMsg {
-    margin-top: 20px;
-    padding: 14px 20px;
-    border-radius: 10px;
-    text-align: center;
-    font-weight: 600;
-    display: none;
-    font-size: 0.95rem;
+.statusMsg.error {
+    color: #842029;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    display: block;
 }
 
 @keyframes slideUp {
@@ -452,44 +484,53 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Loading Skeleton */
+.skeleton {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    color: transparent !important;
+    border-color: #f1f5f9 !important;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
 /* --------------------------------------------------------------------------
-   RESPONSIVE
+   RESPONSIVE MÓVIL
    -------------------------------------------------------------------------- */
 @media (max-width: 650px) {
     .formGrid {
         grid-template-columns: 1fr;
         gap: 0;
     }
-    .btnRow {
-        flex-direction: column;
-        gap: 15px;
-    }
-    .authCard {
+    .loginContainer {
         padding: 40px 25px;
     }
     .panelMain {
         padding: 25px 15px; /* Más compacto en móvil */
     }
-    .adminCard {
+    .panelBody {
         padding: 25px 20px;
     }
     
     /* Header Móvil Compacto y Horizontal */
-    .adminHeader {
+    .caseteroHeader {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 3%; /* Elementos pegados a los extremos seguros */
+        padding: 10px 3%; /* Extremos al límite seguro */
         height: 85px; /* Altura ampliada para dar aire al logo gigante */
+        min-height: 60px;
     }
-    .adminHeaderLogo img {
+    .caseteroHeaderLogo img {
         height: 62px; /* Logo móvil gigante y prominente */
         width: auto;
     }
-    .adminHeaderTitle h1 {
-        font-family: 'Inter', sans-serif;
-        font-size: 1.15rem; /* Título móvil más grande */
-        font-weight: 500;  /* Letra Inter Medium (500) */
+    .caseteroHeaderTitle h1 {
+        font-size: 0.9rem; /* Título compacto */
         text-align: center;
         letter-spacing: 0.5px;
         white-space: nowrap;
