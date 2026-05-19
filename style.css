@@ -447,6 +447,25 @@ body {
     .mainLogoImg {
         height: 52px;
     }
+    
+    /* Mostrar solo icono de búsqueda en móvil */
+    .mobileActions .casetas-dropdown-container {
+        flex: 1;
+        width: auto;
+    }
+    .mobileActions > #toggleMobileSearch {
+        flex: 0 0 38px;
+        width: 38px;
+        padding: 0;
+    }
+    #toggleMobileSearch span {
+        display: none !important;
+    }
+    
+    /* Icono de casetas más pequeño en móvil */
+    .mobileActions .casetas-trigger-btn i {
+        font-size: 0.72rem !important;
+    }
 }
 
 /* COMPONENTE INTERACTIVO: DESPLEGABLE CASETAS */
