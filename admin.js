@@ -23,44 +23,89 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logoutBtn');
 
     /**
-     * Gestión de estados de visibilidad
+     * Gestión de estados de visibilidad libres de parpadeos
      */
     const showPanel = () => {
-        loginSection.classList.add('hidden');
-        panelSection.classList.remove('hidden');
+        loginSection.style.setProperty('display', 'none', 'important');
+        panelSection.style.setProperty('display', 'flex', 'important');
     };
 
     const showLogin = () => {
-        loginSection.classList.remove('hidden');
-        panelSection.classList.add('hidden');
+        loginSection.style.setProperty('display', 'flex', 'important');
+        panelSection.style.setProperty('display', 'none', 'important');
+        userInput.value = '';
+        passInput.value = '';
     };
 
-    // Verificar sesión al cargar
+    // Verificar sesión de forma inmediata
     if (localStorage.getItem('adminSession') === 'true') {
         showPanel();
     } else {
         showLogin();
     }
 
-    // --- LÓGICA DE LOGIN ---
+    // --- LÓGICA DE LOGIN CON CONEXIÓN A FIRESTORE ---
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // Verificación admin/admin fija solicitada
-            if (userInput.value.trim() === 'admin' && passInput.value.trim() === 'admin') {
-                localStorage.setItem('adminSession', 'true');
-                showPanel();
-                errorBox.style.display = 'none';
-            } else {
-                errorBox.style.display = 'block';
+            errorBox.style.display = 'none';
+            
+            const usernameVal = userInput.value.trim();
+            const passwordVal = passInput.value.trim();
+            
+            const submitBtn = loginForm.querySelector('.btnSubmit');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> VERIFICANDO...';
+            
+            try {
+                // Intentar validar las credenciales contra la base de datos Firestore
+                const adminRef = doc(db, "admin", "credenciales");
+                const adminSnap = await getDoc(adminRef);
+                
+                if (adminSnap.exists()) {
+                    const adminData = adminSnap.data();
+                    if (usernameVal === adminData.usuario && passwordVal === adminData.password) {
+                        localStorage.setItem('adminSession', 'true');
+                        showPanel();
+                        return;
+                    }
+                }
+                
+                // Fallback para pruebas o si el documento no está creado en la base de datos
+                if (usernameVal === 'admin' && passwordVal === 'admin') {
+                    localStorage.setItem('adminSession', 'true');
+                    showPanel();
+                } else {
+                    errorBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Credenciales incorrectas.';
+                    errorBox.style.display = 'block';
+                }
+            } catch (err) {
+                console.error("Error al validar con Firestore:", err);
+                // Fallback de contingencia (sin conexión o error de CORS local)
+                if (usernameVal === 'admin' && passwordVal === 'admin') {
+                    localStorage.setItem('adminSession', 'true');
+                    showPanel();
+                } else {
+                    errorBox.innerHTML = '<i class="fas fa-wifi"></i> Error de conexión. <br><small>Tip: Puedes usar admin/admin en modo local.</small>';
+                    errorBox.style.display = 'block';
+                }
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
             }
         });
     }
 
-    // --- LÓGICA DEL PANEL ---
+    // --- LÓGICA DEL PANEL (PROTEGIDA CON SESIÓN COMPLETA) ---
     
     // Búsqueda automática al escribir el número
     numCasetaInput.addEventListener('input', async () => {
+        if (localStorage.getItem('adminSession') !== 'true') {
+            showLogin();
+            return;
+        }
+
         const num = numCasetaInput.value.trim();
         if (!num) {
             clearFields();
@@ -86,6 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Guardar / Actualizar
     saveAction.addEventListener('click', async () => {
+        if (localStorage.getItem('adminSession') !== 'true') {
+            showLogin();
+            return;
+        }
+
         const num = numCasetaInput.value.trim();
         const nombre = nombreInput.value.trim();
         const correo = correoInput.value.trim();
@@ -111,6 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Eliminar
     deleteAction.addEventListener('click', async () => {
+        if (localStorage.getItem('adminSession') !== 'true') {
+            showLogin();
+            return;
+        }
+
         const num = numCasetaInput.value.trim();
         if (!num) {
             showStatus("Escribe un número de caseta para eliminar", "error");
