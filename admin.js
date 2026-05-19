@@ -1,5 +1,15 @@
 import { db } from './firebase-config.js';
-import { doc, getDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+
+const normalizeId = (num) => {
+    let docId = num.toLowerCase().trim();
+    if (!docId) return '';
+    if (docId.startsWith('p')) {
+        docId = docId.substring(1);
+    }
+    // Rellenar con ceros a la izquierda para tener siempre formato pXX
+    return 'p' + docId.padStart(2, '0');
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     // Referencias a las secciones
@@ -112,14 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const docId = normalizeId(num);
+
         try {
-            const docRef = doc(db, "casetas", num);
+            const docRef = doc(db, "feria", docId);
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                nombreInput.value = data.nombreCaseta || '';
-                correoInput.value = data.correo || '';
+                nombreInput.value = data.nombre || '';
+                correoInput.value = data.ownerId || data.email || '';
                 passwordInput.value = data.password || '';
             } else {
                 clearFields();
@@ -146,13 +158,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const docId = normalizeId(num);
+
         try {
-            await setDoc(doc(db, "casetas", num), {
-                numeroCaseta: num,
-                nombreCaseta: nombre,
-                correo: correo,
+            // Guardar usando merge: true para no borrar horario, descripcion ni programacion de la caseta
+            await setDoc(doc(db, "feria", docId), {
+                nombre: nombre,
+                ownerId: correo,
+                email: correo,
                 password: pass
-            });
+            }, { merge: true });
+            
             showStatus("¡Datos guardados con éxito!", "success");
         } catch (error) {
             showStatus("Error de conexión con Firebase", "error");
@@ -172,9 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (confirm(`¿Estás seguro de que quieres eliminar la caseta Nº ${num}?`)) {
+        const docId = normalizeId(num);
+
+        if (confirm(`¿Estás seguro de que quieres eliminar la caseta Nº ${num} (${docId})?`)) {
             try {
-                await deleteDoc(doc(db, "casetas", num));
+                await deleteDoc(doc(db, "feria", docId));
                 clearFields();
                 numCasetaInput.value = '';
                 showStatus("Caseta eliminada correctamente", "success");
