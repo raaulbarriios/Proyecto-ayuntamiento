@@ -399,3 +399,510 @@ body {
     .detailsOverlay { width: 100%; right: -100%; }
     .footerContent { flex-direction: column; gap: 10px; text-align: center; }
 }
+
+/* ==========================================================================
+   PANEL DE ADMINISTRACIÓN - ESTILOS CENTRALIZADOS
+   ========================================================================== */
+
+:root {
+    /* Paleta Institucional (Heredada visualmente) */
+    --admin-primary: #0B63A5;      /* Azul institucional */
+    --admin-primary-hover: #0A5A99; /* Azul más claro para hover */
+    --admin-dark: #042A4A;         /* Azul marino oscuro (botones normales/header) */
+    --admin-active: #FFB500;       /* Amarillo para estados activos/pulsados */
+    
+    /* Grises y Neutros */
+    --admin-bg: #F3F6F9;           /* Gris azulado para diferenciar zona privada */
+    --admin-surface: #FFFFFF;      /* Blanco puro para tarjetas */
+    --admin-text: #333333;         /* Texto base */
+    --admin-text-muted: #64748B;   /* Texto secundario / labels */
+    --admin-border: #E2E8F0;       /* Bordes de formularios y tarjetas */
+    
+    /* Semánticos */
+    --admin-success: #0F5132;
+    --admin-success-bg: #D1E7DD;
+    --admin-success-border: #BADBCC;
+    --admin-danger: #D93025;
+    --admin-danger-hover: #B3261E;
+    --admin-error-text: #842029;
+    --admin-error-bg: #F8D7DA;
+    --admin-error-border: #F5C2C7;
+    
+    /* Utilidades */
+    --admin-shadow: 0 10px 40px rgba(0,0,0,0.08); /* Sombra suave moderna */
+    --admin-radius: 12px;
+}
+
+body.admin-body {
+    background-color: var(--admin-bg);
+    color: var(--admin-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+body.admin-body .hidden { 
+    display: none !important; 
+}
+
+#panelSection, #loginSection {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+#panelSection.hidden, #loginSection.hidden {
+    display: none !important;
+}
+
+/* FOOTER DEL PANEL */
+.adminFooter {
+    background: var(--admin-primary);
+    padding: 15px 0;
+    color: var(--admin-surface);
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+.adminFooter .footerContent {
+    max-width: 100%;
+    padding: 0 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.adminFooter .footerLeft { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+.adminFooter .footerIcon { 
+    height: 24px; 
+    opacity: 0.9; 
+}
+
+.adminFooter .footerHandle { 
+    font-size: 0.85rem; 
+    font-weight: 500; 
+}
+
+.adminFooter .copyrightText { 
+    font-size: 0.8rem; 
+    opacity: 0.8; 
+}
+
+@media (max-width: 480px) {
+    .adminFooter .footerContent { 
+        flex-direction: column; 
+        gap: 10px; 
+        text-align: center; 
+    }
+}
+
+/* SECCIÓN LOGIN (AUTH) */
+.authBody {
+    background-color: var(--admin-bg);
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+.authCard {
+    background: var(--admin-surface);
+    padding: 50px 40px;
+    border-radius: 16px;
+    box-shadow: var(--admin-shadow);
+    border: 1px solid rgba(0,0,0,0.04);
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+}
+
+.authLogo {
+    max-width: 130px;
+    width: 100%;
+    height: auto;
+    margin: 0 -webkit-fill-available 25px auto;
+    margin: 0 auto 25px auto;
+    display: block;
+    object-fit: contain;
+}
+
+.privateAccessBadge {
+    background-color: #FFB500;
+    color: var(--admin-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    white-space: nowrap;
+}
+
+.authCard h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #186DAF;
+    margin-bottom: 5px;
+    letter-spacing: -0.5px;
+}
+
+.authCard p {
+    color: var(--admin-text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 35px;
+}
+
+/* HEADER DEL PANEL */
+.adminHeader {
+    background: var(--admin-primary);
+    color: var(--admin-surface);
+    padding: 10px 4%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--admin-shadow);
+    min-height: 60px;
+}
+
+.adminHeaderLogo {
+    display: flex;
+    align-items: center;
+}
+
+.adminHeaderLogo img {
+    height: 75px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+}
+
+.adminHeaderLogo img:hover {
+    transform: scale(1.02);
+}
+
+.adminHeaderTitle h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.adminHeaderActions {
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .adminHeader {
+        padding: 10px 2%;
+        min-height: 90px;
+    }
+    .adminHeaderLogo img {
+        height: 90px;
+    }
+}
+
+/* PANEL MAIN & CARDS */
+.panelMain {
+    padding: 50px 4%;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    flex: 1;
+    box-sizing: border-box;
+}
+
+.adminCard {
+    background: var(--admin-surface);
+    border-radius: 16px;
+    box-shadow: var(--admin-shadow);
+    border: 1px solid rgba(0,0,0,0.04);
+    padding: 35px;
+}
+
+.adminCard h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: var(--admin-dark);
+    border-bottom: 1px solid #edf2f7;
+    padding-bottom: 20px;
+    margin-top: 0;
+}
+
+/* FORMULARIOS Y INPUTS */
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.formGroup {
+    text-align: left;
+    margin-bottom: 22px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--admin-dark);
+    opacity: 0.85;
+}
+
+#adminLoginForm .formGroup label {
+    color: #186DAF;
+    opacity: 1;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 14px 15px;
+    background-color: #f8fafc;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--admin-text);
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.formGroup input:focus {
+    background-color: var(--admin-surface);
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 4px rgba(11, 99, 165, 0.1);
+}
+
+.formGroup input:disabled {
+    background-color: #f1f5f9;
+    color: var(--admin-text-muted);
+    cursor: not-allowed;
+    border-color: var(--admin-border);
+}
+
+/* BOTONES */
+.btnRow {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.btn {
+    flex: 1;
+    padding: 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+}
+
+.btnSubmit {
+    width: 100%;
+    background: var(--admin-primary);
+    color: var(--admin-surface);
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    margin-top: 15px;
+    box-shadow: 0 4px 15px rgba(11, 99, 165, 0.25);
+}
+
+.btnSubmit:hover {
+    background: var(--admin-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(11, 99, 165, 0.35);
+}
+
+.btnSubmit:active {
+    background: var(--admin-active);
+    color: var(--admin-dark);
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(255, 181, 0, 0.4);
+}
+
+.btnSave {
+    background: #10B981;
+    color: var(--admin-surface);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+}
+
+.btnSave:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+}
+
+.btnSave:active {
+    background: var(--admin-active);
+    color: var(--admin-dark);
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(255, 181, 0, 0.4);
+}
+
+.btnDelete, .logoutBtn {
+    background: var(--admin-danger);
+    color: var(--admin-surface);
+    box-shadow: 0 4px 15px rgba(217, 48, 37, 0.25);
+}
+
+.logoutBtn {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btnDelete:hover, .logoutBtn:hover {
+    background: var(--admin-danger-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(217, 48, 37, 0.35);
+}
+
+.btnDelete:active, .logoutBtn:active {
+    background: var(--admin-active);
+    color: var(--admin-dark);
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(255, 181, 0, 0.4);
+}
+
+/* ALERTAS Y ESTADOS */
+.statusNotif {
+    margin-top: 25px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+    display: none;
+    font-size: 0.95rem;
+    animation: slideUp 0.3s ease;
+}
+
+.success {
+    background: var(--admin-success-bg);
+    color: var(--admin-success);
+    border: 1px solid var(--admin-success-border);
+}
+
+.error, .errorMsg {
+    background: var(--admin-error-bg);
+    color: var(--admin-error-text);
+    border: 1px solid var(--admin-error-border);
+}
+
+.errorMsg {
+    margin-top: 20px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+    display: none;
+    font-size: 0.95rem;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* RESPONSIVE PANEL */
+@media (max-width: 650px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .btnRow {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .authCard {
+        padding: 40px 25px;
+    }
+    .panelMain {
+        padding: 25px 15px;
+    }
+    .adminCard {
+        padding: 25px 20px;
+    }
+    
+    .adminHeader {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 3%;
+        height: 85px;
+    }
+    .adminHeaderLogo img {
+        height: 62px;
+        width: auto;
+    }
+    .adminHeaderTitle h1 {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.15rem;
+        font-weight: 500;
+        text-align: center;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0 8px;
+    }
+    
+    .logoutText {
+        display: none;
+    }
+    .logoutBtn {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
+    .logoutBtn i {
+        font-size: 1.15rem;
+        margin: 0;
+    }
+}
+
