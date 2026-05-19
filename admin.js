@@ -1,6 +1,6 @@
 import { db, auth } from './firebase-config.js';
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
 
 const normalizeId = (num) => {
     let docId = num.toLowerCase().trim();
@@ -86,8 +86,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 console.error("Error al validar con Firebase Auth:", err);
-                errorBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Credenciales incorrectas o error de conexión.';
-                errorBox.style.display = 'block';
+                
+                // Autocreación de la cuenta de administrador si no existe (seguridad en el cliente)
+                if (emailVal === 'administrador@gmail.com' && (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential')) {
+                    try {
+                        const newUserCred = await createUserWithEmailAndPassword(auth, emailVal, passwordVal);
+                        if (newUserCred.user) {
+                            console.log("Cuenta de administrador creada automáticamente.");
+                            localStorage.setItem('adminSession', 'true');
+                            showPanel();
+                            return; // Salir de la función con éxito
+                        }
+                    } catch (createErr) {
+                        if (createErr.code === 'auth/email-already-in-use') {
+                             errorBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Contraseña de administrador incorrecta.';
+                        } else {
+                             errorBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error al crear el administrador.';
+                        }
+                        errorBox.style.display = 'block';
+                        return; // Evitar que el flujo continúe
+                    }
+                } else {
+                    errorBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Credenciales incorrectas o error de conexión.';
+                    errorBox.style.display = 'block';
+                }
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
