@@ -53,14 +53,14 @@ body {
     display: none !important; 
 }
 
-#panelSection {
+#panelSection, #loginSection {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     width: 100%;
 }
 
-#panelSection.hidden {
+#panelSection.hidden, #loginSection.hidden {
     display: none !important;
 }
 
@@ -136,19 +136,32 @@ body {
     text-align: center;
 }
 
-.authCard i {
-    font-size: 3.5rem;
-    color: var(--admin-primary);
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, var(--admin-primary), var(--admin-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.authLogo {
+    max-width: 130px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto 25px auto;
+    display: block;
+    object-fit: contain;
+}
+
+.privateAccessBadge {
+    background-color: #FFB500;
+    color: var(--admin-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    white-space: nowrap;
 }
 
 .authCard h1 {
     font-size: 1.75rem;
     font-weight: 800;
-    color: var(--admin-dark);
+    color: #186DAF;
     margin-bottom: 5px;
     letter-spacing: -0.5px;
 }
@@ -172,9 +185,6 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--admin-shadow);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
     min-height: 60px;
 }
 
@@ -272,6 +282,11 @@ body {
     letter-spacing: 0.5px;
     color: var(--admin-dark);
     opacity: 0.85;
+}
+
+#adminLoginForm .formGroup label {
+    color: #186DAF;
+    opacity: 1;
 }
 
 .formGroup input {

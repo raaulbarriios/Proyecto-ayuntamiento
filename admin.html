@@ -15,14 +15,23 @@
 </head>
 <body>
 
-    <!-- 1. SECCIÓN DE LOGIN -->
-    <div id="loginSection" class="authBody">
-        <div class="authCard">
-            <i class="fas fa-user-shield"></i>
-            <h1>Admin Login</h1>
-            <p>Sistema de gestión exclusivo</p>
-            <form id="adminLoginForm">
-                <div class="formGroup">
+    <div id="loginSection">
+        <header class="adminHeader">
+            <div class="adminHeaderLogo">
+                <img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras">
+            </div>
+            <div class="adminHeaderActions">
+                <span class="privateAccessBadge">Acceso Privado</span>
+            </div>
+        </header>
+
+        <main class="authBody">
+            <div class="authCard">
+                <img src="fotos/Logo Algeciras 1 tinta fondos claros ver azul sin letras interiores.png" alt="Logo del Ayuntamiento de Algeciras" class="authLogo">
+                <h1>Admin Login</h1>
+                <p>Sistema de gestión exclusivo</p>
+                <form id="adminLoginForm">
+                    <div class="formGroup">
                     <label>Usuario</label>
                     <input type="text" id="userInput" placeholder="Introduce 'admin'" required>
                 </div>
@@ -34,9 +43,19 @@
                 <p id="errorBox" class="errorMsg">Credenciales incorrectas (Usa admin/admin)</p>
             </form>
         </div>
+        </main>
+
+        <footer class="adminFooter" role="contentinfo">
+            <div class="footerContent">
+                <div class="footerLeft">
+                    <img src="fotos/Logo Algeciras 1 tinta fondos oscuros.png" alt="Ayuntamiento de Algeciras" class="footerIcon">
+                    <span class="footerHandle">ayuntamientoalgeciras</span>
+                </div>
+                <div class="copyrightText">© Ayuntamiento de Algeciras</div>
+            </div>
+        </footer>
     </div>
 
-    <!-- 2. SECCIÓN DE PANEL (OCULTA POR DEFECTO) -->
     <div id="panelSection" class="hidden">
         <header class="adminHeader">
             <div class="adminHeaderLogo">
