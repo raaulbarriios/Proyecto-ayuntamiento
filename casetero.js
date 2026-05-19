@@ -29,20 +29,30 @@ function checkAuthState() {
     }
 
     const isAuth = localStorage.getItem('caseteroAuth') === 'true';
-    if (isAuth) {
+    const casetaId = localStorage.getItem('casetaId');
+    
+    if (isAuth && casetaId) {
         showPanel();
     } else {
+        // Asegurar limpieza de cualquier estado corrupto o incompleto
+        localStorage.removeItem('caseteroAuth');
+        localStorage.removeItem('casetaId');
         showLogin();
     }
 }
 
 function showLogin() {
-    loginView.classList.add('active');
     panelView.classList.remove('active');
+    loginView.classList.add('active');
     loginForm.reset();
 }
 
 function showPanel() {
+    const casetaId = localStorage.getItem('casetaId');
+    if (!casetaId) {
+        showLogin();
+        return;
+    }
     loginView.classList.remove('active');
     panelView.classList.add('active');
     loadCasetaData();
@@ -139,7 +149,12 @@ async function loadCasetaData() {
             inputs[2].value = data.correo || '';
             inputs[3].value = data.password || '';
         } else {
-            showPanelMessage("Datos no encontrados en el servidor", false);
+            showPanelMessage("Datos no encontrados. Sesión expirada.", false);
+            setTimeout(() => {
+                localStorage.removeItem('caseteroAuth');
+                localStorage.removeItem('casetaId');
+                showLogin();
+            }, 2000);
         }
     } catch (error) {
         console.error("Error cargando panel:", error);

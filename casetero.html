@@ -26,13 +26,22 @@
 </head>
 <body>
 
-    <!-- Franja Identificativa Independiente -->
-    <div class="eventTitleSection">
-        <h2 class="eventTitle">SISTEMA PRIVADO - GESTIÓN DE CASETAS</h2>
-    </div>
-
     <!-- VISTA 1: LOGIN -->
-    <div id="loginView" class="view-section active mainWrapper">
+    <div id="loginView" class="view-section">
+        <header class="adminHeader">
+            <div class="adminHeaderLogo">
+                <img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras">
+            </div>
+            <div class="adminHeaderTitle">
+                <h1>
+                    <span class="title-part1">Sistema Privado</span>
+                    <span class="title-sep"> - </span>
+                    <span class="title-part2">Gestión de Casetas</span>
+                </h1>
+            </div>
+        </header>
+
+        <main class="authBody">
             <div class="privateCard loginContainer">
                 <div class="loginHeader">
                     <i class="fas fa-lock"></i>
@@ -73,20 +82,31 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </main>
+
+        <footer class="adminFooter" role="contentinfo">
+            <div class="footerContent">
+                <div class="footerLeft">
+                    <img src="fotos/Logo Algeciras 1 tinta fondos oscuros.png" alt="Ayuntamiento de Algeciras" class="footerIcon">
+                    <span class="footerHandle">ayuntamientoalgeciras</span>
+                </div>
+                <div class="copyrightText">© Ayuntamiento de Algeciras</div>
+            </div>
+        </footer>
+    </div>
 
     <!-- VISTA 2: PANEL PRIVADO (OCULTO POR DEFECTO) -->
     <div id="panelView" class="view-section">
         
         <!-- Cabecera Institucional Clonada (Visible sólo tras login) -->
-        <header class="caseteroHeader" role="banner">
-            <div class="caseteroHeaderLogo">
-                <img src="../fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras">
+        <header class="adminHeader" role="banner">
+            <div class="adminHeaderLogo">
+                <img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras">
             </div>
-            <div class="caseteroHeaderTitle">
+            <div class="adminHeaderTitle">
                 <h1>Gestión de Casetas</h1>
             </div>
-            <div class="caseteroHeaderActions">
+            <div class="adminHeaderActions">
                 <button id="logoutBtn" class="logoutBtn" title="Cerrar Sesión" aria-label="Cerrar Sesión">
                     <i class="fas fa-sign-out-alt"></i> <span class="logoutText">Cerrar Sesión</span>
                 </button>
@@ -160,10 +180,10 @@
         </main>
 
         <!-- Pie de Página Institucional Clonado según Referencia Visual -->
-        <footer class="caseteroFooter" role="contentinfo">
+        <footer class="adminFooter" role="contentinfo">
             <div class="footerContent">
                 <div class="footerLeft">
-                    <img src="../fotos/Logo Algeciras 1 tinta fondos oscuros.png" alt="Ayuntamiento de Algeciras" class="footerIcon">
+                    <img src="fotos/Logo Algeciras 1 tinta fondos oscuros.png" alt="Ayuntamiento de Algeciras" class="footerIcon">
                     <span class="footerHandle">ayuntamientoalgeciras</span>
                 </div>
                 <div class="copyrightText">© Ayuntamiento de Algeciras</div>

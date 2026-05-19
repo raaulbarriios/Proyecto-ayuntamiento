@@ -42,33 +42,27 @@ body {
     opacity: 1;
 }
 
-/* Contenedor de Altura Completa para el Panel Privado (Sticky Footer) */
-#panelView {
+/* Contenedores de Altura Completa (Sticky Footer) */
+#panelView, #loginView {
     display: none;
     flex-direction: column;
     min-height: 100vh;
     width: 100%;
 }
 
-#panelView.active {
+#panelView.active, #loginView.active {
     display: flex;
     opacity: 1;
 }
 
-/* Wrapper del Login */
-.mainWrapper {
+/* Wrapper de Contenido de Login (Centrado) */
+.authBody {
     flex: 1;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 50px 20px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#loginView.active {
-    display: flex;
-    opacity: 1;
+    padding: 20px;
+    position: relative;
 }
 
 /* Franja Identificativa Superior */
@@ -91,7 +85,7 @@ body {
 /* --------------------------------------------------------------------------
    3. CABECERA INSTITUCIONAL (PARIDAD EXACTA CON ADMIN-STYLE.CSS)
    -------------------------------------------------------------------------- */
-.caseteroHeader {
+.adminHeader {
     background: var(--casetero-primary); /* Azul Institucional #0B63A5 */
     color: var(--casetero-surface);
     padding: 10px 4%;
@@ -99,29 +93,26 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--casetero-shadow);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
     min-height: 60px;
 }
 
-.caseteroHeaderLogo {
+.adminHeaderLogo {
     display: flex;
     align-items: center;
 }
 
-.caseteroHeaderLogo img {
+.adminHeaderLogo img {
     height: 75px; /* Logo institucional imponente */
     width: auto;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
     transition: transform 0.3s ease;
 }
 
-.caseteroHeaderLogo img:hover {
+.adminHeaderLogo img:hover {
     transform: scale(1.02);
 }
 
-.caseteroHeaderTitle h1 {
+.adminHeaderTitle h1 {
     font-family: 'Inter', sans-serif;
     font-size: 1.5rem; /* Tamaño notable y jerárquico */
     font-weight: 500;  /* Letra Inter Medium (500) */
@@ -129,20 +120,45 @@ body {
     letter-spacing: 1px;
     margin: 0;
     color: var(--casetero-surface);
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
-.caseteroHeaderActions {
+.title-part1, .title-part2 {
+    display: inline;
+}
+
+.title-sep {
+    display: inline;
+    margin: 0 6px;
+}
+
+.adminHeaderActions {
     display: flex;
     align-items: center;
 }
 
+.privateAccessBadge {
+    background-color: #FFB500;
+    color: var(--casetero-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    white-space: nowrap;
+}
+
 /* Diseño Escritorio para Cabecera */
 @media (min-width: 992px) {
-    .caseteroHeader {
+    .adminHeader {
         padding: 10px 2%; /* Extremos al límite seguro */
         min-height: 90px;
     }
-    .caseteroHeaderLogo img {
+    .adminHeaderLogo img {
         height: 90px; /* Altura imponente idéntica a mainLogoImg */
     }
 }
@@ -150,7 +166,7 @@ body {
 /* --------------------------------------------------------------------------
    4. PIE DE PÁGINA INSTITUCIONAL (PARIDAD EXACTA CON LA IMAGEN DE REFERENCIA)
    -------------------------------------------------------------------------- */
-.caseteroFooter {
+.adminFooter {
     background: var(--casetero-primary); /* Azul Institucional #0B63A5 */
     padding: 15px 0;
     color: var(--casetero-surface);
@@ -193,9 +209,29 @@ body {
 
 @media (max-width: 480px) {
     .footerContent { 
-        flex-direction: column; 
-        gap: 10px; 
-        text-align: center; 
+        flex-direction: row; 
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        padding: 0 10px;
+    }
+    
+    .footerLeft {
+        gap: 6px;
+    }
+    
+    .footerIcon {
+        height: 18px;
+        width: auto;
+    }
+    
+    .footerHandle {
+        font-size: 0.72rem;
+    }
+    
+    .copyrightText {
+        font-size: 0.68rem;
+        text-align: right;
     }
 }
 
@@ -558,7 +594,7 @@ body {
     }
     
     /* Header Móvil Compacto y Horizontal (Cero Apilamiento) */
-    .caseteroHeader {
+    .adminHeader {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
@@ -566,20 +602,35 @@ body {
         height: 85px;
         min-height: 60px;
     }
-    .caseteroHeaderLogo img {
+    .adminHeaderLogo img {
         height: 62px;
         width: auto;
     }
-    .caseteroHeaderTitle h1 {
+    .adminHeaderTitle h1 {
         font-family: 'Inter', sans-serif;
         font-size: 1.15rem;
         font-weight: 500;
         text-align: center;
         letter-spacing: 0.5px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         padding: 0 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.25;
+    }
+    
+    .title-sep {
+        display: none !important;
+    }
+    
+    .title-part1 {
+        font-size: 1.1rem;
+    }
+    
+    .title-part2 {
+        font-size: 0.8rem;
+        opacity: 0.9;
+        text-transform: capitalize; /* Keep clean capitalization style */
     }
     
     /* Botón Cerrar Sesión Móvil (Sólo Icono WCAG 44x44px) */
