@@ -13,13 +13,13 @@
     <!-- Estilo centralizado de Caseteros (Mismo directorio) -->
     <link rel="stylesheet" href="casetero-style.css">
     
-    <!-- Mapa de Importaciones (Import Map) para resolver los bare specifiers de Firebase -->
     <script type="importmap">
       {
         "imports": {
           "firebase/app": "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js",
           "firebase/analytics": "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js",
-          "firebase/firestore": "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"
+          "firebase/firestore": "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js",
+          "firebase/auth": "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
         }
       }
     </script>
@@ -151,18 +151,34 @@
                                 </div>
                             </div>
 
+                            <div class="formGroup">
+                                <label for="panelHorario">Horario de Apertura</label>
+                                <div class="inputWrapper">
+                                    <input type="text" id="panelHorario" class="inputControl skeleton" required value="---">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+
+                            <div class="formGroup full-width">
+                                <label for="panelDescripcion">Descripción de la Caseta</label>
+                                <div class="inputWrapper" style="position: relative;">
+                                    <textarea id="panelDescripcion" class="inputControl skeleton" required style="resize: vertical; min-height: 80px; padding: 10px 15px 10px 40px; font-family: 'Inter', sans-serif;">---</textarea>
+                                    <i class="fas fa-align-left" style="position: absolute; left: 15px; top: 15px;"></i>
+                                </div>
+                            </div>
+
                             <div class="formGroup full-width">
                                 <label for="panelCorreo">Correo Electrónico Oficial</label>
                                 <div class="inputWrapper">
-                                    <input type="email" id="panelCorreo" class="inputControl skeleton" required value="---">
+                                    <input type="email" id="panelCorreo" class="inputControl skeleton" required value="---" disabled>
                                     <i class="fas fa-envelope"></i>
                                 </div>
                             </div>
 
                             <div class="formGroup full-width">
-                                <label for="panelPassword">Contraseña de Acceso</label>
+                                <label for="panelPassword">Contraseña de Acceso (Dejar '••••••••' si no se desea cambiar)</label>
                                 <div class="inputWrapper">
-                                    <input type="text" id="panelPassword" class="inputControl skeleton" required value="---">
+                                    <input type="password" id="panelPassword" class="inputControl skeleton" required value="---">
                                     <i class="fas participant-lock fa-lock"></i>
                                 </div>
                             </div>

@@ -1,4 +1,5 @@
-import { db } from './firebase-config.js';
+import { db, auth } from './firebase-config.js';
+import { signInWithEmailAndPassword, updatePassword, signOut } from "firebase/auth";
 import { collection, query, where, getDocs, doc, getDoc, updateDoc } from "firebase/firestore";
 
 // DOM Elements
@@ -14,6 +15,8 @@ const loginErrorMsg = document.getElementById('loginErrorMsg');
 const editForm = document.getElementById('editForm');
 const panelNumero = document.getElementById('panelNumero');
 const panelNombre = document.getElementById('panelNombre');
+const panelHorario = document.getElementById('panelHorario');
+const panelDescripcion = document.getElementById('panelDescripcion');
 const panelCorreo = document.getElementById('panelCorreo');
 const panelPassword = document.getElementById('panelPassword');
 const panelSaveBtn = document.getElementById('panelSaveBtn');
@@ -79,41 +82,41 @@ loginForm.addEventListener('submit', async (e) => {
     const passwordVal = loginPassword.value.trim();
 
     try {
-        const casetasRef = collection(db, "casetas");
-        const q = query(casetasRef, where("correo", "==", correoVal), where("password", "==", passwordVal));
-        const querySnapshot = await getDocs(q);
-        
-        if (!querySnapshot.empty) {
-            let casetaId = null;
-            querySnapshot.forEach((doc) => {
-                casetaId = doc.id;
-            });
-            
-            localStorage.setItem('caseteroAuth', 'true');
-            localStorage.setItem('casetaId', casetaId);
-            showPanel();
-        } else if (correoVal === 'caseta@algeciras.es' && passwordVal === '123456') {
+        if (correoVal === 'caseta@algeciras.es' && passwordVal === '123456') {
             // FALLBACK DE CORTESÍA / MODO DEMOSTRACIÓN OFICIAL
-            // Permite al usuario probar el panel inmediatamente si su Firestore aún no tiene casetas registradas
-            console.warn("Firestore vacío o sin coincidencia. Iniciando en Modo Demostración Oficial.");
+            console.warn("Iniciando en Modo Demostración Oficial.");
             localStorage.setItem('caseteroAuth', 'true');
             localStorage.setItem('casetaId', 'demo_caseta_001');
             showPanel();
         } else {
-            loginErrorMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Credenciales incorrectas. <br><small>Tip: Usa <b>caseta@algeciras.es</b> / <b>123456</b> para modo demostración.</small>';
-            loginErrorMsg.style.display = 'block';
+            // 1. Autenticar con Firebase Authentication
+            const userCredential = await signInWithEmailAndPassword(auth, correoVal, passwordVal);
+            const user = userCredential.user;
+
+            // 2. Consultar la colección 'feria' de Firestore por ownerId
+            const feriaRef = collection(db, "feria");
+            const q = query(feriaRef, where("ownerId", "==", user.email));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                let casetaId = null;
+                querySnapshot.forEach((doc) => {
+                    casetaId = doc.id;
+                });
+
+                localStorage.setItem('caseteroAuth', 'true');
+                localStorage.setItem('casetaId', casetaId);
+                showPanel();
+            } else {
+                loginErrorMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> No tienes ninguna caseta asignada en este evento.';
+                loginErrorMsg.style.display = 'block';
+                await signOut(auth);
+            }
         }
     } catch (error) {
         console.error("Error en login Firestore:", error);
-        // Fallback en caso de fallo de red o permisos de Firestore
-        if (correoVal === 'caseta@algeciras.es' && passwordVal === '123456') {
-            localStorage.setItem('caseteroAuth', 'true');
-            localStorage.setItem('casetaId', 'demo_caseta_001');
-            showPanel();
-        } else {
-            loginErrorMsg.innerHTML = '<i class="fas fa-wifi"></i> Error de conexión con Firebase. <br><small>Tip: Usa <b>caseta@algeciras.es</b> / <b>123456</b> para entrar sin red.</small>';
-            loginErrorMsg.style.display = 'block';
-        }
+        loginErrorMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Credenciales incorrectas o error de conexión.';
+        loginErrorMsg.style.display = 'block';
     } finally {
         loginSubmitBtn.disabled = false;
         loginSubmitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar al Panel';
@@ -125,29 +128,33 @@ async function loadCasetaData() {
     const casetaId = localStorage.getItem('casetaId');
     if (!casetaId) return showLogin();
 
-    const inputs = [panelNumero, panelNombre, panelCorreo, panelPassword];
+    const inputs = [panelNumero, panelNombre, panelHorario, panelDescripcion, panelCorreo, panelPassword];
 
     // Modo Demostración de Cortesía
     if (casetaId === 'demo_caseta_001') {
         inputs[0].value = '001 (Modo Demo)';
         inputs[1].value = 'Caseta de Pruebas';
-        inputs[2].value = 'caseta@algeciras.es';
-        inputs[3].value = '123456';
+        inputs[2].value = '10:00 - 04:00';
+        inputs[3].value = 'Descripción genérica para la caseta de demostración.';
+        inputs[4].value = 'caseta@algeciras.es';
+        inputs[5].value = '••••••••';
         inputs.forEach(input => input.classList.remove('skeleton'));
         showPanelMessage("Modo Demostración Activo", true);
         return;
     }
 
     try {
-        const docRef = doc(db, "casetas", casetaId);
+        const docRef = doc(db, "feria", casetaId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
             const data = docSnap.data();
-            inputs[0].value = data.numeroCaseta || '';
-            inputs[1].value = data.nombreCaseta || '';
-            inputs[2].value = data.correo || '';
-            inputs[3].value = data.password || '';
+            inputs[0].value = docSnap.id || '';
+            inputs[1].value = data.nombre || '';
+            inputs[2].value = data.horario || '';
+            inputs[3].value = data.descripcion || '';
+            inputs[4].value = data.ownerId || '';
+            inputs[5].value = '••••••••';
         } else {
             showPanelMessage("Datos no encontrados. Sesión expirada.", false);
             setTimeout(() => {
@@ -174,25 +181,46 @@ editForm.addEventListener('submit', async (e) => {
     panelSaveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
 
     try {
-        const docRef = doc(db, "casetas", casetaId);
-        await updateDoc(docRef, {
-            nombreCaseta: panelNombre.value.trim(),
-            correo: panelCorreo.value.trim(),
-            password: panelPassword.value.trim()
-        });
+        if (casetaId === 'demo_caseta_001') {
+            showPanelMessage("Datos de demostración actualizados", true);
+        } else {
+            // 1. Actualizar datos en Firestore
+            const docRef = doc(db, "feria", casetaId);
+            await updateDoc(docRef, {
+                nombre: panelNombre.value.trim(),
+                horario: panelHorario.value.trim(),
+                descripcion: panelDescripcion.value.trim()
+            });
 
-        showPanelMessage("Datos actualizados correctamente", true);
+            // 2. Actualizar contraseña en Firebase Auth si fue modificada
+            const newPassword = panelPassword.value.trim();
+            if (newPassword && newPassword !== '••••••••') {
+                const user = auth.currentUser;
+                if (user) {
+                    await updatePassword(user, newPassword);
+                } else {
+                    console.warn("Usuario no activo en la sesión actual de Auth.");
+                }
+            }
+
+            showPanelMessage("Datos actualizados correctamente", true);
+        }
     } catch (error) {
         console.error("Error actualizando:", error);
-        showPanelMessage("Error al guardar", false);
+        showPanelMessage("Error al guardar cambios", false);
     } finally {
         panelSaveBtn.disabled = false;
-        panelSaveBtn.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+        panelSaveBtn.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios Oficiales';
     }
 });
 
 // ---------------- CERRAR SESIÓN ----------------
-logoutBtn.addEventListener('click', () => {
+logoutBtn.addEventListener('click', async () => {
+    try {
+        await signOut(auth);
+    } catch (error) {
+        console.error("Error al cerrar sesión de Auth:", error);
+    }
     localStorage.removeItem('caseteroAuth');
     localStorage.removeItem('casetaId');
     showLogin();
