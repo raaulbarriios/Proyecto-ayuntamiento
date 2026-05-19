@@ -372,32 +372,7 @@ body {
 /* Accesibilidad */
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
-@media (max-width: 480px) {
-    .eventTitle { font-size: 1.2rem; }
-    .detailsOverlay { width: 100%; right: -100%; }
-    .footerContent {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 8px;
-    }
-    .footerIcon {
-        height: 16px;
-    }
-    .footerLeft {
-        gap: 6px;
-    }
-    .footerHandle {
-        font-size: 0.75rem;
-    }
-    .copyrightText {
-        font-size: 0.72rem;
-    }
-    
-    .mainLogoImg {
-        height: 52px;
-    }
-    
+@media (max-width: 991px) {
     .mobileActions {
         gap: 6px;
         align-items: center;
@@ -424,19 +399,53 @@ body {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
-        font-family: 'Inter', sans-serif;
-        font-weight: 500;
-        font-style: normal;
-        font-size: 0.8rem;
+        gap: 6px;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 500 !important;
+        font-style: normal !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .mobileActions .mobileBtn i,
+    .mobileActions .casetas-trigger-btn i {
+        font-size: 0.85rem !important;
+        line-height: 1;
+        display: inline-block;
     }
     
     .casetas-trigger-btn span,
     .mobileBtn span {
-        font-family: 'Inter', sans-serif;
-        font-weight: 500;
-        font-style: normal;
-        font-size: 0.8rem;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 500 !important;
+        font-style: normal !important;
+        font-size: 0.8rem !important;
+        line-height: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .eventTitle { font-size: 1.2rem; }
+    .detailsOverlay { width: 100%; right: -100%; }
+    .footerContent {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
+    .footerIcon {
+        height: 16px;
+    }
+    .footerLeft {
+        gap: 6px;
+    }
+    .footerHandle {
+        font-size: 0.75rem;
+    }
+    .copyrightText {
+        font-size: 0.72rem;
+    }
+    .mainLogoImg {
+        height: 52px;
     }
 }
 
