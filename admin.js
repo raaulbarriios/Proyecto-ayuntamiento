@@ -1,5 +1,6 @@
-import { db } from './firebase-config.js';
+import { db, auth } from './firebase-config.js';
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 const normalizeId = (num) => {
     let docId = num.toLowerCase().trim();
@@ -54,13 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
         showLogin();
     }
 
-    // --- LÓGICA DE LOGIN CON CONEXIÓN A FIRESTORE ---
+    // --- LÓGICA DE LOGIN CON CONEXIÓN A FIREBASE AUTHENTICATION ---
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             errorBox.style.display = 'none';
             
-            const usernameVal = userInput.value.trim();
+            const emailVal = userInput.value.trim();
             const passwordVal = passInput.value.trim();
             
             const submitBtn = loginForm.querySelector('.btnSubmit');
@@ -69,37 +70,24 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> VERIFICANDO...';
             
             try {
-                // Intentar validar las credenciales contra la base de datos Firestore
-                const adminRef = doc(db, "admin", "credenciales");
-                const adminSnap = await getDoc(adminRef);
-                
-                if (adminSnap.exists()) {
-                    const adminData = adminSnap.data();
-                    if (usernameVal === adminData.usuario && passwordVal === adminData.password) {
-                        localStorage.setItem('adminSession', 'true');
-                        showPanel();
-                        return;
-                    }
-                }
-                
-                // Fallback para pruebas o si el documento no está creado en la base de datos
-                if (usernameVal === 'admin' && passwordVal === 'admin') {
+                // 1. Autenticar con Firebase Authentication
+                const userCredential = await signInWithEmailAndPassword(auth, emailVal, passwordVal);
+                const user = userCredential.user;
+
+                // 2. Verificar que el usuario tenga el correo exacto del administrador
+                if (user.email === 'administrador@gmail.com') {
                     localStorage.setItem('adminSession', 'true');
                     showPanel();
                 } else {
-                    errorBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Credenciales incorrectas.';
+                    // Si no es el administrador, cerrar sesión y mostrar error
+                    await signOut(auth);
+                    errorBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Acceso denegado. No tienes permisos de administrador.';
                     errorBox.style.display = 'block';
                 }
             } catch (err) {
-                console.error("Error al validar con Firestore:", err);
-                // Fallback de contingencia (sin conexión o error de CORS local)
-                if (usernameVal === 'admin' && passwordVal === 'admin') {
-                    localStorage.setItem('adminSession', 'true');
-                    showPanel();
-                } else {
-                    errorBox.innerHTML = '<i class="fas fa-wifi"></i> Error de conexión. <br><small>Tip: Puedes usar admin/admin en modo local.</small>';
-                    errorBox.style.display = 'block';
-                }
+                console.error("Error al validar con Firebase Auth:", err);
+                errorBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Credenciales incorrectas o error de conexión.';
+                errorBox.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
@@ -203,7 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Logout
-    logoutBtn.addEventListener('click', () => {
+    logoutBtn.addEventListener('click', async () => {
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.error("Error al cerrar sesión de Auth:", error);
+        }
         localStorage.removeItem('adminSession');
         showLogin();
     });
