@@ -18,9 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             manualSearch: '#manualSearch',
             toggleMobileSearch: '#toggleMobileSearch',
             mobileSearchRow: '#mobileSearchRow',
-            mobileSearchInput: '#mobileSearchInput',
-            mapLinkMobile: '#mapLinkMobile',
-            mapLinkDesktop: '#mapLinkDesktop'
+            mobileSearchInput: '#mobileSearchInput'
         },
         classes: {
             active: 'active',
@@ -45,9 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         manualSearch: document.querySelector(CONFIG.selectors.manualSearch),
         toggleMobileSearch: document.querySelector(CONFIG.selectors.toggleMobileSearch),
         mobileSearchRow: document.querySelector(CONFIG.selectors.mobileSearchRow),
-        mobileSearchInput: document.querySelector(CONFIG.selectors.mobileSearchInput),
-        mapLinkMobile: document.querySelector(CONFIG.selectors.mapLinkMobile),
-        mapLinkDesktop: document.querySelector(CONFIG.selectors.mapLinkDesktop)
+        mobileSearchInput: document.querySelector(CONFIG.selectors.mobileSearchInput)
     };
 
     // 4. Funciones de Lógica
@@ -161,17 +157,195 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.mobileSearchRow.addEventListener('click', (e) => e.stopPropagation());
     }
 
-    // Toggle Botón Mapa (Móvil y Desktop)
-    const toggleMapActive = (element) => {
-        if (element) {
-            element.addEventListener('click', () => {
-                element.classList.toggle(CONFIG.classes.active);
-            });
+
+
+    // === COMPONENTE: DESPLEGABLE DE CASETAS ===
+    const casetasState = {
+        isOpenMobile: false,
+        isOpenDesktop: false,
+        casetasData: [] // Estructura dinámica de Casetas
+    };
+
+    const casetasElements = {
+        triggerMobile: document.querySelector('#casetasTriggerMobile'),
+        menuMobile: document.querySelector('#casetasDropdownMobile'),
+        containerMobile: document.querySelector('#casetasContainerMobile'),
+
+        triggerDesktop: document.querySelector('#casetasTriggerDesktop'),
+        menuDesktop: document.querySelector('#casetasDropdownDesktop'),
+        containerDesktop: document.querySelector('#casetasContainerDesktop')
+    };
+
+    /**
+     * Cierra un dropdown de Casetas específico.
+     */
+    const closeCasetasDropdown = (type) => {
+        const trigger = type === 'mobile' ? casetasElements.triggerMobile : casetasElements.triggerDesktop;
+        const menu = type === 'mobile' ? casetasElements.menuMobile : casetasElements.menuDesktop;
+        
+        if (!trigger || !menu) return;
+        
+        menu.classList.remove('active');
+        trigger.classList.remove('active');
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        
+        if (type === 'mobile') casetasState.isOpenMobile = false;
+        else casetasState.isOpenDesktop = false;
+    };
+
+    /**
+     * Abre un dropdown de Casetas específico.
+     */
+    const openCasetasDropdown = (type) => {
+        const trigger = type === 'mobile' ? casetasElements.triggerMobile : casetasElements.triggerDesktop;
+        const menu = type === 'mobile' ? casetasElements.menuMobile : casetasElements.menuDesktop;
+        
+        if (!trigger || !menu) return;
+        
+        // Cerrar el otro primero para evitar duplicidad
+        closeCasetasDropdown(type === 'mobile' ? 'desktop' : 'mobile');
+
+        menu.classList.add('active');
+        trigger.classList.add('active');
+        trigger.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+        
+        if (type === 'mobile') casetasState.isOpenMobile = true;
+        else casetasState.isOpenDesktop = true;
+
+        // Foco accesible
+        const firstItem = menu.querySelector('.casetas-dropdown-item');
+        if (firstItem && !firstItem.classList.contains('casetas-dropdown-placeholder')) {
+            firstItem.focus();
         }
     };
 
-    toggleMapActive(elements.mapLinkMobile);
-    toggleMapActive(elements.mapLinkDesktop);
+    /**
+     * Renderiza dinámicamente las casetas en el menú correspondiente.
+     */
+    const renderCasetas = (menuElement, data = []) => {
+        if (!menuElement) return;
+        menuElement.innerHTML = '';
+
+        // Manejo seguro de listas vacías / asincronía
+        if (!data || data.length === 0) {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'casetas-dropdown-placeholder';
+            placeholder.textContent = 'Cargando casetas...';
+            placeholder.setAttribute('role', 'status');
+            menuElement.appendChild(placeholder);
+            return;
+        }
+
+        // Renderizado dinámico utilizando .map() para generar los nodos del DOM
+        const itemElements = data.map((caseta, index) => {
+            const button = document.createElement('button');
+            button.className = 'casetas-dropdown-item';
+            button.type = 'button';
+            button.role = 'menuitem';
+            button.tabIndex = 0;
+
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-store-alt dropdown-item-icon';
+            button.appendChild(icon);
+
+            const name = document.createElement('span');
+            name.textContent = caseta.nombre || `Caseta ${caseta.numero || index + 1}`;
+            button.appendChild(name);
+
+            button.addEventListener('click', () => {
+                console.log(`Seleccionada caseta: ${caseta.nombre}`);
+                if (typeof caseta.action === 'function') {
+                    caseta.action();
+                }
+                closeCasetasDropdown('mobile');
+                closeCasetasDropdown('desktop');
+            });
+
+            return button;
+        });
+
+        // Adjuntar elementos renderizados
+        itemElements.forEach(el => menuElement.appendChild(el));
+    };
+
+    // Inicializar eventos para Móvil
+    if (casetasElements.triggerMobile) {
+        casetasElements.triggerMobile.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (casetasState.isOpenMobile) {
+                closeCasetasDropdown('mobile');
+            } else {
+                openCasetasDropdown('mobile');
+            }
+        });
+    }
+
+    // Inicializar eventos para Desktop
+    if (casetasElements.triggerDesktop) {
+        casetasElements.triggerDesktop.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (casetasState.isOpenDesktop) {
+                closeCasetasDropdown('desktop');
+            } else {
+                openCasetasDropdown('desktop');
+            }
+        });
+    }
+
+    // Cerrar al pulsar Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (casetasState.isOpenMobile) {
+                closeCasetasDropdown('mobile');
+                casetasElements.triggerMobile.focus();
+            }
+            if (casetasState.isOpenDesktop) {
+                closeCasetasDropdown('desktop');
+                casetasElements.triggerDesktop.focus();
+            }
+        }
+    });
+
+    // Cerrar al hacer clic fuera
+    document.addEventListener('click', (e) => {
+        if (casetasState.isOpenMobile && casetasElements.containerMobile && !casetasElements.containerMobile.contains(e.target)) {
+            closeCasetasDropdown('mobile');
+        }
+        if (casetasState.isOpenDesktop && casetasElements.containerDesktop && !casetasElements.containerDesktop.contains(e.target)) {
+            closeCasetasDropdown('desktop');
+        }
+    });
+
+    // Carga asíncrona de datos desde base de datos
+    const loadCasetasFromDB = () => {
+        // Renderizamos estado de carga/vacío primero
+        renderCasetas(casetasElements.menuMobile, []);
+        renderCasetas(casetasElements.menuDesktop, []);
+
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve([
+                    { nombre: 'Caseta El Pregonero', numero: 1, action: () => alert('Ubicando Caseta El Pregonero...') },
+                    { nombre: 'Caseta La Favorita', numero: 2, action: () => alert('Ubicando Caseta La Favorita...') },
+                    { nombre: 'Caseta Los Duendes', numero: 3, action: () => alert('Ubicando Caseta Los Duendes...') }
+                ]);
+            }, 1500); // Latencia simulada
+        });
+    };
+
+    loadCasetasFromDB()
+        .then(data => {
+            casetasState.casetasData = data;
+            renderCasetas(casetasElements.menuMobile, casetasState.casetasData);
+            renderCasetas(casetasElements.menuDesktop, casetasState.casetasData);
+        })
+        .catch(err => {
+            console.error("Error al cargar casetas:", err);
+            renderCasetas(casetasElements.menuMobile, []);
+            renderCasetas(casetasElements.menuDesktop, []);
+        });
 
     console.log("Lógica del mapa interactivo (versión genérica) inicializada.");
 });

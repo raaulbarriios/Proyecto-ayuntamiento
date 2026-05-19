@@ -85,8 +85,8 @@ body {
     display: none; /* Oculto en móvil */
 }
 
-/* Botón de Acción Base (Estilo Lupa/Mapa) */
-.mobileBtn, .map-link-mobile, .map-link {
+/* Botón de Acción Base (Estilo Lupa) */
+.mobileBtn {
     width: auto;
     min-width: 44px;
     height: 44px;
@@ -105,11 +105,7 @@ body {
 }
 
 .mobileBtn:hover, 
-.mobileBtn:focus-visible,
-.map-link-mobile:hover,
-.map-link-mobile:focus-visible,
-.map-link:hover,
-.map-link:focus-visible {
+.mobileBtn:focus-visible {
     background: var(--navBtnHover);
     color: var(--white);
     transform: translateY(-2px);
@@ -118,11 +114,7 @@ body {
 }
 
 .mobileBtn:active, 
-.mobileBtn.active,
-.map-link-mobile:active,
-.map-link-mobile.active,
-.map-link:active,
-.map-link.active {
+.mobileBtn.active {
     background: var(--navBtnActive);
     color: var(--navBtnTextActive);
     transform: scale(0.95);
@@ -201,57 +193,7 @@ body {
     color: var(--navBtnTextActive);
 }
 
-/* --- ESTILOS COMPONENTE MAPA (GENÉRICO Y REUTILIZABLE) --- */
 
-/* Contenedor Escritorio */
-.map-link-container {
-    margin-top: 8px;
-    text-align: right;
-}
-
-/* Estilo Base (Heredado del Sistema de Diseño del Buscador) */
-.map-link {
-    /* Las propiedades base ahora se heredan de la regla superior */
-    font-weight: 600;
-    gap: 8px;
-}
-
-/* Versión Escritorio */
-.map-link {
-    padding: 0 20px;
-    height: 44px;
-    font-size: 0.85rem;
-}
-
-/* Versión Móvil (Integrada en cabecera) */
-.map-link-mobile {
-    /* Hereda de la base de botones de acción arriba */
-    padding: 0; /* Anula el padding de .map-link si fuera necesario */
-    width: auto; /* Permite que el texto se vea si existe */
-    min-width: 44px;
-    gap: 5px;
-    padding: 0 10px; /* Espacio para el texto "Mapa" */
-}
-
-.map-link i, .map-link-mobile i {
-    font-size: 1.1rem;
-}
-
-.map-link:active, .map-link-mobile:active {
-    transform: scale(0.95);
-}
-
-/* Lógica de Visibilidad */
-.map-text-desktop { display: inline; }
-.map-text-mobile { display: none; }
-
-@media (max-width: 991px) {
-    .map-link-container { display: none; } /* Oculto en móvil/tablet para usar la versión de cabecera */
-}
-
-@media (min-width: 992px) {
-    .map-link-mobile { display: none; } /* Oculto en escritorio */
-}
 
 /* --- DISEÑO ESCRITORIO (IMAGEN 1) --- */
 @media (min-width: 992px) {
@@ -339,6 +281,7 @@ body {
     text-align: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     flex-shrink: 0;
+    position: relative; /* Habilita el posicionamiento absoluto para el dropdown */
 }
 
 .eventTitle {
@@ -432,5 +375,178 @@ body {
 @media (max-width: 480px) {
     .eventTitle { font-size: 1.2rem; }
     .detailsOverlay { width: 100%; right: -100%; }
-    .footerContent { flex-direction: column; gap: 10px; text-align: center; }
+    .footerContent {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
+    .footerIcon {
+        height: 16px;
+    }
+    .footerLeft {
+        gap: 6px;
+    }
+    .footerHandle {
+        font-size: 0.75rem;
+    }
+    .copyrightText {
+        font-size: 0.72rem;
+    }
+    
+    .mainLogoImg {
+        height: 52px;
+    }
+    
+    .mobileActions {
+        gap: 6px;
+        align-items: center;
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+        max-width: 180px;
+    }
+    
+    .mobileActions .casetas-dropdown-container,
+    .mobileActions > .mobileBtn {
+        flex: 1;
+        width: 50%;
+    }
+    
+    .mobileActions .mobileBtn,
+    .mobileActions .casetas-trigger-btn {
+        width: 100%;
+        min-width: unset;
+        box-sizing: border-box;
+        height: 38px;
+        padding: 0 6px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 0.8rem;
+    }
+    
+    .casetas-trigger-btn span,
+    .mobileBtn span {
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 0.8rem;
+    }
+}
+
+/* COMPONENTE INTERACTIVO: DESPLEGABLE CASETAS */
+.headerLinksRow {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    align-items: center;
+}
+
+.casetas-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.casetas-trigger-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--navBtnNormal);
+    color: var(--white);
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-decoration: none;
+    gap: 6px;
+    height: 44px;
+    padding: 0 20px;
+    font-size: 0.85rem;
+}
+
+.casetas-trigger-btn:hover,
+.casetas-trigger-btn:focus-visible {
+    background: var(--navBtnHover);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    outline: none;
+}
+
+.casetas-trigger-btn:active,
+.casetas-trigger-btn.active {
+    background: var(--navBtnActive);
+    color: var(--navBtnTextActive);
+    transform: scale(0.95);
+    box-shadow: 0 4px 12px rgba(255, 181, 0, 0.4);
+    outline: none;
+}
+
+.casetas-trigger-btn span {
+    font-size: 0.9rem;
+}
+
+.casetas-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 8px 0;
+    z-index: 2000;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.casetas-dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.casetas-dropdown-item {
+    width: 100%;
+    padding: 12px 18px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--textColor);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+.casetas-dropdown-item:hover,
+.casetas-dropdown-item:focus-visible {
+    background-color: var(--lightGray);
+    color: var(--accentBlue);
+    outline: none;
+}
+
+.casetas-dropdown-placeholder {
+    color: var(--textColor);
+    opacity: 0.6;
+    font-style: italic;
+    cursor: default;
+    padding: 12px 18px;
+    font-size: 0.9rem;
 }

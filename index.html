@@ -25,17 +25,20 @@
                 
                 <!-- Acciones Móvil -->
                 <div class="mobileActions">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Recinto+Ferial+de+Algeciras" 
-                       id="mapLinkMobile"
-                       target="_blank" 
-                       rel="noopener noreferrer" 
-                       class="map-link-mobile" 
-                       aria-label="Ver ubicación en el mapa">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Mapa</span>
-                    </a>
+                    <!-- Desplegable Casetas Móvil -->
+                    <div class="casetas-dropdown-container" id="casetasContainerMobile">
+                        <button id="casetasTriggerMobile" class="casetas-trigger-btn mobileBtn" aria-label="Ver Casetas" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-store"></i>
+                            <span>Casetas</span>
+                        </button>
+                        <div id="casetasDropdownMobile" class="casetas-dropdown-menu" aria-hidden="true" role="menu">
+                            <!-- Contenido dinámico -->
+                        </div>
+                    </div>
+
                     <button id="toggleMobileSearch" class="mobileBtn" aria-label="Abrir buscador" aria-expanded="false">
                         <i class="fas fa-search"></i>
+                        <span>Buscar</span>
                     </button>
                 </div>
 
@@ -46,17 +49,17 @@
                             <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar">
                             <button id="searchTrigger" class="searchBtn"><i class="fas fa-search"></i> <span class="searchBtnText">Buscar</span></button>
                         </div>
-                        <div class="map-link-container">
-                            <a href="https://www.google.com/maps/search/?api=1&query=Recinto+Ferial+de+Algeciras" 
-                               id="mapLinkDesktop"
-                               target="_blank" 
-                               rel="noopener noreferrer" 
-                               class="map-link" 
-                               aria-label="Ver ubicación en el mapa">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span class="map-text-desktop">Ver en el mapa</span>
-                                <span class="map-text-mobile">Mapa</span>
-                            </a>
+                        <div class="headerLinksRow">
+                            <!-- Desplegable Casetas Desktop -->
+                            <div class="casetas-dropdown-container" id="casetasContainerDesktop">
+                                <button id="casetasTriggerDesktop" class="casetas-trigger-btn" aria-label="Ver Casetas" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-store"></i>
+                                    <span>Casetas</span>
+                                </button>
+                                <div id="casetasDropdownDesktop" class="casetas-dropdown-menu" aria-hidden="true" role="menu">
+                                    <!-- Contenido dinámico -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
