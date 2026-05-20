@@ -164,29 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ------------------------------------------------------------------------
-    // ACCIÓN: ELIMINACIÓN LÓGICA (SOFT DELETE)
-    // ------------------------------------------------------------------------
-    $('deleteAction').addEventListener('click', async () => {
-        if (!checkSession()) return toggleView(false);
-        
-        const num = numIn.value.trim();
-        if (!num) return showStatus("Especifique un número de caseta válido", "error");
-        
-        // Confirmación requerida para prevenir acciones accidentales.
-        if (confirm(`¿Proceder con la eliminación de la caseta Nº ${num}?`)) {
-            try {
-                // Para eliminar por completo, descomentar: await deleteDoc(doc(db, "feria", normalizeId(num)));
-                // Por seguridad, la marcamos como nula
-                await setDoc(doc(db, "feria", normalizeId(num)), { ownerId: "", nombre: "" }, { merge: true });
-                
-                nomIn.value = corIn.value = passIn.value = numIn.value = '';
-                showStatus("Caseta eliminada correctamente", "success");
-            } catch (e) { 
-                showStatus("Error durante el proceso de eliminación", "error"); 
-            }
-        }
-    });
+
 
     // ------------------------------------------------------------------------
     // ACCIÓN: HABILITAR / DESHABILITAR (Estado Booleano)
