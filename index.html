@@ -17,6 +17,7 @@
             <div class="headerTopRow">
                 <div class="logoContainer"><img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras" class="mainLogoImg"></div>
                 <div class="mobileActions">
+                    <button id="tagsTriggerMobile" class="mobileBtn tags-filter-btn"><i class="fas fa-tags"></i><span class="srOnly">Etiquetas</span></button>
                     <button id="casetasTriggerMobile" class="mobileBtn"><i class="fas fa-store"></i><span>Casetas</span></button>
                     <button id="toggleMobileSearch" class="mobileBtn" aria-expanded="false"><i class="fas fa-search"></i><span>Buscar</span></button>
                 </div>
@@ -27,6 +28,7 @@
                             <button id="searchTrigger" class="searchBtn"><i class="fas fa-search"></i> <span class="searchBtnText">Buscar</span></button>
                         </div>
                         <div class="headerLinksRow">
+                            <button id="tagsTriggerDesktop" class="casetas-trigger-btn tags-filter-btn"><i class="fas fa-tags"></i><span>Etiquetas</span></button>
                             <button id="casetasTriggerDesktop" class="casetas-trigger-btn"><i class="fas fa-store"></i><span>Casetas</span></button>
                         </div>
                     </div>
@@ -57,6 +59,13 @@
             </div>
             <div id="casetasList" class="side-panel-list"></div>
         </aside>
+        <aside id="tagsPanel" class="side-panel" aria-hidden="true">
+            <div class="side-panel-header">
+                <h2>Filtros</h2>
+                <button id="closeTagsPanel" class="close-panel-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="tagsList" class="side-panel-list tags-filter-list"></div>
+        </aside>
     </main>
 
     <div id="modal-overlay" class="modal-overlay" aria-hidden="true">
@@ -64,9 +73,9 @@
             <button id="close-modal" class="modal-close-btn" aria-label="Cerrar modal"><i class="fas fa-times"></i></button>
             <h2 id="punto-nombre">Nombre de la Caseta</h2>
             <div id="modal-normal-content">
+                <div id="punto-etiquetas" class="modal-etiquetas" style="display: none;"></div>
                 <img id="punto-imagen" src="" alt="Imagen de la caseta" class="modal-imagen" style="display: none;">
                 <div class="modal-horario"><i class="far fa-clock"></i> <span id="punto-horario">12:00 - 00:00</span></div>
-                <div id="punto-etiquetas" class="modal-etiquetas" style="display: none;"></div>
                 <p id="punto-descripcion" class="modal-descripcion" style="display: none;"></p>
                 <hr>
                 <p class="modal-section-title">PROGRAMACIÓN DE HOY</p>

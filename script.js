@@ -48,8 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const tagsEl = $('#punto-etiquetas');
             if (tagsEl) {
                 let tags = [];
-                if (d.etiquetas && Array.isArray(d.etiquetas)) tags.push(...d.etiquetas);
-                if (d.etiqueta && typeof d.etiqueta === 'string' && d.etiqueta.trim() !== '') tags.push(d.etiqueta.trim());
+                if (d.etiquetas) {
+                    if (Array.isArray(d.etiquetas)) tags.push(...d.etiquetas);
+                    else if (typeof d.etiquetas === 'string' && d.etiquetas.trim() !== '') tags.push(d.etiquetas.trim());
+                }
                 if (tags.length > 0) {
                     tagsEl.innerHTML = tags.map(t => `<span class="etiqueta-badge">${t}</span>`).join('');
                     tagsEl.style.display = 'flex';
@@ -70,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const search = q => {
-        $$('.mapItem').forEach(i => i.classList.remove('highlight-match'));
+        $$('.mapItem').forEach(i => i.classList.remove('highlight-match', 'highlight-tag'));
         if (!q?.trim()) return;
         const n = q.toLowerCase().trim();
         $$('.mapItem').forEach(i => {
@@ -109,15 +111,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidePanel = $('#sidePanel'), casetasList = $('#casetasList'), closePanel = $('#closeSidePanel');
     const casetasTriggers = [$('#casetasTriggerMobile'), $('#casetasTriggerDesktop')];
     
+    const tagsPanel = $('#tagsPanel'), tagsList = $('#tagsList'), closeTagsPanel = $('#closeTagsPanel');
+    const tagsTriggers = [$('#tagsTriggerMobile'), $('#tagsTriggerDesktop')];
+    
+    const toggleTagsPanel = (force) => {
+        const isActive = typeof force === 'boolean' ? force : !tagsPanel?.classList.contains('active');
+        tagsPanel?.classList.toggle('active', isActive);
+        tagsPanel?.setAttribute('aria-hidden', !isActive);
+        if (isActive && sidePanel?.classList.contains('active')) togglePanel(false);
+    };
+
     const togglePanel = (force) => {
         const isActive = typeof force === 'boolean' ? force : !sidePanel?.classList.contains('active');
         sidePanel?.classList.toggle('active', isActive);
         sidePanel?.setAttribute('aria-hidden', !isActive);
+        if (isActive && tagsPanel?.classList.contains('active')) toggleTagsPanel(false);
     };
 
     casetasTriggers.forEach(t => t?.addEventListener('click', e => { e.stopPropagation(); togglePanel(); }));
     closePanel?.addEventListener('click', () => togglePanel(false));
-    document.addEventListener('keydown', e => e.key === 'Escape' && togglePanel(false));
+    
+    tagsTriggers.forEach(t => t?.addEventListener('click', e => { e.stopPropagation(); toggleTagsPanel(); }));
+    closeTagsPanel?.addEventListener('click', () => toggleTagsPanel(false));
+    
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { togglePanel(false); toggleTagsPanel(false); }
+    });
 
     const renderMenuCasetas = () => {
         if (!casetasList) return;
@@ -130,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             b.addEventListener('click', () => { 
                 const p = $(`polygon[data-id="${c.id}"]`);
                 if (p) {
-                    $$('.mapItem').forEach(item => item.classList.remove('highlight-match'));
+                    $$('.mapItem').forEach(item => item.classList.remove('highlight-match', 'highlight-tag'));
                     p.classList.add('highlight-match');
                 }
                 if (window.innerWidth <= 991) togglePanel(false);
@@ -202,6 +221,65 @@ document.addEventListener('DOMContentLoaded', () => {
         mapCont.addEventListener('touchmove', e => { if (Math.abs(e.touches[0].clientX-sx)>10 || Math.abs(e.touches[0].clientY-sy)>10) drag=true; }, { passive: true, capture: true });
     }
 
+    let activeTag = null;
+    const renderTagsMenu = () => {
+        if (!tagsList) return;
+        const counts = {};
+        Object.values(window.mapData).forEach(d => {
+            if (d.estatus !== false) {
+                let tgs = [];
+                if (d.etiquetas) {
+                    if (Array.isArray(d.etiquetas)) tgs.push(...d.etiquetas);
+                    else if (typeof d.etiquetas === 'string' && d.etiquetas.trim() !== '') tgs.push(d.etiquetas.trim());
+                }
+                tgs.forEach(t => {
+                    const lowT = t.trim().toLowerCase();
+                    counts[lowT] = (counts[lowT] || 0) + 1;
+                });
+            }
+        });
+        
+        tagsList.innerHTML = Object.keys(counts).length ? '' : '<div class="casetas-dropdown-placeholder">No hay etiquetas...</div>';
+        
+        if (Object.keys(counts).length) {
+            const allBtn = document.createElement('button');
+            allBtn.className = `tag-filter-item ${!activeTag ? 'active' : ''}`;
+            allBtn.innerHTML = `<span><i class="fas fa-layer-group" style="margin-right:8px; opacity:0.8;"></i>Todas</span><span class="tag-filter-count">${Object.values(window.mapData).filter(d => d.estatus !== false).length}</span>`;
+            allBtn.addEventListener('click', () => {
+                activeTag = null;
+                $$('.mapItem').forEach(item => item.classList.remove('highlight-match', 'highlight-tag'));
+                renderTagsMenu();
+                if (window.innerWidth <= 991) toggleTagsPanel(false);
+            });
+            tagsList.appendChild(allBtn);
+        }
+
+        Object.entries(counts).sort((a,b) => b[1] - a[1]).forEach(([tag, count]) => {
+            const b = document.createElement('button');
+            b.className = `tag-filter-item ${activeTag === tag ? 'active' : ''}`;
+            b.innerHTML = `<span><i class="fas fa-tag" style="margin-right:8px; opacity:0.8;"></i>${tag}</span><span class="tag-filter-count">${count}</span>`;
+            b.addEventListener('click', () => {
+                activeTag = tag;
+                $$('.mapItem').forEach(item => item.classList.remove('highlight-match', 'highlight-tag'));
+                Object.values(window.mapData).forEach(d => {
+                    if (d.estatus === false) return;
+                    let hasTag = false;
+                    if (d.etiquetas) {
+                        if (Array.isArray(d.etiquetas)) hasTag = d.etiquetas.some(t => t.trim().toLowerCase() === tag);
+                        else if (typeof d.etiquetas === 'string') hasTag = d.etiquetas.trim().toLowerCase() === tag;
+                    }
+                    if (hasTag) {
+                        const p = $(`polygon[data-id="${d.id}"]`);
+                        if (p) p.classList.add('highlight-tag');
+                    }
+                });
+                renderTagsMenu();
+                if (window.innerWidth <= 991) toggleTagsPanel(false);
+            });
+            tagsList.appendChild(b);
+        });
+    };
+
     const render = () => {
         if (!mapEl) return;
         mapEl.innerHTML = ""; 
@@ -224,6 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mapEl.appendChild(p);
         });
         renderMenuCasetas();
+        renderTagsMenu();
     };
 
     try {
