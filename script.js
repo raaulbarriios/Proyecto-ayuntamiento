@@ -24,6 +24,10 @@ const normalizeId = n => 'p' + n.toLowerCase().trim().replace(/^p/, '').padStart
 // ============================================================================
 // 3. CONTROLADOR PRINCIPAL
 // ============================================================================
+window.db = db;
+window.doc = doc;
+window.setDoc = setDoc;
+
 document.addEventListener('DOMContentLoaded', () => {
     
     // Referencias a los contenedores principales de la interfaz.
@@ -115,12 +119,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 nomIn.value = d.nombre || '';
                 const oid = d.ownerId || '';
                 
-                // Formateo del input según el tipo de ownerId almacenado.
-                if (oid && !oid.includes('@')) {
-                    corIn.value = '';
-                    corIn.placeholder = `ID: ${oid} - Reasigna email real`;
-                } else {
+                if (oid) {
                     corIn.value = oid;
+                } else {
+                    corIn.value = '';
                     corIn.placeholder = "ejemplo@correo.com";
                 }
                 passIn.value = ''; // Bloqueo de exposición de contraseñas por seguridad.
@@ -197,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         try {
             // Cambia el boolean de estatus de la base de datos a "true" o "false"
-            await setDoc(doc(db, "feria", normalizeId(num)), { status: isEnable }, { merge: true });
+            await setDoc(doc(db, "feria", normalizeId(num)), { estatus: isEnable }, { merge: true });
             showStatus(`Caseta ${isEnable ? 'habilitada' : 'deshabilitada'} correctamente`, "success");
         } catch (e) {
             showStatus("Error al cambiar estado", "error");
@@ -206,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $('enableAction').addEventListener('click', () => toggleStatus(true));
     $('disableAction').addEventListener('click', () => toggleStatus(false));
+
+
 
     // ------------------------------------------------------------------------
     // ACCIÓN: CIERRE DE SESIÓN
@@ -231,9 +235,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const d = s.data(), u = {};
                 
                 // 1. Inserción de propiedades base faltantes y conversión a boolean
-                if (d.status === undefined || typeof d.status === 'string') {
-                    u.status = (d.status === 'active' || d.status === 'true') ? true : false;
+                if (d.estatus === undefined || typeof d.estatus === 'string') {
+                    // Verificamos estatus nuevo o el antiguo status
+                    let estado = d.estatus !== undefined ? d.estatus : d.status;
+                    u.estatus = (estado === 'active' || estado === 'true' || estado === true) ? true : false;
                 }
+                if (d.status !== undefined) u.status = deleteField(); // Borra la palabra vieja "status"
                 if (d.descripcion === undefined) u.descripcion = '';
                 if (d.horario === undefined) u.horario = '';
                 if (d.nombre === undefined) u.nombre = '';
