@@ -152,9 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Persistencia de los metadatos de la caseta en Firestore (Merge mode).
-            await setDoc(doc(db, "feria", normalizeId(num)), { nombre: nom, ownerId: cor, status: 'active' }, { merge: true });
+            // No sobreescribimos 'status' aquí para que actualizar nombre/correo no la habilite por accidente.
+            await setDoc(doc(db, "feria", normalizeId(num)), { nombre: nom, ownerId: cor }, { merge: true });
             
-            showStatus("Datos guardados con éxito", "success");
+            showStatus("Base de datos actualizada con éxito", "success");
             passIn.value = ''; // Limpieza de credenciales en UI.
         } catch (e) { 
             showStatus("Error: " + e.message, "error"); 
@@ -171,18 +172,40 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!num) return showStatus("Especifique un número de caseta válido", "error");
         
         // Confirmación requerida para prevenir acciones accidentales.
-        if (confirm(`¿Proceder con la baja lógica de la caseta Nº ${num}?`)) {
+        if (confirm(`¿Proceder con la eliminación de la caseta Nº ${num}?`)) {
             try {
-                // Actualización de estado en lugar de borrado físico del registro.
-                await setDoc(doc(db, "feria", normalizeId(num)), { status: 'disabled' }, { merge: true });
+                // Para eliminar por completo, descomentar: await deleteDoc(doc(db, "feria", normalizeId(num)));
+                // Por seguridad, la marcamos como nula
+                await setDoc(doc(db, "feria", normalizeId(num)), { ownerId: "", nombre: "" }, { merge: true });
                 
                 nomIn.value = corIn.value = passIn.value = numIn.value = '';
-                showStatus("Caseta deshabilitada correctamente", "success");
+                showStatus("Caseta eliminada correctamente", "success");
             } catch (e) { 
-                showStatus("Error durante el proceso de deshabilitación", "error"); 
+                showStatus("Error durante el proceso de eliminación", "error"); 
             }
         }
     });
+
+    // ------------------------------------------------------------------------
+    // ACCIÓN: HABILITAR / DESHABILITAR (Estado Booleano)
+    // ------------------------------------------------------------------------
+    const toggleStatus = async (isEnable) => {
+        if (!checkSession()) return toggleView(false);
+        
+        const num = numIn.value.trim();
+        if (!num) return showStatus("Especifique un número de caseta", "error");
+        
+        try {
+            // Cambia el boolean de estatus de la base de datos a "true" o "false"
+            await setDoc(doc(db, "feria", normalizeId(num)), { status: isEnable }, { merge: true });
+            showStatus(`Caseta ${isEnable ? 'habilitada' : 'deshabilitada'} correctamente`, "success");
+        } catch (e) {
+            showStatus("Error al cambiar estado", "error");
+        }
+    };
+
+    $('enableAction').addEventListener('click', () => toggleStatus(true));
+    $('disableAction').addEventListener('click', () => toggleStatus(false));
 
     // ------------------------------------------------------------------------
     // ACCIÓN: CIERRE DE SESIÓN
@@ -207,8 +230,10 @@ document.addEventListener('DOMContentLoaded', () => {
             for (const s of snaps.docs) {
                 const d = s.data(), u = {};
                 
-                // 1. Inserción de propiedades base faltantes
-                if (d.status === undefined) u.status = 'active';
+                // 1. Inserción de propiedades base faltantes y conversión a boolean
+                if (d.status === undefined || typeof d.status === 'string') {
+                    u.status = (d.status === 'active' || d.status === 'true') ? true : false;
+                }
                 if (d.descripcion === undefined) u.descripcion = '';
                 if (d.horario === undefined) u.horario = '';
                 if (d.nombre === undefined) u.nombre = '';
