@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feria de Algeciras</title>
+    <link rel="icon" type="image/png" href="fotos/Logo%20Algeciras%201%20tinta%20fondos%20oscuros%20sin%20letras%20interiores.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="mainHeader" role="banner">
+        <div class="headerContent">
+            <div class="headerTopRow">
+                <div class="logoContainer"><img src="fotos/Logo algeciras color blanco texto derecha.png" alt="Ayuntamiento de Algeciras" class="mainLogoImg"></div>
+                <div class="mobileActions">
+                    <button id="casetasTriggerMobile" class="mobileBtn"><i class="fas fa-store"></i><span>Casetas</span></button>
+                    <button id="toggleMobileSearch" class="mobileBtn" aria-expanded="false"><i class="fas fa-search"></i><span>Buscar</span></button>
+                </div>
+                <div class="desktopHeaderActions">
+                    <div class="headerActionsWrapper">
+                        <div class="searchContainer">
+                            <input type="text" id="manualSearch" class="searchInput" placeholder="Texto a buscar">
+                            <button id="searchTrigger" class="searchBtn"><i class="fas fa-search"></i> <span class="searchBtnText">Buscar</span></button>
+                        </div>
+                        <div class="headerLinksRow">
+                            <button id="casetasTriggerDesktop" class="casetas-trigger-btn"><i class="fas fa-store"></i><span>Casetas</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="mobileSearchRow" class="searchRowMobile" aria-hidden="true">
+                <div class="searchInlineBox">
+                    <input type="text" id="mobileSearchInput" placeholder="Texto a buscar">
+                    <button id="mobileSearchAction" class="mobileSearchActionBtn"><i class="fas fa-search"></i> Buscar</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="eventTitleSection"><h1 class="eventTitle">Feria Real de Algeciras 2026</h1></section>
+
+    <main class="mapWrapper">
+        <div class="mapImageContainer">
+            <div class="mapContent">
+                <img src="fotos/path100.svg" alt="Mapa interactivo del evento" class="mapImage">
+                <svg id="eventMap" viewBox="0 0 930 1100" preserveAspectRatio="none" class="mapSvgOverlay"></svg>
+            </div>
+        </div>
+        <aside id="sidePanel" class="side-panel" aria-hidden="true">
+            <div class="side-panel-header">
+                <h2>Casetas</h2>
+                <button id="closeSidePanel" class="close-panel-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="casetasList" class="side-panel-list"></div>
+        </aside>
+    </main>
+
+    <div id="modal-overlay" class="modal-overlay" aria-hidden="true">
+        <div class="modal-card">
+            <button id="close-modal" class="modal-close-btn" aria-label="Cerrar modal"><i class="fas fa-times"></i></button>
+            <h2 id="punto-nombre">Nombre de la Caseta</h2>
+            <div id="modal-normal-content">
+                <img id="punto-imagen" src="" alt="Imagen de la caseta" class="modal-imagen" style="display: none;">
+                <div class="modal-horario"><i class="far fa-clock"></i> <span id="punto-horario">12:00 - 00:00</span></div>
+                <div id="punto-etiquetas" class="modal-etiquetas" style="display: none;"></div>
+                <p id="punto-descripcion" class="modal-descripcion" style="display: none;"></p>
+                <hr>
+                <p class="modal-section-title">PROGRAMACIÓN DE HOY</p>
+                <div id="punto-programacion" class="programacion-list"></div>
+            </div>
+            <div id="modal-disabled-content" class="modal-disabled-content">
+                <p><i class="fas fa-exclamation-triangle"></i> Esta caseta está desactivada temporalmente.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mainFooter">
+        <div class="footerContent">
+            <div class="footerLeft"><img src="fotos/Logo Algeciras 1 tinta fondos oscuros sin letras interiores.png" alt="Escudo" class="footerIcon"><span class="footerHandle">ayuntamientoalgeciras</span></div>
+            <div class="footerRight"><span class="copyrightText">&copy; Ayuntamiento de Algeciras</span></div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

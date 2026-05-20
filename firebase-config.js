@@ -1,11 +1,9 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCt9VYQN-M6wl7174y-XCHwmAs9TNAQYVg",
   authDomain: "eventos-ayuntamiento.firebaseapp.com",
@@ -13,11 +11,10 @@ const firebaseConfig = {
   projectId: "eventos-ayuntamiento",
   storageBucket: "eventos-ayuntamiento.firebasestorage.app",
   messagingSenderId: "375769854696",
-  appId: "1:375769854696:web:ff2de3016aa33bb2f24f5d",
-  measurementId: "G-TQK1FTLQ39"
+  appId: "1:375769854696:web:f6e13c750a99fc66f24f5d",
+  measurementId: "G-NV58CQT7BT"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
