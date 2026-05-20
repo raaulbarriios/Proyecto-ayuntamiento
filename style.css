@@ -1,3 +1,4 @@
+/* GLOBAL RESET */
 * {
   margin: 0;
   padding: 0;
@@ -43,6 +44,7 @@ body {
     text-align: center
   }
 }
+/* DESIGN TOKENS & COLOR PALETTE */
 :root {
   --blueGradient: #0b63a5;
   --darkBlue: #084d82;
@@ -71,6 +73,7 @@ body {
   --admin-shadow: 0 10px 40px rgba(0,0,0,0.08);
   --admin-radius: 12px
 }
+/* BASE STYLES: ADMIN DASHBOARD */
 body.admin-body {
   background-color: var(--admin-bg);
   color: var(--admin-text);
@@ -84,6 +87,7 @@ body.admin-body {
 body.admin-body .hidden {
   display: none!important
 }
+/* VIEW CONTROLLERS (Display toggles) */
 #loginSection,
 #panelSection {
   display: none!important;
@@ -129,6 +133,7 @@ body.admin-body .hidden {
     text-align: center
   }
 }
+/* AUTHENTICATION UI (Login Card) */
 .authBody {
   background-color: var(--admin-bg);
   flex: 1;
@@ -181,6 +186,7 @@ body.admin-body .hidden {
   font-weight: 500;
   margin-bottom: 35px
 }
+/* INSTITUTIONAL HEADER */
 .adminHeader {
   background: var(--admin-primary);
   color: var(--admin-surface);
@@ -225,6 +231,7 @@ body.admin-body .hidden {
     height: 90px
   }
 }
+/* MAIN DASHBOARD LAYOUT */
 .panelMain {
   padding: 50px 4%;
   max-width: 900px;
@@ -249,6 +256,7 @@ body.admin-body .hidden {
   padding-bottom: 20px;
   margin-top: 0
 }
+/* FORM COMPONENTS & INPUTS */
 .formGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -297,6 +305,7 @@ body.admin-body .hidden {
   cursor: not-allowed;
   border-color: var(--admin-border)
 }
+/* ACTION BUTTONS (Save, Delete, Actions) */
 .btnRow {
   display: flex;
   gap: 15px;
@@ -391,6 +400,7 @@ body.admin-body .hidden {
   transform: scale(.98);
   box-shadow: 0 4px 12px rgba(255,181,0,.4)
 }
+/* STATUS NOTIFICATIONS & ALERTS */
 .statusNotif {
   margin-top: 25px;
   padding: 16px 20px;
@@ -423,6 +433,7 @@ body.admin-body .hidden {
     transform: translateY(0)
   }
 }
+/* RESPONSIVE DESIGN: MOBILE VIEWPORTS */
 @media (max-width:650px) {
   .formGrid {
     grid-template-columns: 1fr;

@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración Privado</title>
-    <!-- Google Fonts: Inter -->
+    
+    <!-- METADATA Y ESTILOS VISUALES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Estilo unificado y centralizado del Admin -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- Archivo donde guardamos todos los colores y tamaños -->
     
-    <!-- Mapa de Importaciones (Import Map) para resolver los bare specifiers de Firebase -->
+    <!-- MAPA DE IMPORTACIONES (FIREBASE) -->
+    <!-- Resolución de bare specifiers para módulos de Firebase -->
     <script type="importmap">
       {
         "imports": {
@@ -27,6 +27,9 @@
 </head>
 <body class="admin-body">
 
+    <!-- ========================================================= -->
+    <!-- SECCIÓN DE AUTENTICACIÓN (LOGIN)                          -->
+    <!-- ========================================================= -->
     <div id="loginSection">
         <header class="adminHeader">
             <div class="adminHeaderLogo">
@@ -42,21 +45,24 @@
                 <img src="fotos/Logo Algeciras 1 tinta fondos claros ver azul sin letras interiores.png" alt="Logo del Ayuntamiento de Algeciras" class="authLogo">
                 <h1>Admin Login</h1>
                 <p>Sistema de gestión exclusivo</p>
+                
+                <!-- Formulario de credenciales de administrador -->
                 <form id="adminLoginForm">
                     <div class="formGroup">
-                    <label>Correo Electrónico</label>
-                    <input type="email" id="userInput" placeholder="administrador@gmail.com" required>
-                </div>
-                <div class="formGroup">
-                    <label>Contraseña</label>
-                    <input type="password" id="passInput" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btnSubmit">ACCEDER AL PANEL</button>
-                <p id="errorBox" class="errorMsg"></p>
-            </form>
-        </div>
+                        <label>Correo Electrónico</label>
+                        <input type="email" id="userInput" placeholder="administrador@gmail.com" required>
+                    </div>
+                    <div class="formGroup">
+                        <label>Contraseña</label>
+                        <input type="password" id="passInput" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btnSubmit">ACCEDER AL PANEL</button>
+                    <p id="errorBox" class="errorMsg"></p> <!-- Contenedor de feedback de errores -->
+                </form>
+            </div>
         </main>
 
+        <!-- Footer Institucional -->
         <footer class="adminFooter" role="contentinfo">
             <div class="footerContent">
                 <div class="footerLeft">
@@ -68,6 +74,9 @@
         </footer>
     </div>
 
+    <!-- ========================================================= -->
+    <!-- DASHBOARD DE ADMINISTRACIÓN                               -->
+    <!-- ========================================================= -->
     <div id="panelSection" class="hidden">
         <header class="adminHeader">
             <div class="adminHeaderLogo">
@@ -77,6 +86,7 @@
                 <h1>Control de Administración</h1>
             </div>
             <div class="adminHeaderActions">
+                <!-- Acción: Revocación de sesión -->
                 <button id="logoutBtn" class="logoutBtn" title="Cerrar Sesión" aria-label="Cerrar Sesión"><i class="fas fa-power-off"></i> <span class="logoutText">SALIR</span></button>
             </div>
         </header>
@@ -84,8 +94,11 @@
         <main class="panelMain">
             <div class="adminCard">
                 <h2>Gestión de la Base de Datos</h2>
+                
+                <!-- Formulario de gestión de metadatos de casetas -->
                 <form id="managementForm">
                     <div class="formGrid">
+                        <!-- El input ID desencadena la consulta a Firestore -->
                         <div class="formGroup">
                             <label>Nº de Caseta</label>
                             <input type="text" id="numCaseta" placeholder="Ej: 54" required>
@@ -104,11 +117,13 @@
                         </div>
                     </div>
 
+                    <!-- Controles de persistencia -->
                     <div class="btnRow">
                         <button type="button" id="saveAction" class="btn btnSave"><i class="fas fa-save"></i> GUARDAR / ACTUALIZAR</button>
                         <button type="button" id="deleteAction" class="btn btnDelete"><i class="fas fa-trash-alt"></i> ELIMINAR CASETA</button>
                     </div>
 
+                    <!-- Contenedor de notificaciones de estado de la transacción -->
                     <div id="statusBox" class="statusNotif"></div>
                 </form>
             </div>
@@ -125,6 +140,8 @@
         </footer>
     </div>
 
+    <!-- INICIALIZACIÓN DE MÓDULOS -->
+    <!-- Carga del controlador principal de la UI y Firebase -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
